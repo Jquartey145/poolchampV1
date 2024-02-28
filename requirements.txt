@@ -4,3 +4,6 @@ google-auth-oauthlib
 firebase_admin
 streamlit_option_menu
 requests==2.31.0
+beautifulsoup4
+lxml
+pandas
