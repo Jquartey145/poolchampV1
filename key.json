@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "poolchamp-a3222",
+  "private_key_id": "d276d7e0fab0177580133558875e96b1d61bc96f",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQDAzS1dV5KZFfAi\ntuJ+X3BHBjnYQyZtAH+6Kya8H7+qIOHoUmMBhZ9vAkUWzcn5n7OiNfb8tiFEJSWT\n3xpF3/mBjJlpXXPmk11riD+VrgAgQcJVCRiJj0V+58+8oMFRAq44bmvRg2GDnO1X\nsMKhasMBPqohastK5AbbSNW0DxPHXbApmN+1JSqwnqjJAaz7gBNIxQbvImJwTgBO\nMnZbHH3ODoQJ5ZELqOTkwHtub8Lvni+PRQDkw2FMY8sqJkMN5H8LkmeNOHIXRBUB\n56qF0IGjuA8ShK2VEsreYy1cUzv8rdmhomA24NBIeCFsh3Ak8Gu9psVAfZhwtslq\ndU3w7pfPAgMBAAECggEAL/yBP3u13YtDxugc7FYltE+84vInpLack8H8tJL0Wcww\nXenvgWf4HCGE/519mTch9wwWaqSMGBFkzm6Xc+/Agnlzj3F2kNt5w3NYXBFAL8ce\nLpsCc+5oXiMlJa4fH2Ia6am2BSH9icvrmMlCT/mqCmvF3WZerceeW0LACb487oAY\njf1g1FszGvt+4WbRhqI3Nfx/dQMOkqM1+Ee0YSlfVvxUHRcAaSQ24OD9CCpios51\nj/nBOmiPLBheRYWUO1MtToRnXr07PyXEJf5iAK6wu//09GRO1TbnTAc3d3eqdNcO\n2VbV5qQ4pP0C8+Kt77Qd2hCIEGaYNtUlpEvVQXkgFQKBgQDM5tUqwSIBSKcdwUqB\noWaDAeDeFYk6dI26fo1HASHCtk+xUzJKX0yaO8yP7MZKkE2x1xEwpu6l5st42YxS\nKdeiaXQqwnoKkxV3dQQWyExDXhgp5l8qDY2J5YHdNuRW/tfzbOu2dN4kKO11E3wV\nglB5ufrNRpY8hha1J63Smd073QKBgQDw4doxJcNnVWQYjHC517Ti2Z+LWSOUc9kv\nmoZPvTQgGr2K3aLsJTy40V48TJGoMLdSu8SVbIyBQRzU9QjPeJN6mkqHarU1J520\nNYR6Bh+4u5bDAgzGm2rZA2MpQqV1GxD0WSUyAnMublFJk5Ee4WbZHLzUkA7SKN0j\niE5X57OtmwKBgHHNNtGjKK7L2j1VcHsk2Fmkvm66SVhVCa5twSuRfl21gfd7vK+/\n1DzJP6kkGVGqaex/BYYfAObVk2bQdPXhVWlX5nQlRUEARejt7dJ1dp3n8cW7tFkX\n4+eVt5XUeeezbN8/PH8+024D6TagFsefc/DXkWtXa/O7iXsdyZXxbQVlAoGATsYN\nTLVEya4rJbwHwT7BcM4qVq+36vxXsjGeasU9HqKgCaGhfghPa0FMx/tiRtZnnS66\ngwMUj9BzVVEsqGyODjIW3WIQEGn8MMqvoBgQl6EBFJS/CNQahQ2OiBe7dCh9yuq8\nNzaF5FE/VAhmFOsxbx7uwbS6pA+pAc25kRW8tLECgYAucR4kNOMBImKuPuBL02lf\nVNL+gIJeoudwfD91zFUaO/aTKqQs+DI2z+9RALFiX3PIGeQm/sbbfS4IxM3iyuEG\n4Igt+ca1yW68raB1RBmWOUqSV9ewAJZgynaT3NWicIS62RoSr2LRZYJaE9rGNNLi\nODSpteoKvCSSnUhWjqfPgg==\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-mfqjt@poolchamp-a3222.iam.gserviceaccount.com",
+  "client_id": "112398127874015693071",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-mfqjt%40poolchamp-a3222.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
