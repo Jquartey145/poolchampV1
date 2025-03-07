@@ -1,11 +1,20 @@
 import firebase_admin
 from firebase_admin import credentials, firestore
 import datetime
+import json
+import streamlit as st
 
-if not firebase_admin._apps:
+if "textkey" in st.secrets:
+    key_dict = json.loads(st.secrets["textkey"])
+    cred = credentials.Certificate(key_dict)
+else:
     cred = credentials.Certificate("firestore-key.json")
+
+# Initialize Firebase if not already initialized
+if not firebase_admin._apps:
     firebase_admin.initialize_app(cred)
 
+# Connect to Firestore
 db = firestore.client()
 
 def tournament_data_exists(year: str):
