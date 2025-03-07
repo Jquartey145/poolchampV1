@@ -2,14 +2,20 @@ import streamlit as st
 import pandas as pd
 from firebase_util import get_submissions
 from data_loader import load_tournament_data
+from navigation import render_navigation
+
+render_navigation()
 
 def leaderboard_page():
     st.title("🏆 Leaderboard")
+
+    # Pull team submissions from Firestore
     submissions = get_submissions()
     if not submissions:
         st.info("No team submissions available yet.")
         return
 
+    # Convert submissions into a DataFrame and prepare for display
     teams_df = pd.DataFrame(submissions)
     teams_df = teams_df.rename(columns={"team_name": "Team Name", "total_points": "Points"})
     teams_df = teams_df.sort_values(by="Points", ascending=False).reset_index(drop=True)
@@ -17,6 +23,7 @@ def leaderboard_page():
     teams_df["Rank"] = teams_df["Rank"].astype(str)
     teams_df["Points"] = teams_df["Points"].astype(str)
 
+    # Calculate the frequency at which each player is selected across submissions
     total_teams = len(submissions)
     player_freq = {}
     for submission in submissions:
@@ -29,32 +36,35 @@ def leaderboard_page():
     freq_df["OWNED_float"] = (freq_df["Count"] / total_teams * 100).round(1)
     freq_df["OWNED"] = freq_df["OWNED_float"].astype(str) + "%"
 
+    # Load tournament data from Firestore
     tournament_df = load_tournament_data()
-    if not tournament_df.empty:
-        tournament_df = tournament_df.rename(columns={"Player": "NAME", "Team": "SCHOOL", "Seed": "SEED"})
-        merged_df = pd.merge(freq_df, tournament_df[["NAME", "SCHOOL", "SEED"]], on="NAME", how="left")
-        merged_df = merged_df.dropna(subset=["SCHOOL"])
-
-        top5 = merged_df.sort_values(by="OWNED_float", ascending=False).head(5).reset_index(drop=True)
-        top5.insert(0, "RANK", top5.index + 1)
-        top5 = top5[["RANK", "NAME", "SCHOOL", "SEED", "OWNED"]]
-
-        bottom5 = merged_df.sort_values(by="OWNED_float", ascending=True).head(5).reset_index(drop=True)
-        bottom5.insert(0, "RANK", bottom5.index + 1)
-        bottom5 = bottom5[["RANK", "NAME", "SCHOOL", "SEED", "OWNED"]]
-
-        scorers_df = pd.merge(freq_df, tournament_df[["NAME", "SCHOOL", "SEED", "Points"]], on="NAME", how="left")
-        scorers_df = scorers_df.dropna(subset=["SCHOOL"])
-        scorers_df["Points"] = pd.to_numeric(scorers_df["Points"], errors="coerce")
-        scorers_df = scorers_df.sort_values(by="Points", ascending=False).reset_index(drop=True)
-        scorers_df.insert(0, "RANK", scorers_df.index + 1)
-        scorers_df["Rank"] = scorers_df["RANK"].astype(str)
-        scorers_df["Points"] = scorers_df["Points"].astype(int).astype(str)
-        scorers_table = scorers_df[["RANK", "NAME", "SCHOOL", "SEED", "Points", "OWNED"]]
-    else:
-        st.error("Tournament data could not be retrieved.")
+    if tournament_df.empty:
+        st.info("Tournament has not started yet.")
         return
 
+    tournament_df = tournament_df.rename(columns={"Player": "NAME", "Team": "SCHOOL", "Seed": "SEED"})
+    merged_df = pd.merge(freq_df, tournament_df[["NAME", "SCHOOL", "SEED"]], on="NAME", how="left")
+    merged_df = merged_df.dropna(subset=["SCHOOL"])
+
+    # Top 5 and Bottom 5 most owned players
+    top5 = merged_df.sort_values(by="OWNED_float", ascending=False).head(5).reset_index(drop=True)
+    top5.insert(0, "RANK", top5.index + 1)
+    top5 = top5[["RANK", "NAME", "SCHOOL", "SEED", "OWNED"]]
+
+    bottom5 = merged_df.sort_values(by="OWNED_float", ascending=True).head(5).reset_index(drop=True)
+    bottom5.insert(0, "RANK", bottom5.index + 1)
+    bottom5 = bottom5[["RANK", "NAME", "SCHOOL", "SEED", "OWNED"]]
+
+    # Top scorers for the tournament (merging frequency with Points)
+    scorers_df = pd.merge(freq_df, tournament_df[["NAME", "SCHOOL", "SEED", "Points"]], on="NAME", how="left")
+    scorers_df = scorers_df.dropna(subset=["SCHOOL"])
+    scorers_df["Points"] = pd.to_numeric(scorers_df["Points"], errors="coerce")
+    scorers_df = scorers_df.sort_values(by="Points", ascending=False).reset_index(drop=True)
+    scorers_df.insert(0, "RANK", scorers_df.index + 1)
+    scorers_df["Points"] = scorers_df["Points"].astype(int).astype(str)
+    scorers_table = scorers_df[["RANK", "NAME", "SCHOOL", "SEED", "Points", "OWNED"]]
+
+    # Display the leaderboards in three columns
     col1, col2, col3 = st.columns([1, 1.3, 1.55])
     with col1:
         st.subheader("Team Leaderboard")

@@ -1,7 +1,7 @@
 import firebase_admin
 from firebase_admin import credentials, firestore
+import datetime
 
-# Initialize Firebase using your service account key
 if not firebase_admin._apps:
     cred = credentials.Certificate("firestore-key.json")
     firebase_admin.initialize_app(cred)
@@ -9,45 +9,30 @@ if not firebase_admin._apps:
 db = firestore.client()
 
 def tournament_data_exists(year: str):
-    """Check if tournament data for the given year already exists."""
     doc_ref = db.collection("tournament_data").document(year)
     return doc_ref.get().exists
 
 def save_player_data(year: str, players: list):
-    """
-    Save tournament data in an alternate structure:
-    Each player is stored as a document in the subcollection 'players' under document tournament_data/{year}.
-    """
     tournament_doc = db.collection("tournament_data").document(year)
     players_collection = tournament_doc.collection("players")
     for player in players:
         players_collection.add(player)
-    # Optionally, set a flag on the tournament document.
     tournament_doc.set({"data_uploaded": True, "year": year}, merge=True)
 
 def get_tournament_data_from_firestore(year: str):
-    """
-    Retrieve tournament data (list of player dictionaries) from the subcollection 'players'
-    under tournament_data/{year}.
-    """
     tournament_doc = db.collection("tournament_data").document(year)
     players_collection = tournament_doc.collection("players")
     docs = players_collection.stream()
-    players = [doc.to_dict() for doc in docs]
-    return players
+    return [doc.to_dict() for doc in docs]
 
 def get_submissions():
-    """Retrieve team submissions ordered by total points descending."""
     docs = db.collection("submissions").order_by("total_points", direction=firestore.Query.DESCENDING).stream()
-    submissions = [doc.to_dict() for doc in docs]
-    return submissions
+    return [doc.to_dict() for doc in docs]
 
 def save_submission(submission):
     participant = submission.get("participant", "").strip()
     team_name = submission.get("team_name", "").strip()
-
     if participant and team_name:
-        # Replace spaces with underscores to create a safe document ID
         doc_id = f"{participant.replace(' ', '_')}_{team_name.replace(' ', '_')}"
         db.collection("submissions").document(doc_id).set(submission)
     elif participant:
@@ -56,3 +41,35 @@ def save_submission(submission):
     else:
         db.collection("submissions").add(submission)
 
+def get_net_rankings(year: str):
+    """Retrieve the net rankings document for a given year."""
+    doc_ref = db.collection("net_rankings").document(year)
+    doc = doc_ref.get()
+    if doc.exists:
+        return doc.to_dict()
+    return None
+
+def save_net_rankings(year: str, top16: list):
+    """Save the top 16 teams and a timestamp to Firestore."""
+    doc_ref = db.collection("net_rankings").document(year)
+    data = {
+        "top16": top16,
+        "last_updated": datetime.datetime.now().isoformat()
+    }
+    doc_ref.set(data)
+
+
+def get_top16_player_data(year: str):
+    doc_ref = db.collection("top16_player_data").document(year)
+    doc = doc_ref.get()
+    if doc.exists:
+        return doc.to_dict().get("players", [])
+    return None
+
+def save_top16_player_data(year: str, players: list):
+    doc_ref = db.collection("top16_player_data").document(year)
+    data = {
+        "players": players,
+        "last_updated": datetime.datetime.now().isoformat()
+    }
+    doc_ref.set(data)

@@ -1,15 +1,18 @@
 import streamlit as st
 import pandas as pd
-from data_loader import load_tournament_data
+from data_loader import load_top16_player_data
 from firebase_util import save_submission
+from navigation import render_navigation
 
-# Initialize session state for selected players
+render_navigation()
+
+# Initialize session state
 if "selected_players" not in st.session_state:
     st.session_state.selected_players = {
-        "1-4": ["", "", ""],
-        "5-8": ["", "", ""],
-        "9-12": ["", "", ""],
-        "13-16": ["", "", ""]
+        "1-4": [],
+        "5-8": [],
+        "9-12": [],
+        "13-16": []
     }
 if "submissions" not in st.session_state:
     st.session_state.submissions = []
@@ -42,25 +45,25 @@ def rules_tab():
     ### How to Build Your Team:
     1. **Select Players**:
        - Choose your team, which will comprise of 12 players.
-       - Of the 12 players selected, 3 must come from each bracket seeding segment.
-       - Each player’s individual points throughout the tournament (will not include play-in games) will be added to your team’s total.
-       - After each round, updated standings will be posted.
-       - If you choose a player who participates within a “Play-in Game,” their point totals will begin to accumulate in their First-Round matchup. If you choose them and they lose their play-in game, there won’t be an opportunity to substitute players.
-       - Prizes will be paid out to the top four teams (“Final 4”) at the conclusion of the tournament.
-       - In lieu of a tie (each team having the same players), payouts will be adjusted accordingly.
-       - **Note:** You cannot select the same player more than once.
+       - 3 players must come from each seeding segment.
+       - Each player's points will contribute to your team’s total score.
+       - No substitutions if a play-in player loses.
+       - Prizes for the top four teams.
     2. **Review Your Team**:
-       - Review your team here to see your selected players and their stats.
+       - Review your team’s selected players and stats.
     3. **Submit Your Team**:
-       - Enter a team name, submit your team, and good luck!
+       - Enter your team name, submit, and good luck!
     """)
 
 def seed_selection_tab(seed_range):
     st.header(f"🌱 Seed {seed_range}")
-    df = load_tournament_data()
+    df = load_top16_player_data()
+    if isinstance(df, list):
+        df = pd.DataFrame(df)
     if df.empty:
         st.warning("No player data available. Check your API key or try again later.")
         return
+    # Ensure exactly 3 players stored for this seed range
     if len(st.session_state.selected_players[seed_range]) < 3:
         st.session_state.selected_players[seed_range] = ["", "", ""]
     start, end = map(int, seed_range.split("-"))
@@ -73,16 +76,17 @@ def seed_selection_tab(seed_range):
         except IndexError:
             ppg_value = 0
         ppg_mapping[player] = ppg_value
+
     for i in range(3):
-        others = {
-            st.session_state.selected_players[seed_range][j]
-            for j in range(3)
-            if j != i and st.session_state.selected_players[seed_range][j] != ""
-        }
+        # Create a set of already selected player names (for this seed group)
+        others = {p["name"] for j, p in enumerate(st.session_state.selected_players[seed_range])
+                  if j != i and p != "" and isinstance(p, dict)}
         available_options = ["Select a player"] + [p for p in players if p not in others]
         current_selection = st.session_state.selected_players[seed_range][i]
-        if current_selection not in available_options:
+        if not (isinstance(current_selection, dict) and current_selection.get("name") in available_options):
             current_selection = "Select a player"
+        else:
+            current_selection = current_selection["name"]
         default_index = available_options.index(current_selection)
         selection = st.selectbox(
             f"Player {i+1}",
@@ -93,38 +97,44 @@ def seed_selection_tab(seed_range):
                 else f"{option} (PPG: {ppg_mapping.get(option, 0):.1f})"
         )
         if selection != "Select a player":
-            st.session_state.selected_players[seed_range][i] = selection
+            # Lookup the player's row in seed_df and store an object with details.
+            player_data = seed_df.loc[seed_df["Player"] == selection].iloc[0]
+            st.session_state.selected_players[seed_range][i] = {
+                "name": selection,
+                "team": player_data["Team"],
+                "seed": int(player_data["Seed"]),  # Convert numpy.int64 to int
+                "position": player_data["Position"]
+            }
         else:
             st.session_state.selected_players[seed_range][i] = ""
 
 def review_team_tab():
     st.header("📊 Review Your Team")
-    df = load_tournament_data()
-    all_selected = [
-        player for players in st.session_state.selected_players.values() for player in players if player
-    ]
+    # Flatten selected players (only include objects/dictionaries)
+    all_selected = [p for players in st.session_state.selected_players.values() for p in players if p and isinstance(p, dict)]
     if not all_selected:
         st.warning("No players selected yet! Visit the seed tabs to build your team.")
         return
-    team_df = df[df["Player"].isin(all_selected)]
-    st.write(f"**Total Players Selected**: {len(team_df)}")
+    selected_df = pd.DataFrame(all_selected)
+    st.write(f"**Total Players Selected**: {len(selected_df)}")
+    df = load_top16_player_data()
+    if isinstance(df, list):
+        df = pd.DataFrame(df)
+    selected_names = selected_df["name"].tolist()
+    team_df = df[df["Player"].isin(selected_names)]
     st.write(f"**Total Points**: {team_df['Points'].sum()}")
     st.write(f"**Average PPG**: {team_df['PPG'].mean():.1f}")
     st.dataframe(
-        team_df[["Player", "Team", "Seed", "Points", "PPG"]],
-        column_config={
-            "PPG": st.column_config.NumberColumn(format="%.1f"),
-            "Points": st.column_config.NumberColumn(format="%.0f")
-        },
+        selected_df[["name", "position", "team", "seed"]],
+        column_config={"seed": st.column_config.NumberColumn(format="%.0f")},
         hide_index=True,
         use_container_width=True
     )
 
 def submit_team_tab():
     st.header("✅ Submit Your Team")
-    all_selected = [
-        player for players in st.session_state.selected_players.values() for player in players if player
-    ]
+    # Flatten selected players; ensure they are valid objects/dictionaries
+    all_selected = [p for players in st.session_state.selected_players.values() for p in players if p and isinstance(p, dict)]
     if len(all_selected) != 12:
         st.error("You must select exactly 12 players (3 from each seed bracket).")
         return
@@ -135,7 +145,7 @@ def submit_team_tab():
         first_name = st.text_input("First Name", placeholder="Enter your first name")
         last_name = st.text_input("Last Name", placeholder="Enter your last name")
         st.subheader("💳 Payment Information")
-        payment_type = st.selectbox("Payment Type", ["Credit Card", "PayPal", "Venmo", "Cash"])
+        payment_type = st.selectbox("Payment Type", ["Venmo"])
         submitted = st.form_submit_button("Submit Team")
         if submitted:
             if not team_name:
@@ -147,15 +157,19 @@ def submit_team_tab():
             elif not payment_type:
                 st.error("Please select a payment type.")
             else:
-                df = pd.DataFrame(load_tournament_data())
-                total_points = int(df[df["Player"].isin(all_selected)]["Points"].sum())
+                df = load_top16_player_data()
+                if isinstance(df, list):
+                    df = pd.DataFrame(df)
+                selected_names = [p["name"] for p in all_selected]
+                total_points = int(df[df["Player"].isin(selected_names)]["Points"].sum())
                 submission = {
                     "team_name": team_name,
                     "participant": f"{first_name} {last_name}",
                     "payment_type": payment_type,
-                    "players": all_selected,
+                    "players": all_selected,  # Detailed player objects with native types
                     "total_points": total_points
                 }
+                # Upload the detailed submission data to Firestore
                 save_submission(submission)
                 st.success(f"Team '{team_name}' submitted successfully!")
 
