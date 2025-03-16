@@ -45,14 +45,27 @@ def rules_tab():
     ### How to Build Your Team:
     1. **Select Players**:
        - Choose your team, which will comprise of 12 players.
-       - 3 players must come from each seeding segment.
-       - Each player's points will contribute to your team’s total score.
-       - No substitutions if a play-in player loses.
-       - Prizes for the top four teams.
+       - 3 players must come from each seeding segment
+        - 3 players on teams seeded 1-4
+        - 3 players on teams seeded 5-8
+        - 3 players on teams seeded 9-12
+        - 3 players on teams seeded 13-16
+       - Each player’s individual points throughout the tournament (will not include play-in games) will be added to your team’s total
+       - After each round, updated standings will be posted on the leaderboard
+       - If you choose a player who participates within a “Play-in Game,” their point totals will begin to accumulate in their First-Round matchup. If you choose them and they lose their play-in game, there won’t be an opportunity to substitute players.
+       - Prizes will be paid out to the top four teams (“Final 4”) at the conclusion of the tournament.
+       - In lieu of a tie (each team having the same players), payouts will be adjusted accordingly
     2. **Review Your Team**:
        - Review your team’s selected players and stats.
     3. **Submit Your Team**:
        - Enter your team name, submit, and good luck!
+    4. **Key Dates**:
+        - Selection Sunday: 3/16
+        - First Four/Play-in Games: 3/18 - 3/19
+        - 1st and 2nd rounds: 3/20 – 3/23
+        - Sweet 16 and Elite 8: 3/27-3/30
+        - Final Four: 4/5
+        - National Championship: 4/7
     """)
 
 def seed_selection_tab(seed_range):

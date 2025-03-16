@@ -13,6 +13,7 @@ from firebase_util import (
     get_top16_player_data,
     save_top16_player_data
 )
+from google.cloud.firestore_v1 import WriteBatch
 
 API_KEY = "ON3UvFxCKhEVsiZorA4AJ01jhpKKI25ZcRm1TYzq"
 ACCESS_LEVEL = "trial"
@@ -65,7 +66,6 @@ def get_tournament_teams_and_seeds(tournament_id):
                 team_regions[team_id] = region
     return list(team_ids), team_seeds, team_regions
 
-
 @st.cache_data(ttl=3600)
 def load_tournament_data():
     """
@@ -113,13 +113,23 @@ def load_tournament_data():
                 "Team": safe_get(stats_data, ['team', 'market'], 'Unknown'),
                 "Team_ID": team_id,  # Save team id for filtering later.
                 "Seed": team_seeds.get(team_id, "N/A"),
-                "Region": team_regions.get(team_id, "N/A"),
+                "Region": team_regions.get(team_id, "N/A"),  # Include region from team_regions
                 "Position": safe_get(player, ['position'], ''),
                 "Games": safe_get(player, ['total', 'games_played'], 0),
                 "Points": safe_get(player, ['total', 'points'], 0),
                 "PPG": safe_get(player, ['average', 'points'], 0.0),
                 "FG%": round(safe_get(player, ['total', 'field_goals_pct'], 0.0) * 100, 1),
-                "3P%": round(safe_get(player, ['total', 'three_points_pct'], 0.0) * 100, 1)
+                "3P%": round(safe_get(player, ['total', 'three_points_pct'], 0.0) * 100, 1),
+                "round_points": {  # Track points in each round
+                    "First Four": 0,
+                    "Round 1": 0,
+                    "Round 2": 0,
+                    "Sweet 16": 0,
+                    "Elite 8": 0,
+                    "Final 4": 0,
+                    "Championship": 0
+                },
+                "total_tournament_points": 0  # Track total points in the tournament
             })
         all_players = pd.concat([all_players, pd.DataFrame(team_players)], ignore_index=True)
     df = all_players.sort_values('Points', ascending=False)
@@ -212,6 +222,7 @@ def load_top16_player_data():
                 "Team": safe_get(stats_data, ['market'], 'Unknown'),
                 "Team_ID": team_id,
                 "Seed": team_seed,  # Store the rank from NET rankings but call it "Seed"
+                "Region": "N/A",  # Default region for top 16 players (not available in NET rankings)
                 "Position": safe_get(player, ['position'], ''),
                 "Games": safe_get(player, ['total', 'games_played'], 0),
                 "Points": safe_get(player, ['total', 'points'], 0),
@@ -231,3 +242,148 @@ def load_top16_player_data():
         save_top16_player_data(year_str, player_list)
 
     return df
+
+# In data_loader.py
+
+@st.cache_data(ttl=3600)
+def fetch_daily_change_log(date: str):
+    """Fetch game IDs for a specific date from daily change log"""
+    year, month, day = date.split("-")
+    url = f"{BASE_URL}/league/{year}/{month}/{day}/changes.json"
+    params = {"api_key": API_KEY}
+    data = fetch_with_retry(url, params)
+    return [game["id"] for game in safe_get(data, ["results"], []) if safe_get(game, ["id"])]
+
+@st.cache_data(ttl=3600)
+def fetch_game_details(game_id: str):
+    """Fetch game summary and extract round name + player points"""
+    url = f"{BASE_URL}/games/{game_id}/summary.json"
+    data = fetch_with_retry(url, {"api_key": API_KEY})
+    if not data:
+        return None, []
+
+    # Extract round name from game title
+    game_title = safe_get(data, ["game", "title"], "")
+    round_name = None
+
+    # Match game title to known round names
+    for round in ["First Four", "First Round", "Second Round", "Sweet 16", "Elite Eight", "Final Four", "National Championship"]:
+        if round in game_title:
+            round_name = round
+            break
+
+    # Default to "Unknown Round" if no match is found
+    if not round_name:
+        round_name = "Unknown Round"
+
+    # Extract player points from both teams
+    player_data = []
+    for team_type in ["home", "away"]:
+        team = safe_get(data, ["game", team_type], {})
+        team_id = safe_get(team, ["id"], "")
+
+        for player in safe_get(team, ["players"], []):
+            player_data.append({
+                "team_id": team_id,
+                "player_name": safe_get(player, ["full_name"], "Unknown"),
+                "points": safe_get(player, ["statistics", "points"], 0),
+                "round": round_name,
+                "game_id": game_id,
+                "game_title": game_title
+            })
+
+    return round_name, player_data
+
+def update_daily_player_points(date: str):
+    """Process daily games with batched writes, audit timestamps, and error handling"""
+    game_ids = fetch_daily_change_log(date)
+    if not game_ids:
+        st.warning(f"No games found for {date}")
+        return
+
+    # Get Firestore references
+    db = firestore.client()
+    year_str = str(TOURNAMENT_YEAR)
+    tournament_ref = db.collection("tournament_data").document(year_str)
+    players_ref = tournament_ref.collection("players")
+
+    batch = db.batch()
+    batch_count = 0
+    MAX_BATCH_SIZE = 500  # Firestore batch limit
+
+    # Process each game
+    for game_id in game_ids:
+        round_name, game_players = fetch_game_details(game_id)
+        if not game_players:
+            continue
+
+        for gp in game_players:
+            # Query for existing player
+            query = players_ref.where("Player", "==", gp["player_name"]) \
+                              .where("Team_ID", "==", gp["team_id"]) \
+                              .limit(1)
+            docs = list(query.stream())
+
+            # Prepare game update data
+            game_update = {
+                "game_id": game_id,
+                "date": date,
+                "round": round_name,
+                "points": gp["points"],
+                "game_title": gp["game_title"],
+                "timestamp": firestore.SERVER_TIMESTAMP
+            }
+
+            # Prepare base update data
+            update_data = {
+                "total_points": firestore.Increment(gp["points"]),
+                f"round_points.{round_name}": firestore.Increment(gp["points"]),
+                "updated_at": firestore.SERVER_TIMESTAMP
+            }
+
+            # Only add game history if points are greater than 0
+            if gp["points"] > 0:
+                update_data["games"] = firestore.ArrayUnion([game_update])
+
+            if docs:
+                # Existing document - update operation
+                doc_ref = docs[0].reference
+                batch.update(doc_ref, update_data)
+            else:
+                # New document - create operation
+                new_doc_ref = players_ref.document()
+                new_player = {
+                    "Player": gp["player_name"],
+                    "Team_ID": gp["team_id"],
+                    "total_points": gp["points"],
+                    "round_points": {round_name: gp["points"]},
+                    "games": [game_update] if gp["points"] > 0 else [],
+                    "created_at": firestore.SERVER_TIMESTAMP,
+                    "updated_at": firestore.SERVER_TIMESTAMP
+                }
+                batch.set(new_doc_ref, new_player)
+
+            # Commit batch when reaching limit
+            batch_count += 1
+            if batch_count >= MAX_BATCH_SIZE:
+                safe_batch_commit(batch)
+                batch = db.batch()
+                batch_count = 0
+
+    # Commit remaining operations
+    if batch_count > 0:
+        safe_batch_commit(batch)
+
+    st.success(f"Processed {len(game_ids)} games with {batch_count} updates")
+
+def safe_batch_commit(batch, max_retries=3):
+    """Helper function to safely commit Firestore batches with retries"""
+    for attempt in range(max_retries):
+        try:
+            batch.commit()
+            return
+        except Exception as e:
+            if attempt == max_retries - 1:
+                st.error(f"Failed to commit batch after {max_retries} attempts: {str(e)}")
+                raise
+            time.sleep(2 ** attempt)  # Exponential backoff

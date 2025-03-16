@@ -14,12 +14,14 @@ if not submissions:
 else:
     submissions_df = pd.DataFrame(submissions)
     team_names = submissions_df["team_name"].tolist()
-    selected_team = st.selectbox("Select a Team", team_names)
+    # Sort team names alphabetically
+    team_names_sorted = sorted(team_names)
+    selected_team = st.selectbox("Select a Team", team_names_sorted)
 
     submission = submissions_df[submissions_df["team_name"] == selected_team].iloc[0]
 
     st.markdown(f"### Team: {submission.get('team_name')}")
-    st.markdown(f"**Participant:** {submission.get('participant')}")
+    st.markdown(f"**Participant Name:** {submission.get('participant')}")
     st.markdown(f"**Total Points:** {submission.get('total_points')}")
 
     players = submission.get("players", [])
@@ -27,19 +29,31 @@ else:
         # If players are stored as dictionaries, create a DataFrame with expected columns.
         if isinstance(players[0], dict):
             players_df = pd.DataFrame(players)
-            # Ensure that "name", "team", and "seed" columns exist.
-            for col in ["name", "team", "seed"]:
+            # Ensure that "name", "team", "seed", and "position" columns exist.
+            for col in ["name", "team", "seed", "position"]:
                 if col not in players_df.columns:
                     players_df[col] = ""
-            # Rename "Points" column to "Total Points" if it exists.
-            if "Points" in players_df.columns:
-                players_df.rename(columns={"Points": "Total Points"}, inplace=True)
-            # Optionally, reorder the columns so that name, team, and seed come first.
-            cols_order = ["name", "team", "seed"] + [col for col in players_df.columns if col not in ["name", "team", "seed"]]
-            players_df = players_df[cols_order]
+            # Convert "seed" column to string
+            players_df["seed"] = players_df["seed"].astype(str)
+            # Rename columns to match the desired output
+            players_df.rename(columns={"name": "Player Name"}, inplace=True)
+            # Reorder columns to match the desired output
+            players_df = players_df[["Player Name", "team", "seed", "position"]]
+            # Rename remaining columns to match the desired output
+            players_df.rename(columns={
+                "team": "Team",
+                "seed": "Seed",
+                "position": "Position"
+            }, inplace=True)
         else:
-            # If players are simple strings, create a DataFrame with one column named "players"
-            players_df = pd.DataFrame(players, columns=["Players"])
+            # If players are simple strings, create a DataFrame with one column named "Player Name"
+            players_df = pd.DataFrame(players, columns=["Player Name"])
+            # Add missing columns with empty values
+            for col in ["Team", "Seed", "Position"]:
+                players_df[col] = ""
+            # Ensure "Seed" is treated as a string
+            players_df["Seed"] = players_df["Seed"].astype(str)
+
         players_df.reset_index(drop=True, inplace=True)
         st.markdown("#### Players")
         st.dataframe(players_df, use_container_width=True, hide_index=True)

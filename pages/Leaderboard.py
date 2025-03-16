@@ -13,12 +13,16 @@ def leaderboard_page():
         st.info("No team submissions available yet.")
         return
 
+    # Create DataFrame from submissions
     teams_df = pd.DataFrame(submissions)
     teams_df = teams_df.rename(columns={"team_name": "Team Name", "total_points": "Points"})
     teams_df = teams_df.sort_values(by="Points", ascending=False).reset_index(drop=True)
     teams_df.insert(0, "Rank", teams_df.index + 1)
     teams_df["Rank"] = teams_df["Rank"].astype(str)
     teams_df["Points"] = teams_df["Points"].astype(str)
+
+    # Reorder columns to: Rank, Team Name, Points
+    teams_df = teams_df[["Rank", "Team Name", "Points"]]
 
     total_teams = len(submissions)
     player_freq = {}
@@ -55,16 +59,18 @@ def leaderboard_page():
     scorers_df["Points"] = scorers_df["Points"].astype(int).astype(str)
     scorers_table = scorers_df[["RANK", "NAME", "SCHOOL", "SEED", "Points", "OWNED"]]
 
-    # Highlight the top 4 rows in green
-    def highlight_top4(row):
-        return ['background-color: lightgreen' if row.name < 4 else '' for _ in row]
+    # Highlight the top 4 rows in the teams_df table
+    def highlight_top4_teams(row):
+        color = "#90EE90" if row.name < 4 else ""  # Darker shade of green
+        return ['background-color: ' + color for _ in row]
 
-    styled_scorers = scorers_table.style.apply(highlight_top4, axis=1)
+    # Apply styling to the teams_df table
+    styled_teams = teams_df.style.apply(highlight_top4_teams, axis=1)
 
     col1, col2, col3 = st.columns([1, 1.3, 1.55])
     with col1:
         st.subheader("Team Leaderboard")
-        st.dataframe(teams_df[["Rank", "Team Name", "Points"]], use_container_width=True, hide_index=True)
+        st.dataframe(styled_teams, use_container_width=True, hide_index=True)
     with col2:
         st.subheader("Percentage Owned (Top 5)")
         st.dataframe(top5, use_container_width=True, hide_index=True)
@@ -72,7 +78,7 @@ def leaderboard_page():
         st.dataframe(bottom5, use_container_width=True, hide_index=True)
     with col3:
         st.subheader("Top Scorers for the Tournament")
-        st.dataframe(styled_scorers, use_container_width=True, hide_index=True)
+        st.dataframe(scorers_table, use_container_width=True, hide_index=True)
 
 if __name__ == "__main__":
     leaderboard_page()

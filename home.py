@@ -1,17 +1,30 @@
 import streamlit as st
 import pandas as pd
-from data_loader import load_top16_player_data, load_net_rankings
+from data_loader import load_tournament_data, load_top16_player_data, load_net_rankings
 from navigation import render_navigation
 
-st.set_page_config(layout = "wide")
+st.set_page_config(layout="wide")
 render_navigation()
-st.title("🏀 Marci's March Madness Player Statistics")
-st.markdown("### NCAA Current Player Performance - Top 16 Teams")
+st.title("🏀 March Madness Player Statistics")
 
 # Load player data
-data = load_top16_player_data()
+tournament_data = load_tournament_data()
+if tournament_data.empty:
+    st.warning("Tournament data not available. Falling back to top 16 player data.")
+    data = load_top16_player_data()
+    use_tournament_data = False
+else:
+    data = tournament_data
+    use_tournament_data = True
+
+if use_tournament_data:
+    st.markdown("### NCAA Regular Season Player Performance")
+else:
+    st.markdown("### NCAA Current Season Player Performance")
 df = pd.DataFrame(data)
-df = df.drop('Team_ID', axis=1)
+
+# Drop unnecessary columns
+df = df.drop(columns=["round_points", "total_tournament_points"], errors="ignore")
 
 # Load net rankings
 net_rankings = load_net_rankings()
@@ -23,12 +36,15 @@ if not net_rankings:
 team_rankings = {team["team_name"]: team["rank"] for team in net_rankings.get("top16", [])}
 
 if df.empty:
-    st.warning("bruh")
-
-if not df.empty:
+    st.warning("No player data available. Check your API key or try again later.")
+else:
+    # Sidebar filters
     st.sidebar.header("Filters")
+    selected_region = st.sidebar.selectbox("Select Region", ["All Regions"] + sorted(df["Region"].unique()))
     selected_team = st.sidebar.selectbox("Select Team", ["All Teams"] + sorted(df["Team"].unique()))
     selected_position = st.sidebar.selectbox("Select Position", ["All Positions"] + sorted(df["Position"].dropna().unique()))
+
+    # Seeding segment filter
     seeding_options = {
         "All Seeds": None,
         "1-4": (1, 4),
@@ -37,7 +53,11 @@ if not df.empty:
         "13-16": (13, 16)
     }
     selected_seeding_segment = st.sidebar.selectbox("Select Seeding Segment", list(seeding_options.keys()))
+
+    # Apply filters
     filtered_df = df.copy()
+    if selected_region != "All Regions":
+        filtered_df = filtered_df[filtered_df["Region"] == selected_region]
     if selected_team != "All Teams":
         filtered_df = filtered_df[filtered_df["Team"] == selected_team]
     if selected_position != "All Positions":
@@ -47,37 +67,24 @@ if not df.empty:
         filtered_df = filtered_df[(filtered_df["Seed"] >= seed_range[0]) & (filtered_df["Seed"] <= seed_range[1])]
 
     # Add a column for team rankings from net_rankings
-    filtered_df['Seed'] = filtered_df['Team'].map(team_rankings)
+    filtered_df['Rank'] = filtered_df['Team'].map(team_rankings)
 
-    col1, col2 = st.columns([3, 2])  # Slightly larger left column (for player stats) and right column (for team rankings)
+    # Display player statistics
+    st.write("### Player Statistics")
+    st.dataframe(
+        filtered_df[["Player", "Team", "Region", "Seed", "Position", "Points", "PPG", "FG%", "3P%", "Rank"]],
+        column_config={
+            "PPG": st.column_config.NumberColumn(format="%.1f"),
+            "FG%": st.column_config.NumberColumn(format="%.1f"),
+            "3P%": st.column_config.NumberColumn(format="%.1f"),
+            "Rank": st.column_config.NumberColumn(format="%.0f")
+        },
+        hide_index=True,
+        use_container_width=True
+    )
 
-    with col1:
-        st.write("### Player Statistics (Top 16 Teams)")
-        st.dataframe(
-            filtered_df,
-            column_config={
-                "PPG": st.column_config.NumberColumn(format="%.1f"),
-                "FG%": st.column_config.NumberColumn(format="%.1f"),
-                "3P%": st.column_config.NumberColumn(format="%.1f")
-            },
-            hide_index=True
-             )
-
-    with col2:
-        # Display the team rankings in the second column
-        team_rankings_df = pd.DataFrame(team_rankings.items(), columns=["Team", "Rank"])
+    # Display team rankings in a separate column if using top 16 data
+    if not use_tournament_data:
         st.write("### Current Rankings")
-        st.dataframe(team_rankings_df, hide_index=True)
-
-    if not filtered_df.empty:
-        st.subheader("Season Leaders")
-        cols = st.columns(2)
-        with cols[0]:
-            st.metric("Top Scorer", filtered_df.iloc[0]['Points'], filtered_df.iloc[0]['Player'])
-        with cols[1]:
-            ppg_leader = filtered_df.loc[filtered_df['PPG'].idxmax()]
-            st.metric("PPG Leader", ppg_leader['PPG'], ppg_leader['Player'])
-    else:
-        st.warning("No data available for the selected filters.")
-else:
-    st.warning("No player data available. Check your API key or try again later.")
+        team_rankings_df = pd.DataFrame(team_rankings.items(), columns=["Team", "Rank"])
+        st.dataframe(team_rankings_df, hide_index=True, use_container_width=True)

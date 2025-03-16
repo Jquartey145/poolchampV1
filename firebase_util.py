@@ -22,24 +22,6 @@ def tournament_data_exists(year: str):
     doc_ref = db.collection("tournament_data").document(year)
     return doc_ref.get().exists
 
-def save_player_data(year: str, players: list):
-    """
-    Save player data to Firestore under the tournament_data collection.
-    Each player dictionary is expected to include fields such as:
-      - "Player": Name
-      - "Team": Team name
-      - "Seed": Seed value
-      - "Region": Region name
-      - "Position": Player position
-      - "active": Boolean indicating if the player is active
-      - Other stats: "Games", "Points", "PPG", "FG%", "3P%", etc.
-    """
-    tournament_doc = db.collection("tournament_data").document(year)
-    players_collection = tournament_doc.collection("players")
-    for player in players:
-        players_collection.add(player)
-    tournament_doc.set({"data_uploaded": True, "year": year}, merge=True)
-
 def get_tournament_data_from_firestore(year: str):
     tournament_doc = db.collection("tournament_data").document(year)
     players_collection = tournament_doc.collection("players")
@@ -50,7 +32,6 @@ def get_tournament_data_from_firestore(year: str):
         d["doc_id"] = doc.id   # Add the document id for reference lookup
         players.append(d)
     return players
-
 
 def get_submissions():
     """
@@ -126,3 +107,35 @@ def save_top16_player_data(year: str, players: list):
         "last_updated": datetime.datetime.now().isoformat()
     }
     doc_ref.set(data)
+
+# In firebase_util.py
+
+# In firebase_util.py
+
+def save_player_data(year: str, players: list):
+    """Save initial player data to Firestore"""
+    tournament_doc = db.collection("tournament_data").document(year)
+    players_collection = tournament_doc.collection("players")
+
+    for player in players:
+        # Get games list or empty array if none exists
+        games = player.get("games", [])
+
+        player_data = {
+            "Player": player["Player"],
+            "Team": player["Team"],
+            "Team_ID": player["Team_ID"],
+            "Seed": str(player["Seed"]),
+            "Region": player.get("Region", ""),
+            "Position": player.get("Position", ""),
+            "total_points": player.get("total_points", 0),
+            "round_points": player.get("round_points", {}),
+            "games": games if games else [],  # Ensure non-empty array
+            "created_at": firestore.SERVER_TIMESTAMP
+        }
+
+        # Only use ArrayUnion if adding to existing games
+        if games:
+            player_data["games"] = firestore.ArrayUnion(games)
+
+        players_collection.add(player_data)
