@@ -146,6 +146,7 @@ def submit_team_tab():
         last_name = st.text_input("Last Name", placeholder="Enter your last name")
         st.subheader("💳 Payment Information")
         payment_type = st.selectbox("Payment Type", ["Venmo"])
+        venmo_name = st.text_input("Venmo Username", placeholder="Enter your Venmo username (with @)")
         submitted = st.form_submit_button("Submit Team")
         if submitted:
             if not team_name:
@@ -156,6 +157,8 @@ def submit_team_tab():
                 st.error("Please enter your last name.")
             elif not payment_type:
                 st.error("Please select a payment type.")
+            elif not venmo_name:
+                st.error("Please enter Venmo username")
             else:
                 df = load_top16_player_data()
                 if isinstance(df, list):
@@ -166,8 +169,9 @@ def submit_team_tab():
                     "team_name": team_name,
                     "participant": f"{first_name} {last_name}",
                     "payment_type": payment_type,
+                    "venmo_username": venmo_name,
                     "players": all_selected,  # Detailed player objects with native types
-                    "total_points": total_points
+                    "total_points": int()
                 }
                 # Upload the detailed submission data to Firestore
                 save_submission(submission)

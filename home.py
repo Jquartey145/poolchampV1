@@ -3,9 +3,9 @@ import pandas as pd
 from data_loader import load_top16_player_data, load_net_rankings
 from navigation import render_navigation
 
+st.set_page_config(layout = "wide")
 render_navigation()
-
-st.title("🏀 Marci's Madness Player Statistics")
+st.title("🏀 Marci's March Madness Player Statistics")
 st.markdown("### NCAA Current Player Performance - Top 16 Teams")
 
 # Load player data
@@ -70,7 +70,7 @@ if not df.empty:
         st.dataframe(team_rankings_df, hide_index=True)
 
     if not filtered_df.empty:
-        st.subheader("Tournament Leaders")
+        st.subheader("Season Leaders")
         cols = st.columns(2)
         with cols[0]:
             st.metric("Top Scorer", filtered_df.iloc[0]['Points'], filtered_df.iloc[0]['Player'])

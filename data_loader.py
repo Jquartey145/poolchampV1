@@ -44,25 +44,27 @@ def fetch_with_retry(url, params, max_retries=5, base_delay=1.5):
 
 @st.cache_data(ttl=3600)
 def get_tournament_teams_and_seeds(tournament_id):
-    url = f"{BASE_URL}/tournaments/{tournament_id}/schedule.json"
+    url = f"{BASE_URL}/tournaments/{tournament_id}/summary.json"
     data = fetch_with_retry(url, {"api_key": API_KEY})
     if not data:
-        return [], {}
+        return [], {}, {}
     team_ids = set()
     team_seeds = {}
-    for round_data in safe_get(data, ['rounds'], []):
-        for game in safe_get(round_data, ['games'], []):
-            for side in ['home', 'away']:
-                if team := safe_get(game, [side, 'id']):
-                    team_ids.add(team)
-                    team_seeds[team] = safe_get(game, [side, 'seed'], "N/A")
-        for bracket in safe_get(data, ['bracketed'], []):
-            for game in safe_get(bracket, ['games'], []):
-                for side in ['home', 'away']:
-                    if team := safe_get(game, [side, 'id']):
-                        team_ids.add(team)
-                        team_seeds[team] = safe_get(game, [side, 'seed'], "N/A")
-    return list(team_ids), team_seeds
+    team_regions = {}
+    # Iterate over each bracket in the summary data
+    for bracket in safe_get(data, ["brackets"], []):
+        # Extract the region name from the bracket's name and trim "Regional" if present.
+        region = bracket.get("name", "")
+        if region.endswith("Regional"):
+            region = region[:-len("Regional")].strip()
+        for participant in safe_get(bracket, ["participants"], []):
+            team_id = participant.get("id")
+            if team_id:
+                team_ids.add(team_id)
+                team_seeds[team_id] = participant.get("seed", "N/A")
+                team_regions[team_id] = region
+    return list(team_ids), team_seeds, team_regions
+
 
 @st.cache_data(ttl=3600)
 def load_tournament_data():
@@ -97,7 +99,7 @@ def load_tournament_data():
     if not ncaa_tournament_id:
         return pd.DataFrame()
 
-    team_ids, team_seeds = get_tournament_teams_and_seeds(ncaa_tournament_id)
+    team_ids, team_seeds, team_regions = get_tournament_teams_and_seeds(ncaa_tournament_id)
     all_players = pd.DataFrame()
     for team_id in team_ids:
         url = f"{BASE_URL}/tournaments/{ncaa_tournament_id}/teams/{team_id}/statistics.json"
@@ -111,6 +113,7 @@ def load_tournament_data():
                 "Team": safe_get(stats_data, ['team', 'market'], 'Unknown'),
                 "Team_ID": team_id,  # Save team id for filtering later.
                 "Seed": team_seeds.get(team_id, "N/A"),
+                "Region": team_regions.get(team_id, "N/A"),
                 "Position": safe_get(player, ['position'], ''),
                 "Games": safe_get(player, ['total', 'games_played'], 0),
                 "Points": safe_get(player, ['total', 'points'], 0),
