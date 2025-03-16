@@ -10,7 +10,6 @@ st.title("🏀 March Madness Player Statistics")
 # Load player data
 tournament_data = load_tournament_data()
 if tournament_data.empty:
-    st.warning("Tournament data not available. Falling back to top 16 player data.")
     data = load_top16_player_data()
     use_tournament_data = False
 else:
@@ -40,7 +39,13 @@ if df.empty:
 else:
     # Sidebar filters
     st.sidebar.header("Filters")
-    selected_region = st.sidebar.selectbox("Select Region", ["All Regions"] + sorted(df["Region"].unique()))
+
+    # Region filter (only if Region column exists and we're using tournament data)
+    if "Region" in df.columns and use_tournament_data:
+        selected_region = st.sidebar.selectbox("Select Region", ["All Regions"] + sorted(df["Region"].unique()))
+    else:
+        selected_region = "All Regions"  # Default if Region column doesn't exist
+
     selected_team = st.sidebar.selectbox("Select Team", ["All Teams"] + sorted(df["Team"].unique()))
     selected_position = st.sidebar.selectbox("Select Position", ["All Positions"] + sorted(df["Position"].dropna().unique()))
 
@@ -56,7 +61,7 @@ else:
 
     # Apply filters
     filtered_df = df.copy()
-    if selected_region != "All Regions":
+    if selected_region != "All Regions" and "Region" in df.columns:
         filtered_df = filtered_df[filtered_df["Region"] == selected_region]
     if selected_team != "All Teams":
         filtered_df = filtered_df[filtered_df["Team"] == selected_team]
@@ -71,8 +76,14 @@ else:
 
     # Display player statistics
     st.write("### Player Statistics")
+
+    # Define columns to display (exclude Region if it doesn't exist)
+    columns_to_display = ["Player", "Team", "Seed", "Position", "Points", "PPG", "FG%", "3P%", "Rank"]
+    if "Region" in df.columns:
+        columns_to_display.insert(2, "Region")  # Insert Region after Team if it exists
+
     st.dataframe(
-        filtered_df[["Player", "Team", "Region", "Seed", "Position", "Points", "PPG", "FG%", "3P%", "Rank"]],
+        filtered_df[columns_to_display],
         column_config={
             "PPG": st.column_config.NumberColumn(format="%.1f"),
             "FG%": st.column_config.NumberColumn(format="%.1f"),
