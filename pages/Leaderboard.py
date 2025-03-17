@@ -59,10 +59,15 @@ def leaderboard_page():
     scorers_df["Points"] = scorers_df["Points"].astype(int).astype(str)
     scorers_table = scorers_df[["RANK", "NAME", "SCHOOL", "SEED", "Points", "OWNED"]]
 
-    # Highlight the top 4 rows in the teams_df table
+    # Modified styling function with black text
     def highlight_top4_teams(row):
-        color = "#90EE90" if row.name < 4 else ""  # Darker shade of green
-        return ['background-color: ' + color for _ in row]
+        styles = []
+        for _ in row:
+            if row.name < 4:
+                styles.append('background-color: #90EE90; color: black')  # Green background with black text
+            else:
+                styles.append('')
+        return styles
 
     # Apply styling to the teams_df table
     styled_teams = teams_df.style.apply(highlight_top4_teams, axis=1)

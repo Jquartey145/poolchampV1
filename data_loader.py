@@ -269,7 +269,7 @@ def fetch_game_details(game_id: str):
     round_name = None
 
     # Match game title to known round names
-    for round in ["First Four", "First Round", "Second Round", "Sweet 16", "Elite Eight", "Final Four", "National Championship"]:
+    for round in ["First Round", "Second Round", "Sweet 16", "Elite Eight", "Final Four", "National Championship"]:
         if round in game_title:
             round_name = round
             break

@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-from data_loader import load_top16_player_data
+from data_loader import load_regular_season_data
 from firebase_util import save_submission
 from navigation import render_navigation
 
@@ -70,7 +70,7 @@ def rules_tab():
 
 def seed_selection_tab(seed_range):
     st.header(f"🌱 Seed {seed_range}")
-    df = load_top16_player_data()
+    df = load_regular_season_data()
     if isinstance(df, list):
         df = pd.DataFrame(df)
     if df.empty:
@@ -130,7 +130,7 @@ def review_team_tab():
         return
     selected_df = pd.DataFrame(all_selected)
     st.write(f"**Total Players Selected**: {len(selected_df)}")
-    df = load_top16_player_data()
+    df = load_regular_season_data
     if isinstance(df, list):
         df = pd.DataFrame(df)
     selected_names = selected_df["name"].tolist()
@@ -173,7 +173,7 @@ def submit_team_tab():
             elif not venmo_name:
                 st.error("Please enter Venmo username")
             else:
-                df = load_top16_player_data()
+                df = load_regular_season_data()
                 if isinstance(df, list):
                     df = pd.DataFrame(df)
                 selected_names = [p["name"] for p in all_selected]
