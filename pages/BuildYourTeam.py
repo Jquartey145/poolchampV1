@@ -83,12 +83,16 @@ def seed_selection_tab(seed_range):
     seed_df = df[df["Seed"].between(start, end)]
     players = seed_df["Player"].unique().tolist()
     ppg_mapping = {}
+    team_mapping = {}
     for player in players:
         try:
             ppg_value = seed_df.loc[seed_df["Player"] == player, "PPG"].iloc[0]
+            team_value = seed_df.loc[seed_df["Player"] == player, "Team"].iloc[0]
         except IndexError:
             ppg_value = 0
+            team_value = "Unknown"
         ppg_mapping[player] = ppg_value
+        team_mapping[player] = team_value
 
     for i in range(3):
         # Create a set of already selected player names (for this seed group)
@@ -107,7 +111,7 @@ def seed_selection_tab(seed_range):
             key=f"{seed_range}_player_{i}",
             index=default_index,
             format_func=lambda option: option if option == "Select a player"
-                else f"{option} (PPG: {ppg_mapping.get(option, 0):.1f})"
+                else f"{option} / {team_mapping.get(option, 'Unknown')} (PPG: {ppg_mapping.get(option, 0):.1f})"
         )
         if selection != "Select a player":
             # Lookup the player's row in seed_df and store an object with details.
@@ -130,7 +134,7 @@ def review_team_tab():
         return
     selected_df = pd.DataFrame(all_selected)
     st.write(f"**Total Players Selected**: {len(selected_df)}")
-    df = load_regular_season_data
+    df = load_regular_season_data()
     if isinstance(df, list):
         df = pd.DataFrame(df)
     selected_names = selected_df["name"].tolist()

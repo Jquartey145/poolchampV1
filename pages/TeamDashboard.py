@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 from firebase_util import get_submissions
 from navigation import render_navigation
+from data_loader import load_tournament_data
 
 st.set_page_config(layout="wide")
 render_navigation()
@@ -9,8 +10,9 @@ st.title("Team Dashboard")
 st.markdown("Select a team from the dropdown to view its details.")
 
 submissions = get_submissions()
-if not submissions:
-    st.info("No team submissions available yet.")
+gate = load_tournament_data()
+if not submissions or gate.empty:
+    st.info("Tournament has not started yet")
 else:
     submissions_df = pd.DataFrame(submissions)
     team_names = submissions_df["team_name"].tolist()
