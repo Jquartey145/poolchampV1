@@ -139,3 +139,21 @@ def save_player_data(year: str, players: list):
             player_data["games"] = firestore.ArrayUnion(games)
 
         players_collection.add(player_data)
+# In firebase_util.py
+
+def get_regular_season_data(year: str):
+    """Retrieve regular season data from Firestore."""
+    doc_ref = db.collection("regular_season_data").document(year)
+    doc = doc_ref.get()
+    if doc.exists:
+        return doc.to_dict()
+    return None
+
+def save_regular_season_data(year: str, players: list):
+    """Save regular season data to Firestore."""
+    doc_ref = db.collection("regular_season_data").document(year)
+    data = {
+        "players": players,
+        "last_updated": datetime.datetime.now().isoformat()
+    }
+    doc_ref.set(data)

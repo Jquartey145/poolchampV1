@@ -11,7 +11,9 @@ from firebase_util import (
     get_net_rankings,
     save_net_rankings,
     get_top16_player_data,
-    save_top16_player_data
+    save_top16_player_data,
+    get_regular_season_data,
+    save_regular_season_data
 )
 from google.cloud.firestore_v1 import WriteBatch
 
@@ -387,3 +389,65 @@ def safe_batch_commit(batch, max_retries=3):
                 st.error(f"Failed to commit batch after {max_retries} attempts: {str(e)}")
                 raise
             time.sleep(2 ** attempt)  # Exponential backoff
+
+
+def get_ncaa_tournament_id():
+    """Fetch the NCAA tournament ID for the current year, regardless of status."""
+    url = f"{BASE_URL}/tournaments/{TOURNAMENT_YEAR}/PST/schedule.json"
+    tournaments_data = fetch_with_retry(url, {"api_key": API_KEY})
+    if not tournaments_data:
+        return None
+    for tournament in safe_get(tournaments_data, ['tournaments'], []):
+        tournament_name = safe_get(tournament, ['name'], '')
+        if "NCAA Men's Division I Basketball Tournament" in tournament_name:
+            return safe_get(tournament, ['id'])
+    return None
+
+@st.cache_data(ttl=3600)
+def load_regular_season_data():
+    """Load regular season stats for teams in the NCAA tournament."""
+    year_str = str(TOURNAMENT_YEAR)
+
+    # Check Firestore for existing data
+    players = get_regular_season_data(year_str)
+    if players:
+        # Check if data is fresh (within 7 days)
+        last_updated = players.get("last_updated")
+        if last_updated:
+            last_updated_dt = datetime.datetime.fromisoformat(last_updated)
+            if (datetime.datetime.now() - last_updated_dt) < datetime.timedelta(days=7):
+                return pd.DataFrame(players["players"])
+
+    # Fetch tournament teams and seeds
+    tournament_id = get_ncaa_tournament_id()
+    if not tournament_id:
+        return pd.DataFrame()
+    team_ids, team_seeds, team_regions = get_tournament_teams_and_seeds(tournament_id)
+    if not team_ids:
+        return pd.DataFrame()
+
+    # Fetch regular season stats for each team
+    all_players = []
+    for team_id in team_ids:
+        url = f"{BASE_URL}/seasons/{TOURNAMENT_YEAR}/REG/teams/{team_id}/statistics.json"
+        stats_data = fetch_with_retry(url, {"api_key": API_KEY})
+        if not stats_data:
+            continue
+        for player in safe_get(stats_data, ['players'], []):
+            all_players.append({
+                "Player": safe_get(player, ['full_name'], 'Unknown'),
+                "Team": safe_get(stats_data, ['market'], 'Unknown'),
+                "Team_ID": team_id,
+                "Seed": team_seeds.get(team_id, "N/A"),
+                "Region": team_regions.get(team_id, "N/A"),
+                "Position": safe_get(player, ['position'], ''),
+                "Games": safe_get(player, ['total', 'games_played'], 0),
+                "Points": safe_get(player, ['total', 'points'], 0),
+                "PPG": safe_get(player, ['average', 'points'], 0.0),
+                "FG%": round(safe_get(player, ['total', 'field_goals_pct'], 0.0) * 100, 1),
+                "3P%": round(safe_get(player, ['total', 'three_points_pct'], 0.0) * 100, 1)
+            })
+
+    df = pd.DataFrame(all_players).sort_values('Points', ascending=False)
+    save_regular_season_data(year_str, df.to_dict(orient='records'))
+    return df
