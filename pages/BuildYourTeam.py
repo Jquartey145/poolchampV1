@@ -161,7 +161,7 @@ def submit_team_tab():
         st.subheader("👤 Participant Information")
         first_name = st.text_input("First Name", placeholder="Enter your first name")
         last_name = st.text_input("Last Name", placeholder="Enter your last name")
-        email = st.text_input("Last Name", placeholder="Enter your email address")
+        email = st.text_input("Email Address", placeholder="Enter your email address")
         st.subheader("💳 Payment Information")
         payment_type = st.selectbox("Payment Type", ["Venmo"])
         venmo_name = st.text_input("Venmo Username", placeholder="Enter your Venmo username (with @)")
