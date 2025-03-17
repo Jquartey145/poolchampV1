@@ -13,10 +13,33 @@ db = firestore.client()
 docs = db.collection("submissions").stream()
 submissions = [doc.to_dict() for doc in docs]
 
-# Convert the list of dictionaries to a pandas DataFrame
-df = pd.DataFrame(submissions)
+# Create a list to hold flattened data
+flattened_data = []
 
-# Optionally, flatten nested fields here if needed
+# Process each submission
+for submission in submissions:
+    # Extract submission details
+    venmo_username = submission.get("venmo_username", "")
+    total_points = submission.get("total_points", 0)
+    participant = submission.get("participant", "")
+    payment_type = submission.get("payment_type", "")
+    team_name = submission.get("team_name", "")
+    players = submission.get("players", [])  # Get the players as a list
+
+    # Create a new row for each player
+    for player in players:
+        flattened_data.append({
+            "Total Points": total_points,
+            "Participant Name": participant,
+            "team_name": team_name,
+            "Player Name": player.get("name", ""),
+            "Player Position": player.get("position", ""),
+            "Seed": player.get("seed", ""),
+            "Team": player.get("team", "")
+        })
+
+# Convert the flattened data to a pandas DataFrame
+df = pd.DataFrame(flattened_data)
 
 # Export the DataFrame to CSV
 df.to_csv("submissions_export.csv", index=False)

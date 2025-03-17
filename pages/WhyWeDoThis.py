@@ -17,12 +17,17 @@ st.markdown(
 
 st.divider()
 
-st.markdown("### Learn More:")
-st.link_button("Siteman Cancer Center", "https://siteman.wustl.edu/", use_container_width=True)
+st.markdown("### Want to Donate Directly?")
+st.link_button("Click Here for direct donation", "https://wustl.advancementform.com/campaign/siteman-v2/give?honor_memory=Yes&sc=SM", use_container_width=True)
 
 st.markdown(
     """
-    Your contribution helps fund crucial research, and every entry makes a difference.
+    To donate directly:
+    1. Click the link above to be directed to the Siteman Center's Donation Portal.
+    2. Select a Donation Amount
+    3. Choose "Other - Designation" and enter: “Marci Bikshorn Sarcoma Research Fund” into the text box!
+
+    Thank you for your thoughtful contribution to helping find a cure. Your contribution helps fund crucial research, and every entry makes a difference.
     From the bottom of our hearts – thank you. 💜
     """
 )
