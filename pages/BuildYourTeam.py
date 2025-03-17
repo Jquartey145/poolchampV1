@@ -161,6 +161,7 @@ def submit_team_tab():
         st.subheader("👤 Participant Information")
         first_name = st.text_input("First Name", placeholder="Enter your first name")
         last_name = st.text_input("Last Name", placeholder="Enter your last name")
+        email = st.text_input("Last Name", placeholder="Enter your email address")
         st.subheader("💳 Payment Information")
         payment_type = st.selectbox("Payment Type", ["Venmo"])
         venmo_name = st.text_input("Venmo Username", placeholder="Enter your Venmo username (with @)")
@@ -172,6 +173,8 @@ def submit_team_tab():
                 st.error("Please enter your first name.")
             elif not last_name:
                 st.error("Please enter your last name.")
+            elif not email:
+                st.error("Please enter your email.")
             elif not payment_type:
                 st.error("Please select a payment type.")
             elif not venmo_name:
@@ -185,6 +188,7 @@ def submit_team_tab():
                 submission = {
                     "team_name": team_name,
                     "participant": f"{first_name} {last_name}",
+                    "email_address": email,
                     "payment_type": payment_type,
                     "venmo_username": venmo_name,
                     "players": all_selected,  # Detailed player objects with native types
