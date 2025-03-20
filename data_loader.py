@@ -24,7 +24,7 @@ API_KEY = "a72zx2tGw8otMVRARZpgsBnR4L0GkTeTDNokFIv3"
 ACCESS_LEVEL = "trial"
 LANGUAGE_CODE = "en"
 BASE_URL = f"https://api.sportradar.com/ncaamb/{ACCESS_LEVEL}/v8/{LANGUAGE_CODE}"
-TOURNAMENT_YEAR = 2023
+TOURNAMENT_YEAR = 2024
 ROUND_NAME_MAPPING = {
     "First Four": "First Four",
     "First Round": "Round 1",
