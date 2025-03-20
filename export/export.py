@@ -20,6 +20,7 @@ flattened_data = []
 for submission in submissions:
     # Extract submission details
     venmo_username = submission.get("venmo_username", "")
+    email = submission.get("email_address","")
     total_points = submission.get("total_points", 0)
     participant = submission.get("participant", "")
     payment_type = submission.get("payment_type", "")
@@ -31,6 +32,7 @@ for submission in submissions:
         flattened_data.append({
             "Total Points": total_points,
             "Participant Name": participant,
+            "Email Address": email,
             "team_name": team_name,
             "Player Name": player.get("name", ""),
             "Player Position": player.get("position", ""),

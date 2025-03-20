@@ -34,16 +34,8 @@ def get_tournament_data_from_firestore(year: str):
     return players
 
 def get_submissions():
-    """
-    Retrieve all submissions, ordered by total_points (descending).
-    Each submission is expected to include:
-      - "team_name"
-      - "participant"
-      - "players": a list of player objects (with fields like name, team, seed, position, active, etc.)
-      - "total_points"
-    """
     docs = db.collection("submissions").order_by("total_points", direction=firestore.Query.DESCENDING).stream()
-    return [doc.to_dict() for doc in docs]
+    return [{"doc_id": doc.id, **doc.to_dict()} for doc in docs]
 
 def save_submission(submission):
     """
@@ -110,8 +102,6 @@ def save_top16_player_data(year: str, players: list):
 
 # In firebase_util.py
 
-# In firebase_util.py
-
 def save_player_data(year: str, players: list):
     """Save initial player data to Firestore"""
     tournament_doc = db.collection("tournament_data").document(year)
@@ -122,6 +112,7 @@ def save_player_data(year: str, players: list):
         games = player.get("games", [])
 
         player_data = {
+            "Player_ID": player["Player_ID"],
             "Player": player["Player"],
             "Team": player["Team"],
             "Team_ID": player["Team_ID"],
@@ -142,18 +133,100 @@ def save_player_data(year: str, players: list):
 # In firebase_util.py
 
 def get_regular_season_data(year: str):
-    """Retrieve regular season data from Firestore."""
+    """Retrieve players for a specific year."""
     doc_ref = db.collection("regular_season_data").document(year)
     doc = doc_ref.get()
-    if doc.exists:
-        return doc.to_dict()
-    return None
+
+    if not doc.exists:
+        return None
+
+    players_ref = doc_ref.collection("players")
+    return [player.to_dict() for player in players_ref.stream()]
 
 def save_regular_season_data(year: str, players: list):
     """Save regular season data to Firestore."""
     doc_ref = db.collection("regular_season_data").document(year)
-    data = {
-        "players": players,
-        "last_updated": datetime.datetime.now().isoformat()
-    }
-    doc_ref.set(data)
+    players_collection = doc_ref.collection("players")
+    for player in players:
+        players_collection.add(player)
+    doc_ref.set({"data_uploaded": True, "year": year}, merge=True)
+
+def update_submission_totals(year: str, round_name: str):
+    """Update all submission totals based on current player data.
+    Only considers players with non-zero points for the specified round.
+    """
+    st.write(f"🚀 Updating submission totals for {year}, round: {round_name}")
+
+    # Get players from Firestore
+    tournament_doc = db.collection("tournament_data").document(year)
+    players_collection = tournament_doc.collection("players")
+    player_docs = players_collection.stream()
+
+    # Filter and map player points locally
+    player_points = {}
+    filtered_players = []
+
+    for doc in player_docs:
+        player = doc.to_dict()
+        round_points = player.get("round_points", {})
+        points = round_points.get(round_name, 0)
+        if points > 0:
+            player_points[player["Player"]] = points
+            filtered_players.append(player)
+
+    # Log filtered players
+    st.write(f"🔍 Found {len(filtered_players)} players with points in {round_name}")
+
+    # Get all submissions
+    submissions_ref = db.collection("submissions")
+    submissions = [{"doc_id": doc.id, **doc.to_dict()} for doc in submissions_ref.stream()]
+
+    if not submissions:
+        st.warning("⚠️ No submissions found.")
+        return
+
+    # Update all submissions
+    batch = db.batch()
+    batch_count = 0
+    MAX_BATCH_SIZE = 500  # Firestore batch limit
+
+    for sub in submissions:
+        # Calculate new total based on filtered players
+        total = sum(
+            player_points.get(p["name"], 0)
+            for p in sub.get("players", [])
+            if isinstance(p, dict)
+        )
+
+        # Only update if total has changed
+        if sub.get("total_points") != total:
+            doc_ref = submissions_ref.document(sub["doc_id"])
+            batch.update(doc_ref, {"total_points": total})
+            batch_count += 1
+            st.write(f"📝 Updated submission '{sub['doc_id']}' with total points: {total}")
+
+        # Commit batch when reaching limit
+        if batch_count >= MAX_BATCH_SIZE:
+            st.write("🔄 Committing batch of updates...")
+            safe_batch_commit(batch)
+            batch = db.batch()
+            batch_count = 0
+
+    # Commit remaining operations
+    if batch_count > 0:
+        st.write("🔄 Committing final batch of updates...")
+        safe_batch_commit(batch)
+
+    st.success(f"🎉 Updated {len(submissions)} submissions for round: {round_name}")
+
+def safe_batch_commit(batch, max_retries=3):
+    """Helper function to safely commit Firestore batches with retries"""
+    for attempt in range(max_retries):
+        try:
+            batch.commit()
+            return
+        except Exception as e:
+            if attempt == max_retries - 1:
+                st.error(f"Failed to commit batch after {max_retries} attempts: {str(e)}")
+                raise
+            time.sleep(2 ** attempt)  # Exponential backoff

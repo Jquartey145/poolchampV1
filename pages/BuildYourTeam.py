@@ -1,5 +1,7 @@
 import streamlit as st
 import pandas as pd
+import datetime
+import pytz
 from data_loader import load_regular_season_data
 from firebase_util import save_submission
 from navigation import render_navigation
@@ -19,6 +21,15 @@ if "submissions" not in st.session_state:
 
 def main():
     st.title("🏀 March Madness Team Builder")
+    ct = pytz.timezone("America/Chicago")
+    now_ct = datetime.datetime.now(ct)
+    naive_deadline = datetime.datetime(2025, 3, 20, 11, 0)
+    deadline = ct.localize(naive_deadline)
+
+    if now_ct > deadline:
+        st.title("⛔ Submissions Closed")
+        st.write("Submissions have locked as the tournament has started. Good luck!")
+        st.stop()
     tab_names = [
         "Rules", "Seed 1-4", "Seed 5-8", "Seed 9-12",
         "Seed 13-16", "Review Team", "Submit Team"

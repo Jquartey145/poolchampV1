@@ -1,63 +1,110 @@
 import streamlit as st
 import pandas as pd
-from firebase_util import get_submissions
+import datetime
+import pytz
+from firebase_util import get_submissions, db
 from navigation import render_navigation
-from data_loader import load_tournament_data
+from data_loader import load_tournament_data, TOURNAMENT_YEAR
 
 st.set_page_config(layout="wide")
 render_navigation()
-st.title("Team Dashboard")
-st.markdown("Select a team from the dropdown to view its details.")
 
-submissions = get_submissions()
-gate = load_tournament_data()
-if not submissions or gate.empty:
-    st.info("Tournament has not started yet")
-else:
+@st.cache_data(ttl=3600)  # Cache for 1 hour (3600 seconds)
+def get_cached_player_data(year: str):
+    """Fetch and cache player data from Firestore."""
+    players = get_tournament_data_from_firestore(year)
+    return players
+
+def display_team_dashboard():
+    st.title("Team Dashboard")
+
+    # Fetch submissions
+    submissions = get_submissions()
+    if not submissions:
+        st.warning("No submissions found.")
+        return
+
+    ct = pytz.timezone("America/Chicago")
+    now_ct = datetime.datetime.now(ct)
+    naive_deadline = datetime.datetime(2025, 3, 20, 11, 0)
+    deadline = ct.localize(naive_deadline)
+
+    if now_ct < deadline:
+        st.write("Dashboard will unlock at 11:00 AM CT tomorrow")
+        st.stop()
+    st.markdown("Select a team from the dropdown to view its details.")
+
+    # Create DataFrame from submissions
     submissions_df = pd.DataFrame(submissions)
     team_names = submissions_df["team_name"].tolist()
-    # Sort team names alphabetically
     team_names_sorted = sorted(team_names)
     selected_team = st.selectbox("Select a Team", team_names_sorted)
 
+    # Get the selected submission
     submission = submissions_df[submissions_df["team_name"] == selected_team].iloc[0]
 
+    # Display team and participant info
     st.markdown(f"### Team: {submission.get('team_name')}")
     st.markdown(f"**Participant Name:** {submission.get('participant')}")
     st.markdown(f"**Total Points:** {submission.get('total_points')}")
 
+    # Get players from the submission
     players = submission.get("players", [])
-    if players:
-        # If players are stored as dictionaries, create a DataFrame with expected columns.
-        if isinstance(players[0], dict):
-            players_df = pd.DataFrame(players)
-            # Ensure that "name", "team", "seed", and "position" columns exist.
-            for col in ["name", "team", "seed", "position"]:
-                if col not in players_df.columns:
-                    players_df[col] = ""
-            # Convert "seed" column to string
-            players_df["seed"] = players_df["seed"].astype(str)
-            # Rename columns to match the desired output
-            players_df.rename(columns={"name": "Player Name"}, inplace=True)
-            # Reorder columns to match the desired output
-            players_df = players_df[["Player Name", "team", "seed", "position"]]
-            # Rename remaining columns to match the desired output
-            players_df.rename(columns={
-                "team": "Team",
-                "seed": "Seed",
-                "position": "Position"
-            }, inplace=True)
-        else:
-            # If players are simple strings, create a DataFrame with one column named "Player Name"
-            players_df = pd.DataFrame(players, columns=["Player Name"])
-            # Add missing columns with empty values
-            for col in ["Team", "Seed", "Position"]:
-                players_df[col] = ""
-            # Ensure "Seed" is treated as a string
-            players_df["Seed"] = players_df["Seed"].astype(str)
+    if not players:
+        st.warning("No players found for this submission.")
+        return
 
-        players_df.reset_index(drop=True, inplace=True)
-        st.markdown("#### Players")
-        st.dataframe(players_df, use_container_width=True, hide_index=True)
-    else:
-        st.info("No players data found for this submission.")
+    # Convert players to DataFrame
+    players_df = pd.DataFrame(players)
+
+    # Fetch player data from Firestore
+    year_str = str(TOURNAMENT_YEAR)
+    tournament_doc = db.collection("tournament_data").document(year_str)
+    players_ref = tournament_doc.collection("players")
+
+    # Add round points to the players DataFrame
+    round_columns = ["First Four", "Round 1", "Round 2", "Sweet 16", "Elite 8", "Final 4", "Championship"]
+    for round_name in round_columns:
+        players_df[round_name] = 0  # Initialize all round columns to 0
+
+    for index, player in players_df.iterrows():
+        player_name = player.get("name")
+        player_team = player.get("team")
+
+        if not player_name or not player_team:
+            continue
+
+        # Fetch player data from Firestore using name and team
+        query = players_ref.where("Player", "==", player_name) \
+                           .where("Team", "==", player_team).limit(1)
+        player_docs = list(query.stream())
+
+        if not player_docs:
+            continue
+
+        # Get round points from Firestore
+        player_data = player_docs[0].to_dict()
+        round_points = player_data.get("round_points", {})
+
+        # Update round points in the DataFrame
+        for round_name in round_columns:
+            players_df.at[index, round_name] = round_points.get(round_name, 0)
+
+    # Reorder columns for better display
+    display_columns = ["name", "team", "seed", "position"] + round_columns
+    players_df = players_df[display_columns]
+
+    # Rename columns for better readability
+    players_df = players_df.rename(columns={
+        "name": "Player Name",
+        "team": "Team",
+        "seed": "Seed",
+        "position": "Position"
+    })
+
+    # Display the players DataFrame
+    st.markdown("#### Players")
+    st.dataframe(players_df, use_container_width=True, hide_index=True)
+
+if __name__ == "__main__":
+    display_team_dashboard()

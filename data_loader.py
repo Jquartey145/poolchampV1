@@ -4,6 +4,8 @@ import pandas as pd
 import time
 import random
 import datetime
+import firebase_admin
+from firebase_admin import credentials, firestore
 from firebase_util import (
     tournament_data_exists,
     get_tournament_data_from_firestore,
@@ -13,15 +15,25 @@ from firebase_util import (
     get_top16_player_data,
     save_top16_player_data,
     get_regular_season_data,
-    save_regular_season_data
+    save_regular_season_data,
+    update_submission_totals, db
 )
 from google.cloud.firestore_v1 import WriteBatch
 
-API_KEY = "ON3UvFxCKhEVsiZorA4AJ01jhpKKI25ZcRm1TYzq"
+API_KEY = "a72zx2tGw8otMVRARZpgsBnR4L0GkTeTDNokFIv3"
 ACCESS_LEVEL = "trial"
 LANGUAGE_CODE = "en"
 BASE_URL = f"https://api.sportradar.com/ncaamb/{ACCESS_LEVEL}/v8/{LANGUAGE_CODE}"
-TOURNAMENT_YEAR = 2024
+TOURNAMENT_YEAR = 2023
+ROUND_NAME_MAPPING = {
+    "First Four": "First Four",
+    "First Round": "Round 1",
+    "Second Round": "Round 2",
+    "Sweet 16": "Sweet 16",
+    "Elite Eight": "Elite 8",
+    "Final Four": "Final 4",
+    "National Championship": "Championship"
+}
 
 def safe_get(data, keys, default=None):
     for key in keys:
@@ -111,6 +123,7 @@ def load_tournament_data():
         team_players = []
         for player in safe_get(stats_data, ['players'], []):
             team_players.append({
+                "Player_ID": safe_get(player, ['id'], 'Unknown'),
                 "Player": safe_get(player, ['full_name'], 'Unknown'),
                 "Team": safe_get(stats_data, ['team', 'market'], 'Unknown'),
                 "Team_ID": team_id,  # Save team id for filtering later.
@@ -256,7 +269,6 @@ def fetch_daily_change_log(date: str):
     data = fetch_with_retry(url, params)
     return [game["id"] for game in safe_get(data, ["results"], []) if safe_get(game, ["id"])]
 
-@st.cache_data(ttl=3600)
 def fetch_game_details(game_id: str):
     """Fetch game summary and extract round name + player points"""
     url = f"{BASE_URL}/games/{game_id}/summary.json"
@@ -265,27 +277,28 @@ def fetch_game_details(game_id: str):
         return None, []
 
     # Extract round name from game title
-    game_title = safe_get(data, ["game", "title"], "")
-    round_name = None
+    game_title = safe_get(data, ["title"], "")
+    st.write(f"🔍 Processing game ID: {game_title}")
+    round_name = "Unknown Round"  # Default value
 
-    # Match game title to known round names
-    for round in ["First Round", "Second Round", "Sweet 16", "Elite Eight", "Final Four", "National Championship"]:
-        if round in game_title:
-            round_name = round
+    # Match game title to known round names using the mapping
+    for key, value in ROUND_NAME_MAPPING.items():
+        if key in game_title:
+            round_name = value
             break
-
-    # Default to "Unknown Round" if no match is found
-    if not round_name:
-        round_name = "Unknown Round"
-
+    if round_name == "Unknown Round":
+            st.warning(f"⚠️ No round found for game ID: {game_id}")
+            return None, []
+    st.write(f"🔍 Processing round: {round_name}")
     # Extract player points from both teams
     player_data = []
     for team_type in ["home", "away"]:
-        team = safe_get(data, ["game", team_type], {})
+        team = data.get(team_type, {})
         team_id = safe_get(team, ["id"], "")
 
         for player in safe_get(team, ["players"], []):
             player_data.append({
+                "player_id": safe_get(player, ["id"], ""),
                 "team_id": team_id,
                 "player_name": safe_get(player, ["full_name"], "Unknown"),
                 "points": safe_get(player, ["statistics", "points"], 0),
@@ -298,13 +311,14 @@ def fetch_game_details(game_id: str):
 
 def update_daily_player_points(date: str):
     """Process daily games with batched writes, audit timestamps, and error handling"""
+    st.write(f"🚀 Starting daily player points update for date: {date}")
+
     game_ids = fetch_daily_change_log(date)
     if not game_ids:
-        st.warning(f"No games found for {date}")
+        st.warning(f"⚠️ No games found for {date}")
         return
 
     # Get Firestore references
-    db = firestore.client()
     year_str = str(TOURNAMENT_YEAR)
     tournament_ref = db.collection("tournament_data").document(year_str)
     players_ref = tournament_ref.collection("players")
@@ -315,32 +329,32 @@ def update_daily_player_points(date: str):
 
     # Process each game
     for game_id in game_ids:
+        st.write(f"🔍 Processing game ID: {game_id}")
         round_name, game_players = fetch_game_details(game_id)
         if not game_players:
+            st.warning(f"⚠️ No player data found for game ID: {game_id}")
             continue
 
         for gp in game_players:
+            st.write(f"👤 Processing player: {gp['player_name']} (Team ID: {gp['team_id']})")
+
             # Query for existing player
-            query = players_ref.where("Player", "==", gp["player_name"]) \
-                              .where("Team_ID", "==", gp["team_id"]) \
-                              .limit(1)
+            query = players_ref.where("Player_ID", "==", gp["player_id"]).limit(1)
             docs = list(query.stream())
 
-            # Prepare game update data
+            # Prepare game update data (without SERVER_TIMESTAMP)
             game_update = {
                 "game_id": game_id,
                 "date": date,
                 "round": round_name,
                 "points": gp["points"],
-                "game_title": gp["game_title"],
-                "timestamp": firestore.SERVER_TIMESTAMP
+                "game_title": gp["game_title"]
             }
 
             # Prepare base update data
             update_data = {
                 "total_points": firestore.Increment(gp["points"]),
-                f"round_points.{round_name}": firestore.Increment(gp["points"]),
-                "updated_at": firestore.SERVER_TIMESTAMP
+                f"round_points.{round_name}": gp["points"]
             }
 
             # Only add game history if points are greater than 0
@@ -351,44 +365,32 @@ def update_daily_player_points(date: str):
                 # Existing document - update operation
                 doc_ref = docs[0].reference
                 batch.update(doc_ref, update_data)
+                # Add SERVER_TIMESTAMP in a separate update
+                batch.update(doc_ref, {"updated_at": firestore.SERVER_TIMESTAMP})
+                st.write(f"📝 Updated existing player: {gp['player_name']} (Team ID: {gp['team_id']})")
             else:
-                # New document - create operation
-                new_doc_ref = players_ref.document()
-                new_player = {
-                    "Player": gp["player_name"],
-                    "Team_ID": gp["team_id"],
-                    "total_points": gp["points"],
-                    "round_points": {round_name: gp["points"]},
-                    "games": [game_update] if gp["points"] > 0 else [],
-                    "created_at": firestore.SERVER_TIMESTAMP,
-                    "updated_at": firestore.SERVER_TIMESTAMP
-                }
-                batch.set(new_doc_ref, new_player)
+                # Skip creating a new document if the player isn't found
+                st.warning(f"⚠️ Player not found: {gp['player_name']} (Team ID: {gp['team_id']}). Skipping creation.")
 
             # Commit batch when reaching limit
             batch_count += 1
             if batch_count >= MAX_BATCH_SIZE:
+                st.write("🔄 Committing batch of updates...")
                 safe_batch_commit(batch)
                 batch = db.batch()
                 batch_count = 0
 
     # Commit remaining operations
     if batch_count > 0:
+        st.write("🔄 Committing final batch of updates...")
         safe_batch_commit(batch)
 
-    st.success(f"Processed {len(game_ids)} games with {batch_count} updates")
+    st.write("✅ Updating submission totals...")
+    update_submission_totals(str(TOURNAMENT_YEAR), round_name)  # Pass round_name here
 
-def safe_batch_commit(batch, max_retries=3):
-    """Helper function to safely commit Firestore batches with retries"""
-    for attempt in range(max_retries):
-        try:
-            batch.commit()
-            return
-        except Exception as e:
-            if attempt == max_retries - 1:
-                st.error(f"Failed to commit batch after {max_retries} attempts: {str(e)}")
-                raise
-            time.sleep(2 ** attempt)  # Exponential backoff
+    st.success(f"🎉 Updated {len(game_ids)} games and refreshed submission totals for {date}")
+
+
 
 
 def get_ncaa_tournament_id():
@@ -411,14 +413,7 @@ def load_regular_season_data():
     # Check Firestore for existing data
     players = get_regular_season_data(year_str)
     if players:
-        # Check if data is fresh (within 7 days)
-        last_updated = players.get("last_updated")
-        if last_updated:
-            last_updated_dt = datetime.datetime.fromisoformat(last_updated)
-            if (datetime.datetime.now() - last_updated_dt) < datetime.timedelta(days=7):
-                return pd.DataFrame(players["players"])
-
-    # Fetch tournament teams and seeds
+        return pd.DataFrame(players)
     tournament_id = get_ncaa_tournament_id()
     if not tournament_id:
         return pd.DataFrame()
@@ -435,6 +430,7 @@ def load_regular_season_data():
             continue
         for player in safe_get(stats_data, ['players'], []):
             all_players.append({
+                "Player_ID": safe_get(player, ['id'], 'Unknown'),
                 "Player": safe_get(player, ['full_name'], 'Unknown'),
                 "Team": safe_get(stats_data, ['market'], 'Unknown'),
                 "Team_ID": team_id,
@@ -451,3 +447,15 @@ def load_regular_season_data():
     df = pd.DataFrame(all_players).sort_values('Points', ascending=False)
     save_regular_season_data(year_str, df.to_dict(orient='records'))
     return df
+
+def safe_batch_commit(batch, max_retries=3):
+    """Helper function to safely commit Firestore batches with retries"""
+    for attempt in range(max_retries):
+        try:
+            batch.commit()
+            return
+        except Exception as e:
+            if attempt == max_retries - 1:
+                st.error(f"Failed to commit batch after {max_retries} attempts: {str(e)}")
+                raise
+            time.sleep(2 ** attempt)  # Exponential backoff

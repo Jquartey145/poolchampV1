@@ -1,5 +1,7 @@
 import streamlit as st
 import pandas as pd
+import datetime
+import pytz
 from firebase_util import get_submissions
 from data_loader import load_tournament_data
 from navigation import render_navigation
@@ -12,6 +14,15 @@ def leaderboard_page():
     if not submissions:
         st.info("No team submissions available yet.")
         return
+
+    ct = pytz.timezone("America/Chicago")
+    now_ct = datetime.datetime.now(ct)
+    naive_deadline = datetime.datetime(2025, 3, 20, 11, 0)
+    deadline = ct.localize(naive_deadline)
+
+    if now_ct < deadline:
+        st.write("Leaderboard will unlock at 11:00 AM CT tomorrow")
+        st.stop()
 
     # Create DataFrame from submissions
     teams_df = pd.DataFrame(submissions)
@@ -42,7 +53,7 @@ def leaderboard_page():
         st.info("Tournament has not started yet.")
         return
 
-    tournament_df = tournament_df.rename(columns={"Player": "NAME", "Team": "SCHOOL", "Seed": "SEED"})
+    tournament_df = tournament_df.rename(columns={"Player": "NAME", "Team": "SCHOOL", "Seed": "SEED", "total_points": "Points"})
     merged_df = pd.merge(freq_df, tournament_df[["NAME", "SCHOOL", "SEED", "Points"]], on="NAME", how="left")
     merged_df = merged_df.dropna(subset=["SCHOOL"])
 
