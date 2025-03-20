@@ -20,8 +20,8 @@ def leaderboard_page():
     naive_deadline = datetime.datetime(2025, 3, 20, 11, 0)
     deadline = ct.localize(naive_deadline)
 
-    if now_ct < deadline:
-        st.write("Leaderboard will unlock at 11:00 AM CT tomorrow")
+    if now_ct > deadline:
+        st.write("Leaderboard needs some quick tweaks 😅, will be online after tonight")
         st.stop()
 
     # Create DataFrame from submissions

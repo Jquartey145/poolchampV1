@@ -9,34 +9,44 @@ if not firebase_admin._apps:
 # Connect to Firestore
 db = firestore.client()
 
-def reset_submission_totals():
-    """Reset total_points to 0 for all submissions."""
-    submissions_ref = db.collection("submissions")
-    submissions = submissions_ref.stream()
+def get_regular_season_data(year: str):
+    """Retrieve regular season data for a specific year."""
+    year = "2024"
+    doc_ref = db.collection("regular_season_data_b").document(year)
+    doc = doc_ref.get()
 
-    batch = db.batch()
-    batch_count = 0
-    MAX_BATCH_SIZE = 500  # Firestore batch limit
+    if not doc.exists:
+        print(f"⚠️ No data found for year: {year}")
+        return None
 
-    for doc in submissions:
-        # Add update operation to batch
-        doc_ref = submissions_ref.document(doc.id)
-        batch.update(doc_ref, {"total_points": 0})
-        batch_count += 1
+    # Fetch players from the subcollection
+    players_ref = doc_ref.collection("players")
+    players = [player.to_dict() for player in players_ref.stream()]
 
-        # Commit batch when reaching limit
-        if batch_count >= MAX_BATCH_SIZE:
-            batch.commit()
-            print(f"✅ Updated {batch_count} submissions.")
-            batch = db.batch()
-            batch_count = 0
+    return {
+        "last_updated": doc.to_dict().get("last_updated"),
+        "players": players
+    }
 
-    # Commit remaining operations
-    if batch_count > 0:
-        batch.commit()
-        print(f"✅ Updated {batch_count} submissions.")
+def test_get_regular_season_data():
+    """Test the get_regular_season_data function."""
+    year = "2024"  # Replace with the year you want to test
+    print(f"🔍 Testing get_regular_season_data for year: {year}")
 
-    print("🎉 All submissions updated successfully.")
+    data = get_regular_season_data(year)
+
+    if data:
+        print(f"✅ Data retrieved successfully for year: {year}")
+        print(f"📅 Last Updated: {data['last_updated']}")
+        print(f"👤 Number of Players: {len(data['players'])}")
+
+        # Print the first 3 players (for debugging)
+        for i, player in enumerate(data["players"][:3]):
+            print(f"\nPlayer {i + 1}:")
+            for key, value in player.items():
+                print(f"{key}: {value}")
+    else:
+        print(f"⚠️ No data found for year: {year}")
 
 if __name__ == "__main__":
-    reset_submission_totals()
+    test_get_regular_season_data()
