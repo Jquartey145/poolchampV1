@@ -9,8 +9,18 @@ from navigation import render_navigation
 render_navigation()
 st.title("🏆 Leaderboard")
 
+@st.cache_data(ttl=3600)  # Cache for 1 hour
+def get_cached_submissions():
+    """Fetch and cache submissions from Firestore."""
+    return get_submissions()
+
+@st.cache_data(ttl=3600)  # Cache for 1 hour
+def get_cached_tournament_data():
+    """Fetch and cache tournament data from Firestore."""
+    return load_tournament_data()
+
 def leaderboard_page():
-    submissions = get_submissions()
+    submissions = get_cached_submissions()
     if not submissions:
         st.info("No team submissions available yet.")
         return
@@ -19,10 +29,6 @@ def leaderboard_page():
     now_ct = datetime.datetime.now(ct)
     naive_deadline = datetime.datetime(2025, 3, 20, 11, 0)
     deadline = ct.localize(naive_deadline)
-
-    if now_ct > deadline:
-        st.write("Leaderboard needs some quick tweaks 😅, will be online after tonight")
-        st.stop()
 
     # Create DataFrame from submissions
     teams_df = pd.DataFrame(submissions)
@@ -48,20 +54,35 @@ def leaderboard_page():
     freq_df["OWNED_float"] = (freq_df["Count"] / total_teams * 100).round(1)
     freq_df["OWNED"] = freq_df["OWNED_float"].astype(str) + "%"
 
-    tournament_df = load_tournament_data()
+    tournament_df = get_cached_tournament_data()
     if tournament_df.empty:
         st.info("Tournament has not started yet.")
         return
+#     st.write("Tournament DataFrame Columns:", tournament_df.columns.tolist())
 
-    tournament_df = tournament_df.rename(columns={"Player": "NAME", "Team": "SCHOOL", "Seed": "SEED", "total_points": "Points"})
-    merged_df = pd.merge(freq_df, tournament_df[["NAME", "SCHOOL", "SEED", "Points"]], on="NAME", how="left")
+    # Rename columns but don't rename 'total_tournament_points' yet
+    tournament_df = tournament_df.rename(columns={"Player": "NAME", "Team": "SCHOOL", "Seed": "SEED"})
+
+    # Merge dataframes
+    merged_df = pd.merge(freq_df, tournament_df[["NAME", "SCHOOL", "SEED", "total_points"]], on="NAME", how="left")
     merged_df = merged_df.dropna(subset=["SCHOOL"])
+
+    # Rename total_tournament_points after merging to avoid duplicates
+    merged_df = merged_df.rename(columns={"total_points": "Points"})
+
 
     top5 = merged_df.sort_values(by="OWNED_float", ascending=False).head(5).reset_index(drop=True)
     top5.insert(0, "RANK", top5.index + 1)
     top5 = top5[["RANK", "NAME", "SCHOOL", "SEED", "OWNED"]]
 
-    bottom5 = merged_df.sort_values(by="OWNED_float", ascending=True).head(5).reset_index(drop=True)
+    # Convert SEED to numeric
+    merged_df["SEED"] = pd.to_numeric(merged_df["SEED"], errors="coerce")
+
+    # Filter for bottom 5
+    bottom5_filtered = merged_df[(merged_df["SEED"] >= 1) & (merged_df["SEED"] <= 5)]
+
+    bottom5 = bottom5_filtered.sort_values(by="OWNED_float", ascending=True).head(5).reset_index(drop=True)
+
     bottom5.insert(0, "RANK", bottom5.index + 1)
     bottom5 = bottom5[["RANK", "NAME", "SCHOOL", "SEED", "OWNED"]]
 
@@ -83,7 +104,7 @@ def leaderboard_page():
     # Apply styling to the teams_df table
     styled_teams = teams_df.style.apply(highlight_top4_teams, axis=1)
 
-    col1, col2, col3 = st.columns([1, 1.3, 1.55])
+    col1, col2, col3 = st.columns([1.2, 1.2, 1.55])
     with col1:
         st.subheader("Team Leaderboard")
         st.dataframe(styled_teams, use_container_width=True, hide_index=True)

@@ -26,9 +26,8 @@ LANGUAGE_CODE = "en"
 BASE_URL = f"https://api.sportradar.com/ncaamb/{ACCESS_LEVEL}/v8/{LANGUAGE_CODE}"
 TOURNAMENT_YEAR = 2024
 ROUND_NAME_MAPPING = {
-    "First Four": "First Four",
-    "First Round": "Round 1",
-    "Second Round": "Round 2",
+    "Regional - First Round": "Round 1",  # Match "Regional - First Round"
+    "Regional - Second Round": "Round 2",  # Match "Regional - Second Round"
     "Sweet 16": "Sweet 16",
     "Elite Eight": "Elite 8",
     "Final Four": "Final 4",
@@ -327,6 +326,9 @@ def update_daily_player_points(date: str):
     batch_count = 0
     MAX_BATCH_SIZE = 500  # Firestore batch limit
 
+    # Track the last processed round name
+    last_round_name = None
+
     # Process each game
     for game_id in game_ids:
         st.write(f"🔍 Processing game ID: {game_id}")
@@ -335,6 +337,9 @@ def update_daily_player_points(date: str):
             st.warning(f"⚠️ No player data found for game ID: {game_id}")
             continue
 
+        # Update the last processed round name
+        last_round_name = round_name
+
         for gp in game_players:
             st.write(f"👤 Processing player: {gp['player_name']} (Team ID: {gp['team_id']})")
 
@@ -342,35 +347,62 @@ def update_daily_player_points(date: str):
             query = players_ref.where("Player_ID", "==", gp["player_id"]).limit(1)
             docs = list(query.stream())
 
-            # Prepare game update data (without SERVER_TIMESTAMP)
-            game_update = {
-                "game_id": game_id,
-                "date": date,
-                "round": round_name,
-                "points": gp["points"],
-                "game_title": gp["game_title"]
-            }
-
-            # Prepare base update data
-            update_data = {
-                "total_points": firestore.Increment(gp["points"]),
-                f"round_points.{round_name}": gp["points"]
-            }
-
-            # Only add game history if points are greater than 0
-            if gp["points"] > 0:
-                update_data["games"] = firestore.ArrayUnion([game_update])
-
             if docs:
                 # Existing document - update operation
                 doc_ref = docs[0].reference
+                doc_data = docs[0].to_dict()
+
+                # Update the round_points for the specific round
+                round_points[round_name] = gp["points"]
+
+                # Compute the total points as the sum of all rounds
+                total_points = sum(round_points.values())
+
+                update_data = {
+                    "total_points": total_points,
+                    "round_points": round_points,
+                    "updated_at": firestore.SERVER_TIMESTAMP
+                }
+
+
+                # Only add game history if points are greater than 0
+                if gp["points"] > 0:
+                    game_update = {
+                        "game_id": game_id,
+                        "date": date,
+                        "round": round_name,
+                        "points": gp["points"],
+                        "game_title": gp["game_title"]
+                    }
+                    update_data["games"] = firestore.ArrayUnion([game_update])
+
+                # Add the update to the batch
                 batch.update(doc_ref, update_data)
-                # Add SERVER_TIMESTAMP in a separate update
-                batch.update(doc_ref, {"updated_at": firestore.SERVER_TIMESTAMP})
                 st.write(f"📝 Updated existing player: {gp['player_name']} (Team ID: {gp['team_id']})")
             else:
-                # Skip creating a new document if the player isn't found
-                st.warning(f"⚠️ Player not found: {gp['player_name']} (Team ID: {gp['team_id']}). Skipping creation.")
+                # Create a new document for the player
+                new_player_data = {
+                    "Player_ID": gp["player_id"],
+                    "Player": gp["player_name"],
+                    "Team_ID": gp["team_id"],
+                    # Depending on your schema, you might want to add additional fields like "Team", "Seed", "Region", etc.
+                    "total_points": gp["points"],
+                    "round_points": { round_name: gp["points"] },
+                    "games": [{
+                        "game_id": game_id,
+                        "date": date,
+                        "round": round_name,
+                        "points": gp["points"],
+                        "game_title": gp["game_title"]
+                    }],
+                    "created_at": firestore.SERVER_TIMESTAMP,
+                    "updated_at": firestore.SERVER_TIMESTAMP
+                }
+                # Create a new document with an auto-generated ID
+                doc_ref = players_ref.document()
+                batch.set(doc_ref, new_player_data)
+                st.write(f"📝 Created new player: {gp['player_name']} (Team ID: {gp['team_id']})")
+
 
             # Commit batch when reaching limit
             batch_count += 1
@@ -385,10 +417,13 @@ def update_daily_player_points(date: str):
         st.write("🔄 Committing final batch of updates...")
         safe_batch_commit(batch)
 
-    st.write("✅ Updating submission totals...")
-    update_submission_totals(str(TOURNAMENT_YEAR), round_name)  # Pass round_name here
-
-    st.success(f"🎉 Updated {len(game_ids)} games and refreshed submission totals for {date}")
+    # Update submission totals using the last processed round name
+    if last_round_name:
+        st.write("✅ Updating submission totals...")
+        update_submission_totals(str(TOURNAMENT_YEAR), last_round_name)  # Pass last_round_name here
+        st.success(f"🎉 Updated {len(game_ids)} games and refreshed submission totals for {date}")
+    else:
+        st.warning("⚠️ No rounds were processed. Skipping submission totals update.")
 
 
 

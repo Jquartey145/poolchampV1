@@ -9,17 +9,23 @@ from data_loader import load_tournament_data, TOURNAMENT_YEAR
 st.set_page_config(layout="wide")
 render_navigation()
 
-@st.cache_data(ttl=3600)  # Cache for 1 hour (3600 seconds)
-def get_cached_player_data(year: str):
-    """Fetch and cache player data from Firestore."""
-    players = get_tournament_data_from_firestore(year)
-    return players
+@st.cache_data(ttl=3600)  # Cache for 1 hour
+def get_cached_submissions():
+    """Fetch and cache submissions from Firestore."""
+    return get_submissions()
+
+@st.cache_data(ttl=3600)  # Cache for 1 hour
+def get_cached_tournament_data(year: str):
+    """Fetch and cache tournament data from Firestore."""
+    tournament_doc = db.collection("tournament_data").document(year)
+    players_collection = tournament_doc.collection("players")
+    return [player.to_dict() for player in players_collection.stream()]
 
 def display_team_dashboard():
     st.title("Team Dashboard")
 
     # Fetch submissions
-    submissions = get_submissions()
+    submissions = get_cached_submissions()
     if not submissions:
         st.warning("No submissions found.")
         return
@@ -59,8 +65,10 @@ def display_team_dashboard():
 
     # Fetch player data from Firestore
     year_str = str(TOURNAMENT_YEAR)
-    tournament_doc = db.collection("tournament_data").document(year_str)
-    players_ref = tournament_doc.collection("players")
+    cached_players = get_cached_tournament_data(year_str)
+
+    # Create a mapping of player names to round points
+    player_points_map = {p["Player"]: p.get("round_points", {}) for p in cached_players}
 
     # Add round points to the players DataFrame
     round_columns = ["First Four", "Round 1", "Round 2", "Sweet 16", "Elite 8", "Final 4", "Championship"]
@@ -69,22 +77,11 @@ def display_team_dashboard():
 
     for index, player in players_df.iterrows():
         player_name = player.get("name")
-        player_team = player.get("team")
-
-        if not player_name or not player_team:
+        if not player_name:
             continue
 
-        # Fetch player data from Firestore using name and team
-        query = players_ref.where("Player", "==", player_name) \
-                           .where("Team", "==", player_team).limit(1)
-        player_docs = list(query.stream())
-
-        if not player_docs:
-            continue
-
-        # Get round points from Firestore
-        player_data = player_docs[0].to_dict()
-        round_points = player_data.get("round_points", {})
+        # Get round points from cached data
+        round_points = player_points_map.get(player_name, {})
 
         # Update round points in the DataFrame
         for round_name in round_columns:

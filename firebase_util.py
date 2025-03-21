@@ -103,8 +103,9 @@ def save_top16_player_data(year: str, players: list):
 # In firebase_util.py
 
 def save_player_data(year: str, players: list):
-    """Save initial player data to Firestore"""
+    """Save initial player data to Firestore and ensure the parent document exists."""
     tournament_doc = db.collection("tournament_data").document(year)
+    tournament_doc.set({"created_at": firestore.SERVER_TIMESTAMP}, merge=True)
     players_collection = tournament_doc.collection("players")
 
     for player in players:
@@ -130,7 +131,6 @@ def save_player_data(year: str, players: list):
             player_data["games"] = firestore.ArrayUnion(games)
 
         players_collection.add(player_data)
-# In firebase_util.py
 
 def get_regular_season_data(year: str):
     """Retrieve players for a specific year."""
