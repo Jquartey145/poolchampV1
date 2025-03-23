@@ -20,7 +20,7 @@ from firebase_util import (
 )
 from google.cloud.firestore_v1 import WriteBatch
 
-API_KEY = "a72zx2tGw8otMVRARZpgsBnR4L0GkTeTDNokFIv3"
+API_KEY = "YAaIIkAKN1yNW6cr3SC2F89fU1s1aqJd7A3XNrJe"
 ACCESS_LEVEL = "trial"
 LANGUAGE_CODE = "en"
 BASE_URL = f"https://api.sportradar.com/ncaamb/{ACCESS_LEVEL}/v8/{LANGUAGE_CODE}"
@@ -143,7 +143,7 @@ def load_tournament_data():
                     "Final 4": 0,
                     "Championship": 0
                 },
-                "total_tournament_points": 0  # Track total points in the tournament
+                "total_points": 0  # Track total points in the tournament
             })
         all_players = pd.concat([all_players, pd.DataFrame(team_players)], ignore_index=True)
     df = all_players.sort_values('Points', ascending=False)
@@ -352,6 +352,7 @@ def update_daily_player_points(date: str):
                 doc_ref = docs[0].reference
                 doc_data = docs[0].to_dict()
 
+                round_points = doc_data.get("round_points", {})
                 # Update the round_points for the specific round
                 round_points[round_name] = gp["points"]
 
@@ -420,7 +421,7 @@ def update_daily_player_points(date: str):
     # Update submission totals using the last processed round name
     if last_round_name:
         st.write("✅ Updating submission totals...")
-        update_submission_totals(str(TOURNAMENT_YEAR), last_round_name)  # Pass last_round_name here
+        update_submission_totals(str(TOURNAMENT_YEAR))
         st.success(f"🎉 Updated {len(game_ids)} games and refreshed submission totals for {date}")
     else:
         st.warning("⚠️ No rounds were processed. Skipping submission totals update.")

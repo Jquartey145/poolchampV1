@@ -151,33 +151,24 @@ def save_regular_season_data(year: str, players: list):
         players_collection.add(player)
     doc_ref.set({"data_uploaded": True, "year": year}, merge=True)
 
-def update_submission_totals(year: str, round_name: str):
-    """Update all submission totals based on current player data.
-    Only considers players with non-zero points for the specified round.
-    """
-    st.write(f"🚀 Updating submission totals for {year}, round: {round_name}")
+def update_submission_totals(year: str):
+    """Update all submission totals based on current player data (sum of all rounds)."""
+    st.write(f"🚀 Updating submission totals for {year}")
 
-    # Get players from Firestore
+    # Get players from Firestore and sum ALL rounds
     tournament_doc = db.collection("tournament_data").document(year)
     players_collection = tournament_doc.collection("players")
     player_docs = players_collection.stream()
 
-    # Filter and map player points locally
+    # Calculate total points for each player across all rounds
     player_points = {}
-    filtered_players = []
-
     for doc in player_docs:
         player = doc.to_dict()
         round_points = player.get("round_points", {})
-        points = round_points.get(round_name, 0)
-        if points > 0:
-            player_points[player["Player"]] = points
-            filtered_players.append(player)
+        total_points = sum(round_points.values())
+        player_points[player["Player"]] = total_points
 
-    # Log filtered players
-    st.write(f"🔍 Found {len(filtered_players)} players with points in {round_name}")
-
-    # Get all submissions
+    # Process submissions
     submissions_ref = db.collection("submissions")
     submissions = [{"doc_id": doc.id, **doc.to_dict()} for doc in submissions_ref.stream()]
 
@@ -185,39 +176,48 @@ def update_submission_totals(year: str, round_name: str):
         st.warning("⚠️ No submissions found.")
         return
 
-    # Update all submissions
+    # Batch update submissions
     batch = db.batch()
     batch_count = 0
-    MAX_BATCH_SIZE = 500  # Firestore batch limit
+    MAX_BATCH_SIZE = 500
 
     for sub in submissions:
-        # Calculate new total based on filtered players
-        total = sum(
-            player_points.get(p["name"], 0)
+        # Temporary filter for testing (remove when ready for all submissions)
+#         if sub["doc_id"] != "Aiden_Goddard_Goddard":
+#             continue
+
+        calculated_total = sum(
+            player_points.get(p.get("name"), 0)
             for p in sub.get("players", [])
             if isinstance(p, dict)
         )
+        current_total = sub.get("total_points", 0)
 
-        # Only update if total has changed
-        if sub.get("total_points") != total:
+        # Log comparison details
+#         st.write(f"""
+#         📊 Submission: {sub['doc_id']}
+#         → Current total: {current_total}
+#         → Calculated total: {calculated_total}
+#         → Difference: {calculated_total - current_total}
+#         """)
+
+        if current_total != calculated_total:
+            st.write(f"🔁 Update needed for {sub['doc_id']}")
             doc_ref = submissions_ref.document(sub["doc_id"])
-            batch.update(doc_ref, {"total_points": total})
+            batch.update(doc_ref, {"total_points": calculated_total})
             batch_count += 1
-            st.write(f"📝 Updated submission '{sub['doc_id']}' with total points: {total}")
+        else:
+            st.write(f"✅ No update needed for {sub['doc_id']}")
 
-        # Commit batch when reaching limit
         if batch_count >= MAX_BATCH_SIZE:
-            st.write("🔄 Committing batch of updates...")
             safe_batch_commit(batch)
             batch = db.batch()
             batch_count = 0
 
-    # Commit remaining operations
     if batch_count > 0:
-        st.write("🔄 Committing final batch of updates...")
         safe_batch_commit(batch)
 
-    st.success(f"🎉 Updated {len(submissions)} submissions for round: {round_name}")
+    st.success(f"🎉 Updated {len(submissions)} submissions")
 
 def safe_batch_commit(batch, max_retries=3):
     """Helper function to safely commit Firestore batches with retries"""
