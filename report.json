@@ -1,0 +1,4345 @@
+{
+  "id": "3f50b4cf-b319-4df2-90c0-8fc549742710",
+  "name": "NCAA Men's Division I Basketball Tournament",
+  "location": "Glendale, AZ, USA",
+  "status": "closed",
+  "parent_id": "e958cc4f-582b-4703-af7e-94b1416d1f28",
+  "league": {
+    "id": "cd4268ee-07aa-4c4d-a435-ec44ad2c76cb",
+    "name": "NCAA MEN",
+    "alias": "NCAAM"
+  },
+  "season": {
+    "id": "3dcf4c11-e7f8-4996-a34d-49069d14d465",
+    "year": 2023,
+    "type": "PST"
+  },
+  "rounds": [
+    {
+      "id": "21f759e5-b276-47b5-902b-65e9a9be1c6c",
+      "sequence": 1,
+      "name": "First Four",
+      "games": [],
+      "bracketed": [
+        {
+          "bracket": {
+            "id": "5e34b1dc-a095-421b-8d55-b35ba14112cc",
+            "name": "West Regional",
+            "location": "Los Angeles, CA, USA",
+            "rank": 4
+          },
+          "games": [
+            {
+              "id": "8f71a807-95a3-4b43-86cd-d885dc39be8d",
+              "status": "closed",
+              "title": "First Four - Game 1",
+              "coverage": "full",
+              "scheduled": "2024-03-19T22:40:00+00:00",
+              "home_points": 68,
+              "away_points": 71,
+              "neutral_site": true,
+              "conference_game": false,
+              "track_on_court": true,
+              "time_zones": {
+                "venue": "US/Eastern",
+                "home": "US/Eastern",
+                "away": "US/Eastern"
+              },
+              "venue": {
+                "id": "e43e6693-1879-433e-8287-0929d4b9b375",
+                "name": "UD Arena",
+                "capacity": 13435,
+                "address": "1801 South Edwin C Moses Boulevard",
+                "city": "Dayton",
+                "state": "OH",
+                "zip": "45417",
+                "country": "USA",
+                "location": {
+                  "lat": "39.735556",
+                  "lng": "-84.2"
+                }
+              },
+              "broadcasts": [
+                {
+                  "network": "truTV",
+                  "type": "TV",
+                  "locale": "National",
+                  "channel": "246"
+                }
+              ],
+              "home": {
+                "name": "Howard Bison",
+                "alias": "HOW",
+                "id": "22fbe5dc-c6db-4675-b3a3-2d8af7f5d313",
+                "seed": 16
+              },
+              "away": {
+                "name": "Wagner Seahawks",
+                "alias": "WAG",
+                "id": "3b644902-cd06-4930-9a3e-6c78cfb1f464",
+                "seed": 16
+              }
+            }
+          ]
+        },
+        {
+          "bracket": {
+            "id": "c81cc6d3-8236-4a3f-b855-65b85e7b8601",
+            "name": "Midwest Regional",
+            "location": "Detroit, MI, USA",
+            "rank": 3
+          },
+          "games": [
+            {
+              "id": "556e7236-4059-4b89-86b4-83781488b84a",
+              "status": "closed",
+              "title": "First Four - Game 3",
+              "coverage": "full",
+              "scheduled": "2024-03-20T22:40:00+00:00",
+              "home_points": 81,
+              "away_points": 88,
+              "neutral_site": true,
+              "conference_game": false,
+              "track_on_court": true,
+              "time_zones": {
+                "venue": "US/Eastern",
+                "home": "US/Mountain",
+                "away": "US/Central"
+              },
+              "venue": {
+                "id": "e43e6693-1879-433e-8287-0929d4b9b375",
+                "name": "UD Arena",
+                "capacity": 13435,
+                "address": "1801 South Edwin C Moses Boulevard",
+                "city": "Dayton",
+                "state": "OH",
+                "zip": "45417",
+                "country": "USA",
+                "location": {
+                  "lat": "39.735556",
+                  "lng": "-84.2"
+                }
+              },
+              "broadcasts": [
+                {
+                  "network": "truTV",
+                  "type": "TV",
+                  "locale": "National",
+                  "channel": "246"
+                }
+              ],
+              "home": {
+                "name": "Montana State Bobcats",
+                "alias": "MTST",
+                "id": "bec40585-b587-4548-93f5-b7c00b046aea",
+                "seed": 16
+              },
+              "away": {
+                "name": "Grambling State Tigers",
+                "alias": "GRAM",
+                "id": "6776c7e6-f4c2-47bd-99e5-39fc179a3197",
+                "seed": 16
+              }
+            },
+            {
+              "id": "945c63b0-b850-4ce1-8e0d-3979a0378a61",
+              "status": "closed",
+              "title": "First Four - Game 2",
+              "coverage": "full",
+              "scheduled": "2024-03-20T01:24:00+00:00",
+              "home_points": 42,
+              "away_points": 67,
+              "neutral_site": true,
+              "conference_game": false,
+              "track_on_court": true,
+              "time_zones": {
+                "venue": "US/Eastern",
+                "home": "US/Eastern",
+                "away": "US/Mountain"
+              },
+              "venue": {
+                "id": "e43e6693-1879-433e-8287-0929d4b9b375",
+                "name": "UD Arena",
+                "capacity": 13435,
+                "address": "1801 South Edwin C Moses Boulevard",
+                "city": "Dayton",
+                "state": "OH",
+                "zip": "45417",
+                "country": "USA",
+                "location": {
+                  "lat": "39.735556",
+                  "lng": "-84.2"
+                }
+              },
+              "broadcasts": [
+                {
+                  "network": "truTV",
+                  "type": "TV",
+                  "locale": "National",
+                  "channel": "246"
+                }
+              ],
+              "home": {
+                "name": "Virginia Cavaliers",
+                "alias": "UVA",
+                "id": "56913910-87f7-4ad7-ae3b-5cd9fb218fd9",
+                "seed": 10
+              },
+              "away": {
+                "name": "Colorado State Rams",
+                "alias": "CSU",
+                "id": "1a470730-f328-4fb1-8bbf-36a069e4d6b2",
+                "seed": 10
+              }
+            }
+          ]
+        },
+        {
+          "bracket": {
+            "id": "46b3e80e-ba24-4baf-82e1-e6973c21a0af",
+            "name": "South Regional",
+            "location": "Dallas, TX, USA",
+            "rank": 2
+          },
+          "games": [
+            {
+              "id": "6f20c07d-e8f5-42a6-8abe-b89cbba19a77",
+              "status": "closed",
+              "title": "First Four - Game 4",
+              "coverage": "full",
+              "scheduled": "2024-03-21T01:32:00+00:00",
+              "home_points": 53,
+              "away_points": 60,
+              "neutral_site": true,
+              "conference_game": false,
+              "track_on_court": true,
+              "time_zones": {
+                "venue": "US/Eastern",
+                "home": "US/Mountain",
+                "away": "US/Mountain"
+              },
+              "venue": {
+                "id": "e43e6693-1879-433e-8287-0929d4b9b375",
+                "name": "UD Arena",
+                "capacity": 13435,
+                "address": "1801 South Edwin C Moses Boulevard",
+                "city": "Dayton",
+                "state": "OH",
+                "zip": "45417",
+                "country": "USA",
+                "location": {
+                  "lat": "39.735556",
+                  "lng": "-84.2"
+                }
+              },
+              "broadcasts": [
+                {
+                  "network": "truTV",
+                  "type": "TV",
+                  "locale": "National",
+                  "channel": "246"
+                }
+              ],
+              "home": {
+                "name": "Boise State Broncos",
+                "alias": "BSU",
+                "id": "c1c54dbf-805c-47fc-a707-c803e94db2a4",
+                "seed": 10
+              },
+              "away": {
+                "name": "Colorado Buffaloes",
+                "alias": "COLO",
+                "id": "9fccbf28-2858-4263-821c-fdefb3c7efa3",
+                "seed": 10
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "85ee8557-c640-40cd-aab9-340ac388f193",
+      "sequence": 2,
+      "name": "First Round",
+      "games": [],
+      "bracketed": [
+        {
+          "bracket": {
+            "id": "5e34b1dc-a095-421b-8d55-b35ba14112cc",
+            "name": "West Regional",
+            "location": "Los Angeles, CA, USA",
+            "rank": 4
+          },
+          "games": [
+            {
+              "id": "38914159-1d1b-484f-ac17-36ed14a714fb",
+              "status": "closed",
+              "title": "West Regional - First Round - Game 5",
+              "coverage": "full",
+              "scheduled": "2024-03-22T19:10:00+00:00",
+              "home_points": 77,
+              "away_points": 56,
+              "neutral_site": true,
+              "conference_game": false,
+              "track_on_court": true,
+              "time_zones": {
+                "venue": "US/Central",
+                "home": "US/Eastern",
+                "away": "US/Mountain"
+              },
+              "venue": {
+                "id": "7657c204-a20b-527a-99cb-dc29218462aa",
+                "name": "FedExForum",
+                "capacity": 18119,
+                "address": "191 Beale Street",
+                "city": "Memphis",
+                "state": "TN",
+                "zip": "38103",
+                "country": "USA",
+                "location": {
+                  "lat": "35.138142",
+                  "lng": "-90.050427"
+                }
+              },
+              "broadcasts": [
+                {
+                  "network": "truTV",
+                  "type": "TV",
+                  "locale": "National",
+                  "channel": "246"
+                }
+              ],
+              "home": {
+                "name": "Clemson Tigers",
+                "alias": "CLEM",
+                "id": "dcf5c2e7-c227-4c20-af26-715d5f859412",
+                "seed": 6
+              },
+              "away": {
+                "name": "New Mexico Lobos",
+                "alias": "UNM",
+                "id": "1b1977ec-b32f-4ce3-95a4-d07bab4816cd",
+                "seed": 11
+              }
+            },
+            {
+              "id": "609a7f64-ddd9-4183-8ac6-caa89df9a23b",
+              "status": "closed",
+              "title": "West Regional - First Round - Game 7",
+              "coverage": "full",
+              "scheduled": "2024-03-21T20:47:00+00:00",
+              "home_points": 63,
+              "away_points": 60,
+              "neutral_site": true,
+              "conference_game": false,
+              "track_on_court": true,
+              "time_zones": {
+                "venue": "US/Mountain",
+                "home": "US/Eastern",
+                "away": "US/Pacific"
+              },
+              "venue": {
+                "id": "53bac75a-a667-52b5-a416-b80718ae4ed2",
+                "name": "Delta Center",
+                "capacity": 18206,
+                "address": "301 South Temple Street",
+                "city": "Salt Lake City",
+                "state": "UT",
+                "zip": "84101",
+                "country": "USA",
+                "location": {
+                  "lat": "40.768273",
+                  "lng": "-111.901141"
+                }
+              },
+              "broadcasts": [
+                {
+                  "network": "TBS",
+                  "type": "TV",
+                  "locale": "National",
+                  "channel": "247"
+                }
+              ],
+              "home": {
+                "name": "Dayton Flyers",
+                "alias": "DAY",
+                "id": "632616c5-2dbb-4017-a449-c9dfc303f026",
+                "seed": 7
+              },
+              "away": {
+                "name": "Nevada Wolf Pack",
+                "alias": "NEV",
+                "id": "62a73b4a-e281-4483-a1f8-f1160a18e456",
+                "seed": 10
+              }
+            },
+            {
+              "id": "4e8abf66-2976-4416-841f-22a3487297a7",
+              "status": "closed",
+              "title": "West Regional - First Round - Game 3",
+              "coverage": "full",
+              "scheduled": "2024-03-23T02:57:00+00:00",
+              "home_points": 66,
+              "away_points": 75,
+              "neutral_site": true,
+              "conference_game": false,
+              "track_on_court": true,
+              "time_zones": {
+                "venue": "US/Pacific",
+                "home": "US/Pacific",
+                "away": "US/Arizona"
+              },
+              "venue": {
+                "id": "b665b238-e25c-4726-87ab-58f8c694376b",
+                "name": "Spokane Veterans Memorial Arena",
+                "capacity": 12210,
+                "address": "720 W. Mallon Avenue",
+                "city": "Spokane",
+                "state": "WA",
+                "zip": "99201",
+                "country": "USA",
+                "location": {
+                  "lat": "47.666",
+                  "lng": "-117.423"
+                }
+              },
+              "broadcasts": [
+                {
+                  "network": "truTV",
+                  "type": "TV",
+                  "locale": "National",
+                  "channel": "246"
+                }
+              ],
+              "home": {
+                "name": "Saint Mary's Gaels",
+                "alias": "SMC",
+                "id": "b18f34af-a7f1-4659-a2e5-fc11a31cd316",
+                "seed": 5
+              },
+              "away": {
+                "name": "Grand Canyon Antelopes",
+                "alias": "GC",
+                "id": "f7e6acc3-0778-4de5-940a-d88e20df1159",
+                "seed": 12
+              }
+            },
+            {
+              "id": "cfef90fb-ccfc-4f68-9ca1-b9152cde3c8b",
+              "status": "closed",
+              "title": "West Regional - First Round - Game 8",
+              "coverage": "full",
+              "scheduled": "2024-03-21T18:00:00+00:00",
+              "home_points": 85,
+              "away_points": 65,
+              "neutral_site": true,
+              "conference_game": false,
+              "track_on_court": true,
+              "time_zones": {
+                "venue": "US/Mountain",
+                "home": "US/Mountain",
+                "away": "US/Pacific"
+              },
+              "venue": {
+                "id": "53bac75a-a667-52b5-a416-b80718ae4ed2",
+                "name": "Delta Center",
+                "capacity": 18206,
+                "address": "301 South Temple Street",
+                "city": "Salt Lake City",
+                "state": "UT",
+                "zip": "84101",
+                "country": "USA",
+                "location": {
+                  "lat": "40.768273",
+                  "lng": "-111.901141"
+                }
+              },
+              "broadcasts": [
+                {
+                  "network": "TBS",
+                  "type": "TV",
+                  "locale": "National",
+                  "channel": "247"
+                }
+              ],
+              "home": {
+                "name": "Arizona Wildcats",
+                "alias": "ARIZ",
+                "id": "9b166a3f-e64b-4825-bb6b-92c6f0418263",
+                "seed": 2
+              },
+              "away": {
+                "name": "Long Beach State Beach",
+                "alias": "LBSU",
+                "id": "11a617d5-af03-4cce-bc8a-51114d9e41fe",
+                "seed": 15
+              }
+            },
+            {
+              "id": "44215280-dd27-4daf-84b6-1e06c2f5b65a",
+              "status": "closed",
+              "title": "West Regional - First Round - Game 6",
+              "coverage": "full",
+              "scheduled": "2024-03-22T16:40:00+00:00",
+              "home_points": 92,
+              "away_points": 67,
+              "neutral_site": true,
+              "conference_game": false,
+              "track_on_court": true,
+              "time_zones": {
+                "venue": "US/Central",
+                "home": "US/Central",
+                "away": "US/Eastern"
+              },
+              "venue": {
+                "id": "7657c204-a20b-527a-99cb-dc29218462aa",
+                "name": "FedExForum",
+                "capacity": 18119,
+                "address": "191 Beale Street",
+                "city": "Memphis",
+                "state": "TN",
+                "zip": "38103",
+                "country": "USA",
+                "location": {
+                  "lat": "35.138142",
+                  "lng": "-90.050427"
+                }
+              },
+              "broadcasts": [
+                {
+                  "network": "truTV",
+                  "type": "TV",
+                  "locale": "National",
+                  "channel": "246"
+                }
+              ],
+              "home": {
+                "name": "Baylor Bears",
+                "alias": "BAY",
+                "id": "db6e1cab-3fa3-4a93-a673-8b2a358ff4bf",
+                "seed": 3
+              },
+              "away": {
+                "name": "Colgate Raiders",
+                "alias": "COLG",
+                "id": "80a19b57-d6ab-4bee-934f-33a72c2e958a",
+                "seed": 14
+              }
+            },
+            {
+              "id": "c13f603e-017f-46e5-b8b8-f71d39ac9855",
+              "status": "closed",
+              "title": "West Regional - First Round - Game 2",
+              "coverage": "full",
+              "scheduled": "2024-03-21T16:15:00+00:00",
+              "home_points": 51,
+              "away_points": 69,
+              "neutral_site": true,
+              "conference_game": false,
+              "track_on_court": true,
+              "time_zones": {
+                "venue": "US/Eastern",
+                "home": "US/Central",
+                "away": "US/Eastern"
+              },
+              "venue": {
+                "id": "a380f011-6e5d-5430-9f37-209e1e8a9b6f",
+                "name": "Spectrum Center",
+                "capacity": 19077,
+                "address": "330 E. Trade Street",
+                "city": "Charlotte",
+                "state": "NC",
+                "zip": "28202",
+                "country": "USA",
+                "location": {
+                  "lat": "35.225148",
+                  "lng": "-80.839249"
+                }
+              },
+              "broadcasts": [
+                {
+                  "network": "CBS",
+                  "type": "TV",
+                  "locale": "National"
+                }
+              ],
+              "home": {
+                "name": "Mississippi State Bulldogs",
+                "alias": "MSST",
+                "id": "a1ba4b89-d97c-44e2-835f-79ad3ccaa5ae",
+                "seed": 8
+              },
+              "away": {
+                "name": "Michigan State Spartans",
+                "alias": "MSU",
+                "id": "a41d5a05-4c11-4171-a57e-e7a1ea325a6d",
+                "seed": 9
+              }
+            },
+            {
+              "id": "3975ce17-6e54-497c-8dbb-350a180c87f4",
+              "status": "closed",
+              "title": "West Regional - First Round - Game 1",
+              "coverage": "full",
+              "scheduled": "2024-03-21T18:47:00+00:00",
+              "home_points": 90,
+              "away_points": 62,
+              "neutral_site": true,
+              "conference_game": false,
+              "track_on_court": true,
+              "time_zones": {
+                "venue": "US/Eastern",
+                "home": "US/Eastern",
+                "away": "US/Eastern"
+              },
+              "venue": {
+                "id": "a380f011-6e5d-5430-9f37-209e1e8a9b6f",
+                "name": "Spectrum Center",
+                "capacity": 19077,
+                "address": "330 E. Trade Street",
+                "city": "Charlotte",
+                "state": "NC",
+                "zip": "28202",
+                "country": "USA",
+                "location": {
+                  "lat": "35.225148",
+                  "lng": "-80.839249"
+                }
+              },
+              "broadcasts": [
+                {
+                  "network": "CBS",
+                  "type": "TV",
+                  "locale": "National"
+                }
+              ],
+              "home": {
+                "name": "North Carolina Tar Heels",
+                "alias": "UNC",
+                "id": "e9ca48b2-00ba-41c0-a02b-6885a2da1ff1",
+                "seed": 1
+              },
+              "away": {
+                "name": "Wagner Seahawks",
+                "alias": "WAG",
+                "id": "3b644902-cd06-4930-9a3e-6c78cfb1f464",
+                "seed": 16,
+                "source": {
+                  "id": "8f71a807-95a3-4b43-86cd-d885dc39be8d",
+                  "title": "First Four - Game 1",
+                  "status": "closed",
+                  "coverage": "full",
+                  "home_team": "22fbe5dc-c6db-4675-b3a3-2d8af7f5d313",
+                  "away_team": "3b644902-cd06-4930-9a3e-6c78cfb1f464",
+                  "scheduled": "2024-03-19T22:40:00+00:00",
+                  "outcome": "win"
+                }
+              }
+            },
+            {
+              "id": "5bf094d4-67a7-4bbf-80a1-d4983997f61d",
+              "status": "closed",
+              "title": "West Regional - First Round - Game 4",
+              "coverage": "full",
+              "scheduled": "2024-03-23T00:03:00+00:00",
+              "home_points": 109,
+              "away_points": 96,
+              "neutral_site": true,
+              "conference_game": false,
+              "track_on_court": true,
+              "time_zones": {
+                "venue": "US/Pacific",
+                "home": "US/Central",
+                "away": "US/Eastern"
+              },
+              "venue": {
+                "id": "b665b238-e25c-4726-87ab-58f8c694376b",
+                "name": "Spokane Veterans Memorial Arena",
+                "capacity": 12210,
+                "address": "720 W. Mallon Avenue",
+                "city": "Spokane",
+                "state": "WA",
+                "zip": "99201",
+                "country": "USA",
+                "location": {
+                  "lat": "47.666",
+                  "lng": "-117.423"
+                }
+              },
+              "broadcasts": [
+                {
+                  "network": "truTV",
+                  "type": "TV",
+                  "locale": "National",
+                  "channel": "246"
+                }
+              ],
+              "home": {
+                "name": "Alabama Crimson Tide",
+                "alias": "ALA",
+                "id": "c2104cdc-c83d-40d2-a3cd-df986e29f5d3",
+                "seed": 4
+              },
+              "away": {
+                "name": "Charleston Cougars",
+                "alias": "COFC",
+                "id": "8548dacb-3636-48a8-8c46-611ab0c15fc0",
+                "seed": 13
+              }
+            }
+          ]
+        },
+        {
+          "bracket": {
+            "id": "c81cc6d3-8236-4a3f-b855-65b85e7b8601",
+            "name": "Midwest Regional",
+            "location": "Detroit, MI, USA",
+            "rank": 3
+          },
+          "games": [
+            {
+              "id": "954131fc-5cc9-4f6a-96a0-c94fa64e6e8f",
+              "status": "closed",
+              "title": "Midwest Regional - First Round - Game 2",
+              "coverage": "full",
+              "scheduled": "2024-03-23T02:30:00+00:00",
+              "home_points": 88,
+              "away_points": 72,
+              "neutral_site": true,
+              "conference_game": false,
+              "track_on_court": true,
+              "time_zones": {
+                "venue": "US/Eastern",
+                "home": "US/Mountain",
+                "away": "US/Central"
+              },
+              "venue": {
+                "id": "24bb478e-eb31-5f8a-8c8d-07f513169ec1",
+                "name": "Gainbridge Fieldhouse",
+                "capacity": 20000,
+                "address": "125 S. Pennsylvania Street",
+                "city": "Indianapolis",
+                "state": "IN",
+                "zip": "46204",
+                "country": "USA",
+                "location": {
+                  "lat": "39.763975",
+                  "lng": "-86.15542"
+                }
+              },
+              "broadcasts": [
+                {
+                  "network": "TBS",
+                  "type": "TV",
+                  "locale": "National",
+                  "channel": "247"
+                }
+              ],
+              "home": {
+                "name": "Utah State Aggies",
+                "alias": "USU",
+                "id": "7672ff16-8436-47e6-8546-0fb5494ec7ee",
+                "seed": 8
+              },
+              "away": {
+                "name": "TCU Horned Frogs",
+                "alias": "TCU",
+                "id": "f7fcbb6e-4a55-41ea-ba21-f763ed914467",
+                "seed": 9
+              }
+            },
+            {
+              "id": "636ebe3e-f6c1-4ba6-8cd3-3bc2ff0da9c6",
+              "status": "closed",
+              "title": "Midwest Regional - First Round - Game 7",
+              "coverage": "full",
+              "scheduled": "2024-03-21T22:50:00+00:00",
+              "home_points": 56,
+              "away_points": 44,
+              "neutral_site": true,
+              "conference_game": false,
+              "track_on_court": true,
+              "time_zones": {
+                "venue": "US/Eastern",
+                "home": "US/Central",
+                "away": "US/Mountain"
+              },
+              "venue": {
+                "id": "a380f011-6e5d-5430-9f37-209e1e8a9b6f",
+                "name": "Spectrum Center",
+                "capacity": 19077,
+                "address": "330 E. Trade Street",
+                "city": "Charlotte",
+                "state": "NC",
+                "zip": "28202",
+                "country": "USA",
+                "location": {
+                  "lat": "35.225148",
+                  "lng": "-80.839249"
+                }
+              },
+              "broadcasts": [
+                {
+                  "network": "TNT",
+                  "type": "TV",
+                  "locale": "National",
+                  "channel": "245"
+                }
+              ],
+              "home": {
+                "name": "Texas Longhorns",
+                "alias": "TEX",
+                "id": "6ed15092-2670-450a-99c2-61d861e87644",
+                "seed": 7
+              },
+              "away": {
+                "name": "Colorado State Rams",
+                "alias": "CSU",
+                "id": "1a470730-f328-4fb1-8bbf-36a069e4d6b2",
+                "seed": 10,
+                "source": {
+                  "id": "945c63b0-b850-4ce1-8e0d-3979a0378a61",
+                  "title": "First Four - Game 2",
+                  "status": "closed",
+                  "coverage": "full",
+                  "home_team": "56913910-87f7-4ad7-ae3b-5cd9fb218fd9",
+                  "away_team": "1a470730-f328-4fb1-8bbf-36a069e4d6b2",
+                  "scheduled": "2024-03-20T01:24:00+00:00",
+                  "outcome": "win"
+                }
+              }
+            },
+            {
+              "id": "249a0f39-2203-4cfc-8985-89e9fd821991",
+              "status": "closed",
+              "title": "Midwest Regional - First Round - Game 8",
+              "coverage": "full",
+              "scheduled": "2024-03-22T01:25:00+00:00",
+              "home_points": 83,
+              "away_points": 49,
+              "neutral_site": true,
+              "conference_game": false,
+              "track_on_court": true,
+              "time_zones": {
+                "venue": "US/Eastern",
+                "home": "US/Eastern",
+                "away": "US/Eastern"
+              },
+              "venue": {
+                "id": "a380f011-6e5d-5430-9f37-209e1e8a9b6f",
+                "name": "Spectrum Center",
+                "capacity": 19077,
+                "address": "330 E. Trade Street",
+                "city": "Charlotte",
+                "state": "NC",
+                "zip": "28202",
+                "country": "USA",
+                "location": {
+                  "lat": "35.225148",
+                  "lng": "-80.839249"
+                }
+              },
+              "broadcasts": [
+                {
+                  "network": "TNT",
+                  "type": "TV",
+                  "locale": "National",
+                  "channel": "245"
+                }
+              ],
+              "home": {
+                "name": "Tennessee Volunteers",
+                "alias": "TENN",
+                "id": "b827dbdf-230f-4916-9703-3bb9004e26eb",
+                "seed": 2
+              },
+              "away": {
+                "name": "Saint Peter's Peacocks",
+                "alias": "SPC",
+                "id": "e66d7ed2-9b4c-48c8-adaa-a276793b057d",
+                "seed": 15
+              }
+            },
+            {
+              "id": "a729a1d6-e878-4a6b-9796-0eece13566cc",
+              "status": "closed",
+              "title": "Midwest Regional - First Round - Game 3",
+              "coverage": "full",
+              "scheduled": "2024-03-21T23:47:00+00:00",
+              "home_points": 86,
+              "away_points": 65,
+              "neutral_site": true,
+              "conference_game": false,
+              "track_on_court": true,
+              "time_zones": {
+                "venue": "US/Mountain",
+                "home": "US/Pacific",
+                "away": "US/Central"
+              },
+              "venue": {
+                "id": "53bac75a-a667-52b5-a416-b80718ae4ed2",
+                "name": "Delta Center",
+                "capacity": 18206,
+                "address": "301 South Temple Street",
+                "city": "Salt Lake City",
+                "state": "UT",
+                "zip": "84101",
+                "country": "USA",
+                "location": {
+                  "lat": "40.768273",
+                  "lng": "-111.901141"
+                }
+              },
+              "broadcasts": [
+                {
+                  "network": "TBS",
+                  "type": "TV",
+                  "locale": "National",
+                  "channel": "247"
+                }
+              ],
+              "home": {
+                "name": "Gonzaga Bulldogs",
+                "alias": "GONZ",
+                "id": "2f4d21f8-6d5f-48a5-abca-52a30583871a",
+                "seed": 5
+              },
+              "away": {
+                "name": "McNeese Cowboys",
+                "alias": "MCNS",
+                "id": "d2ef641c-70e4-48bb-b40d-ac654d179205",
+                "seed": 12
+              }
+            },
+            {
+              "id": "2cf83cda-77c1-4174-a070-0073fc406669",
+              "status": "closed",
+              "title": "Midwest Regional - First Round - Game 4",
+              "coverage": "full",
+              "scheduled": "2024-03-22T02:20:00+00:00",
+              "home_points": 93,
+              "away_points": 89,
+              "neutral_site": true,
+              "conference_game": false,
+              "track_on_court": true,
+              "time_zones": {
+                "venue": "US/Mountain",
+                "home": "US/Central",
+                "away": "US/Central"
+              },
+              "venue": {
+                "id": "53bac75a-a667-52b5-a416-b80718ae4ed2",
+                "name": "Delta Center",
+                "capacity": 18206,
+                "address": "301 South Temple Street",
+                "city": "Salt Lake City",
+                "state": "UT",
+                "zip": "84101",
+                "country": "USA",
+                "location": {
+                  "lat": "40.768273",
+                  "lng": "-111.901141"
+                }
+              },
+              "broadcasts": [
+                {
+                  "network": "TBS",
+                  "type": "TV",
+                  "locale": "National",
+                  "channel": "247"
+                }
+              ],
+              "home": {
+                "name": "Kansas Jayhawks",
+                "alias": "KU",
+                "id": "fae4855b-1b64-4b40-a632-9ed345e1e952",
+                "seed": 4
+              },
+              "away": {
+                "name": "Samford Bulldogs",
+                "alias": "SAM",
+                "id": "c13f96ba-c79c-452f-9f63-3b45fae4e543",
+                "seed": 13
+              }
+            },
+            {
+              "id": "f2da7961-3e85-4ad5-817f-8da646340f30",
+              "status": "closed",
+              "title": "Midwest Regional - First Round - Game 5",
+              "coverage": "full",
+              "scheduled": "2024-03-21T20:09:00+00:00",
+              "home_points": 73,
+              "away_points": 87,
+              "neutral_site": true,
+              "conference_game": false,
+              "track_on_court": true,
+              "time_zones": {
+                "venue": "US/Eastern",
+                "home": "US/Eastern",
+                "away": "US/Pacific"
+              },
+              "venue": {
+                "id": "1ae1aa64-71c1-43e0-b040-d02501071ba2",
+                "name": "PPG Paints Arena",
+                "capacity": 19758,
+                "address": "1001 Fifth Avenue",
+                "city": "Pittsburgh",
+                "state": "PA",
+                "zip": "15219",
+                "country": "USA",
+                "location": {
+                  "lat": "40.439444",
+                  "lng": "-79.989167"
+                }
+              },
+              "broadcasts": [
+                {
+                  "network": "TNT",
+                  "type": "TV",
+                  "locale": "National",
+                  "channel": "245"
+                }
+              ],
+              "home": {
+                "name": "South Carolina Gamecocks",
+                "alias": "SCAR",
+                "id": "1c7ec608-3b36-4cee-adac-9265e3792597",
+                "seed": 6
+              },
+              "away": {
+                "name": "Oregon Ducks",
+                "alias": "ORE",
+                "id": "1da70895-f77f-44ef-b216-d63c02e696eb",
+                "seed": 11
+              }
+            },
+            {
+              "id": "b94a0f8d-74f1-43de-aef0-963025a76bed",
+              "status": "closed",
+              "title": "Midwest Regional - First Round - Game 1",
+              "coverage": "full",
+              "scheduled": "2024-03-22T23:59:00+00:00",
+              "home_points": 78,
+              "away_points": 50,
+              "neutral_site": true,
+              "conference_game": false,
+              "track_on_court": true,
+              "time_zones": {
+                "venue": "US/Eastern",
+                "home": "US/Eastern",
+                "away": "US/Central"
+              },
+              "venue": {
+                "id": "24bb478e-eb31-5f8a-8c8d-07f513169ec1",
+                "name": "Gainbridge Fieldhouse",
+                "capacity": 20000,
+                "address": "125 S. Pennsylvania Street",
+                "city": "Indianapolis",
+                "state": "IN",
+                "zip": "46204",
+                "country": "USA",
+                "location": {
+                  "lat": "39.763975",
+                  "lng": "-86.15542"
+                }
+              },
+              "broadcasts": [
+                {
+                  "network": "TBS",
+                  "type": "TV",
+                  "locale": "National",
+                  "channel": "247"
+                }
+              ],
+              "home": {
+                "name": "Purdue Boilermakers",
+                "alias": "PUR",
+                "id": "12d7f888-675b-459f-9099-a38f771d8a95",
+                "seed": 1
+              },
+              "away": {
+                "name": "Grambling State Tigers",
+                "alias": "GRAM",
+                "id": "6776c7e6-f4c2-47bd-99e5-39fc179a3197",
+                "seed": 16,
+                "source": {
+                  "id": "556e7236-4059-4b89-86b4-83781488b84a",
+                  "title": "First Four - Game 3",
+                  "status": "closed",
+                  "coverage": "full",
+                  "home_team": "bec40585-b587-4548-93f5-b7c00b046aea",
+                  "away_team": "6776c7e6-f4c2-47bd-99e5-39fc179a3197",
+                  "scheduled": "2024-03-20T22:40:00+00:00",
+                  "outcome": "win"
+                }
+              }
+            },
+            {
+              "id": "91e356f7-bed1-4e2b-8ea2-106fec724da3",
+              "status": "closed",
+              "title": "Midwest Regional - First Round - Game 6",
+              "coverage": "full",
+              "scheduled": "2024-03-21T17:30:00+00:00",
+              "home_points": 77,
+              "away_points": 60,
+              "neutral_site": true,
+              "conference_game": false,
+              "track_on_court": true,
+              "time_zones": {
+                "venue": "US/Eastern",
+                "home": "US/Central",
+                "away": "US/Eastern"
+              },
+              "venue": {
+                "id": "1ae1aa64-71c1-43e0-b040-d02501071ba2",
+                "name": "PPG Paints Arena",
+                "capacity": 19758,
+                "address": "1001 Fifth Avenue",
+                "city": "Pittsburgh",
+                "state": "PA",
+                "zip": "15219",
+                "country": "USA",
+                "location": {
+                  "lat": "40.439444",
+                  "lng": "-79.989167"
+                }
+              },
+              "broadcasts": [
+                {
+                  "network": "TNT",
+                  "type": "TV",
+                  "locale": "National",
+                  "channel": "245"
+                }
+              ],
+              "home": {
+                "name": "Creighton Bluejays",
+                "alias": "CREI",
+                "id": "7d797407-623e-476d-b299-46de4275414d",
+                "seed": 3
+              },
+              "away": {
+                "name": "Akron Zips",
+                "alias": "AKR",
+                "id": "56fe0ab2-e4f0-47b9-8726-9ce23ebcde20",
+                "seed": 14
+              }
+            }
+          ]
+        },
+        {
+          "bracket": {
+            "id": "46b3e80e-ba24-4baf-82e1-e6973c21a0af",
+            "name": "South Regional",
+            "location": "Dallas, TX, USA",
+            "rank": 2
+          },
+          "games": [
+            {
+              "id": "c7a23524-9fe5-4b58-bcee-473ecbe19968",
+              "status": "closed",
+              "title": "South Regional - First Round - Game 1",
+              "coverage": "full",
+              "scheduled": "2024-03-23T01:49:00+00:00",
+              "home_points": 86,
+              "away_points": 46,
+              "neutral_site": true,
+              "conference_game": false,
+              "track_on_court": true,
+              "time_zones": {
+                "venue": "US/Central",
+                "home": "US/Central",
+                "away": "US/Eastern"
+              },
+              "venue": {
+                "id": "7657c204-a20b-527a-99cb-dc29218462aa",
+                "name": "FedExForum",
+                "capacity": 18119,
+                "address": "191 Beale Street",
+                "city": "Memphis",
+                "state": "TN",
+                "zip": "38103",
+                "country": "USA",
+                "location": {
+                  "lat": "35.138142",
+                  "lng": "-90.050427"
+                }
+              },
+              "broadcasts": [
+                {
+                  "network": "TNT",
+                  "type": "TV",
+                  "locale": "National",
+                  "channel": "245"
+                }
+              ],
+              "home": {
+                "name": "Houston Cougars",
+                "alias": "HOU",
+                "id": "1f99a164-d593-4d81-85d5-0d7889d6f486",
+                "seed": 1
+              },
+              "away": {
+                "name": "Longwood Lancers",
+                "alias": "LONG",
+                "id": "600aad0e-85e7-4db8-be0b-94ba02a08e55",
+                "seed": 16
+              }
+            },
+            {
+              "id": "9f69ba32-c042-43c9-8f50-a0ea832906a6",
+              "status": "closed",
+              "title": "South Regional - First Round - Game 3",
+              "coverage": "full",
+              "scheduled": "2024-03-23T01:50:00+00:00",
+              "home_points": 61,
+              "away_points": 72,
+              "neutral_site": true,
+              "conference_game": false,
+              "track_on_court": true,
+              "time_zones": {
+                "venue": "US/Eastern",
+                "home": "US/Central",
+                "away": "US/Eastern"
+              },
+              "venue": {
+                "id": "7a330bcd-ac0f-50ca-bc29-2460e5c476b3",
+                "name": "Barclays Center",
+                "capacity": 17732,
+                "address": "620 Atlantic Avenue",
+                "city": "Brooklyn",
+                "state": "NY",
+                "zip": "11217",
+                "country": "USA",
+                "location": {
+                  "lat": "40.682957",
+                  "lng": "-73.975165"
+                }
+              },
+              "broadcasts": [
+                {
+                  "network": "CBS",
+                  "type": "TV",
+                  "locale": "National"
+                }
+              ],
+              "home": {
+                "name": "Wisconsin Badgers",
+                "alias": "WIS",
+                "id": "c7569eae-5b93-4197-b204-6f3a62146b25",
+                "seed": 5
+              },
+              "away": {
+                "name": "James Madison Dukes",
+                "alias": "JMU",
+                "id": "524e3eec-7dde-45c7-b3cc-6308cec73350",
+                "seed": 12
+              }
+            },
+            {
+              "id": "d0202cda-a675-4688-b847-888218408735",
+              "status": "closed",
+              "title": "South Regional - First Round - Game 2",
+              "coverage": "full",
+              "scheduled": "2024-03-22T23:00:00+00:00",
+              "home_points": 83,
+              "away_points": 98,
+              "neutral_site": true,
+              "conference_game": false,
+              "track_on_court": true,
+              "time_zones": {
+                "venue": "US/Central",
+                "home": "US/Central",
+                "away": "US/Central"
+              },
+              "venue": {
+                "id": "7657c204-a20b-527a-99cb-dc29218462aa",
+                "name": "FedExForum",
+                "capacity": 18119,
+                "address": "191 Beale Street",
+                "city": "Memphis",
+                "state": "TN",
+                "zip": "38103",
+                "country": "USA",
+                "location": {
+                  "lat": "35.138142",
+                  "lng": "-90.050427"
+                }
+              },
+              "broadcasts": [
+                {
+                  "network": "TNT",
+                  "type": "TV",
+                  "locale": "National",
+                  "channel": "245"
+                }
+              ],
+              "home": {
+                "name": "Nebraska Cornhuskers",
+                "alias": "NEB",
+                "id": "f8b1bf00-5b73-4ac4-98c0-ec554027ae32",
+                "seed": 8
+              },
+              "away": {
+                "name": "Texas A&M Aggies",
+                "alias": "TXAM",
+                "id": "ef184799-d79b-49d9-a662-991eaf4044cd",
+                "seed": 9
+              }
+            },
+            {
+              "id": "d10e49ba-08f0-4494-a504-2b9248e8b8a9",
+              "status": "closed",
+              "title": "South Regional - First Round - Game 7",
+              "coverage": "full",
+              "scheduled": "2024-03-22T20:38:00+00:00",
+              "home_points": 100,
+              "away_points": 102,
+              "neutral_site": true,
+              "conference_game": false,
+              "track_on_court": true,
+              "time_zones": {
+                "venue": "US/Eastern",
+                "home": "US/Eastern",
+                "away": "US/Mountain"
+              },
+              "venue": {
+                "id": "24bb478e-eb31-5f8a-8c8d-07f513169ec1",
+                "name": "Gainbridge Fieldhouse",
+                "capacity": 20000,
+                "address": "125 S. Pennsylvania Street",
+                "city": "Indianapolis",
+                "state": "IN",
+                "zip": "46204",
+                "country": "USA",
+                "location": {
+                  "lat": "39.763975",
+                  "lng": "-86.15542"
+                }
+              },
+              "broadcasts": [
+                {
+                  "network": "TBS",
+                  "type": "TV",
+                  "locale": "National",
+                  "channel": "247"
+                }
+              ],
+              "home": {
+                "name": "Florida Gators",
+                "alias": "FLA",
+                "id": "912f8837-1d81-4ef9-a576-a21f271d4c64",
+                "seed": 7
+              },
+              "away": {
+                "name": "Colorado Buffaloes",
+                "alias": "COLO",
+                "id": "9fccbf28-2858-4263-821c-fdefb3c7efa3",
+                "seed": 10,
+                "source": {
+                  "id": "6f20c07d-e8f5-42a6-8abe-b89cbba19a77",
+                  "title": "First Four - Game 4",
+                  "status": "closed",
+                  "coverage": "full",
+                  "home_team": "c1c54dbf-805c-47fc-a707-c803e94db2a4",
+                  "away_team": "9fccbf28-2858-4263-821c-fdefb3c7efa3",
+                  "scheduled": "2024-03-21T01:32:00+00:00",
+                  "outcome": "win"
+                }
+              }
+            },
+            {
+              "id": "ce9a7119-ea3e-4704-b703-c3e7068341b5",
+              "status": "closed",
+              "title": "South Regional - First Round - Game 8",
+              "coverage": "full",
+              "scheduled": "2024-03-22T18:00:00+00:00",
+              "home_points": 87,
+              "away_points": 69,
+              "neutral_site": true,
+              "conference_game": false,
+              "track_on_court": true,
+              "time_zones": {
+                "venue": "US/Eastern",
+                "home": "US/Central",
+                "away": "US/Central"
+              },
+              "venue": {
+                "id": "24bb478e-eb31-5f8a-8c8d-07f513169ec1",
+                "name": "Gainbridge Fieldhouse",
+                "capacity": 20000,
+                "address": "125 S. Pennsylvania Street",
+                "city": "Indianapolis",
+                "state": "IN",
+                "zip": "46204",
+                "country": "USA",
+                "location": {
+                  "lat": "39.763975",
+                  "lng": "-86.15542"
+                }
+              },
+              "broadcasts": [
+                {
+                  "network": "TBS",
+                  "type": "TV",
+                  "locale": "National",
+                  "channel": "247"
+                }
+              ],
+              "home": {
+                "name": "Marquette Golden Eagles",
+                "alias": "MARQ",
+                "id": "06f7c904-0ac7-4125-b0f4-f4871bb69057",
+                "seed": 2
+              },
+              "away": {
+                "name": "Western Kentucky Hilltoppers",
+                "alias": "WKU",
+                "id": "881380da-861c-4ab6-a7d2-20699d8ea883",
+                "seed": 15
+              }
+            },
+            {
+              "id": "3af9bd2b-e2d0-4ceb-9855-b48b89b53191",
+              "status": "closed",
+              "title": "South Regional - First Round - Game 5",
+              "coverage": "full",
+              "scheduled": "2024-03-22T02:12:00+00:00",
+              "home_points": 67,
+              "away_points": 80,
+              "neutral_site": true,
+              "conference_game": false,
+              "track_on_court": true,
+              "time_zones": {
+                "venue": "US/Eastern",
+                "home": "US/Central",
+                "away": "US/Eastern"
+              },
+              "venue": {
+                "id": "1ae1aa64-71c1-43e0-b040-d02501071ba2",
+                "name": "PPG Paints Arena",
+                "capacity": 19758,
+                "address": "1001 Fifth Avenue",
+                "city": "Pittsburgh",
+                "state": "PA",
+                "zip": "15219",
+                "country": "USA",
+                "location": {
+                  "lat": "40.439444",
+                  "lng": "-79.989167"
+                }
+              },
+              "broadcasts": [
+                {
+                  "network": "CBS",
+                  "type": "TV",
+                  "locale": "National"
+                }
+              ],
+              "home": {
+                "name": "Texas Tech Red Raiders",
+                "alias": "TTU",
+                "id": "f8c705b7-87d3-411a-9c8b-5124daab0469",
+                "seed": 6
+              },
+              "away": {
+                "name": "North Carolina State Wolfpack",
+                "alias": "NCST",
+                "id": "52df1e19-b142-4a76-a439-ad68455d0581",
+                "seed": 11
+              }
+            },
+            {
+              "id": "b2f56c7e-7525-49c5-ac54-b16a67435807",
+              "status": "closed",
+              "title": "South Regional - First Round - Game 6",
+              "coverage": "full",
+              "scheduled": "2024-03-21T23:24:00+00:00",
+              "home_points": 76,
+              "away_points": 80,
+              "neutral_site": true,
+              "conference_game": false,
+              "track_on_court": true,
+              "time_zones": {
+                "venue": "US/Eastern",
+                "home": "US/Eastern",
+                "away": "US/Eastern"
+              },
+              "venue": {
+                "id": "1ae1aa64-71c1-43e0-b040-d02501071ba2",
+                "name": "PPG Paints Arena",
+                "capacity": 19758,
+                "address": "1001 Fifth Avenue",
+                "city": "Pittsburgh",
+                "state": "PA",
+                "zip": "15219",
+                "country": "USA",
+                "location": {
+                  "lat": "40.439444",
+                  "lng": "-79.989167"
+                }
+              },
+              "broadcasts": [
+                {
+                  "network": "CBS",
+                  "type": "TV",
+                  "locale": "National"
+                }
+              ],
+              "home": {
+                "name": "Kentucky Wildcats",
+                "alias": "UK",
+                "id": "2267a1f4-68f6-418b-aaf6-2aa0c4b291f1",
+                "seed": 3
+              },
+              "away": {
+                "name": "Oakland Golden Grizzlies",
+                "alias": "OAK",
+                "id": "aeaaef0d-5238-414e-ac04-c55a22cba208",
+                "seed": 14
+              }
+            },
+            {
+              "id": "882f2156-b990-4f50-ab07-1a77fb0c1f86",
+              "status": "closed",
+              "title": "South Regional - First Round - Game 4",
+              "coverage": "full",
+              "scheduled": "2024-03-22T23:10:00+00:00",
+              "home_points": 64,
+              "away_points": 47,
+              "neutral_site": true,
+              "conference_game": false,
+              "track_on_court": true,
+              "time_zones": {
+                "venue": "US/Eastern",
+                "home": "US/Eastern",
+                "away": "US/Eastern"
+              },
+              "venue": {
+                "id": "7a330bcd-ac0f-50ca-bc29-2460e5c476b3",
+                "name": "Barclays Center",
+                "capacity": 17732,
+                "address": "620 Atlantic Avenue",
+                "city": "Brooklyn",
+                "state": "NY",
+                "zip": "11217",
+                "country": "USA",
+                "location": {
+                  "lat": "40.682957",
+                  "lng": "-73.975165"
+                }
+              },
+              "broadcasts": [
+                {
+                  "network": "CBS",
+                  "type": "TV",
+                  "locale": "National"
+                }
+              ],
+              "home": {
+                "name": "Duke Blue Devils",
+                "alias": "DUKE",
+                "id": "faeb1160-5d15-4f26-99fc-c441cf21fc7f",
+                "seed": 4
+              },
+              "away": {
+                "name": "Vermont Catamounts",
+                "alias": "UVM",
+                "id": "18e89867-9201-41ce-ba19-fadddf92fa17",
+                "seed": 13
+              }
+            }
+          ]
+        },
+        {
+          "bracket": {
+            "id": "9d2a7eb7-844a-4942-9e8c-cbb9c065f4a7",
+            "name": "East Regional",
+            "location": "Boston, MA, USA",
+            "rank": 1
+          },
+          "games": [
+            {
+              "id": "639fcc82-558b-495a-946f-33ed4e9b69a6",
+              "status": "closed",
+              "title": "East Regional - First Round - Game 5",
+              "coverage": "full",
+              "scheduled": "2024-03-21T16:40:00+00:00",
+              "home_points": 67,
+              "away_points": 71,
+              "neutral_site": true,
+              "conference_game": false,
+              "track_on_court": true,
+              "time_zones": {
+                "venue": "US/Central",
+                "home": "US/Mountain",
+                "away": "US/Eastern"
+              },
+              "venue": {
+                "id": "41b29fbb-906a-4aca-b261-6a816ca96428",
+                "name": "CHI Health Center Omaha",
+                "capacity": 18320,
+                "address": "455 North 10th Street",
+                "city": "Omaha",
+                "state": "NE",
+                "zip": "68102",
+                "country": "USA",
+                "location": {
+                  "lat": "41.262667",
+                  "lng": "-95.928206"
+                }
+              },
+              "broadcasts": [
+                {
+                  "network": "truTV",
+                  "type": "TV",
+                  "locale": "National",
+                  "channel": "246"
+                }
+              ],
+              "home": {
+                "name": "BYU Cougars",
+                "alias": "BYU",
+                "id": "c31455b2-8a45-4248-aa8f-ce7eab1c6b02",
+                "seed": 6
+              },
+              "away": {
+                "name": "Duquesne Dukes",
+                "alias": "DUQ",
+                "id": "fea46ac5-6dad-43cd-a770-75554dbcc118",
+                "seed": 11
+              }
+            },
+            {
+              "id": "8aba71db-f155-459a-bf04-c2b140e9fa3a",
+              "status": "closed",
+              "title": "East Regional - First Round - Game 6",
+              "coverage": "full",
+              "scheduled": "2024-03-21T19:34:00+00:00",
+              "home_points": 85,
+              "away_points": 69,
+              "neutral_site": true,
+              "conference_game": false,
+              "track_on_court": true,
+              "time_zones": {
+                "venue": "US/Central",
+                "home": "US/Central",
+                "away": "US/Eastern"
+              },
+              "venue": {
+                "id": "41b29fbb-906a-4aca-b261-6a816ca96428",
+                "name": "CHI Health Center Omaha",
+                "capacity": 18320,
+                "address": "455 North 10th Street",
+                "city": "Omaha",
+                "state": "NE",
+                "zip": "68102",
+                "country": "USA",
+                "location": {
+                  "lat": "41.262667",
+                  "lng": "-95.928206"
+                }
+              },
+              "broadcasts": [
+                {
+                  "network": "truTV",
+                  "type": "TV",
+                  "locale": "National",
+                  "channel": "246"
+                }
+              ],
+              "home": {
+                "name": "Illinois Fighting Illini",
+                "alias": "ILL",
+                "id": "150148c2-ca8f-414f-8f41-d94a55d4a122",
+                "seed": 3
+              },
+              "away": {
+                "name": "Morehead State Eagles",
+                "alias": "MORE",
+                "id": "b7747a03-c85b-4de6-94bf-1b5b68553248",
+                "seed": 14
+              }
+            },
+            {
+              "id": "7a1170ef-0901-4fe9-a7a5-90e5afcf1c9e",
+              "status": "closed",
+              "title": "East Regional - First Round - Game 3",
+              "coverage": "full",
+              "scheduled": "2024-03-22T17:45:00+00:00",
+              "home_points": 69,
+              "away_points": 65,
+              "neutral_site": true,
+              "conference_game": false,
+              "track_on_court": true,
+              "time_zones": {
+                "venue": "US/Pacific",
+                "home": "US/Pacific",
+                "away": "US/Central"
+              },
+              "venue": {
+                "id": "b665b238-e25c-4726-87ab-58f8c694376b",
+                "name": "Spokane Veterans Memorial Arena",
+                "capacity": 12210,
+                "address": "720 W. Mallon Avenue",
+                "city": "Spokane",
+                "state": "WA",
+                "zip": "99201",
+                "country": "USA",
+                "location": {
+                  "lat": "47.666",
+                  "lng": "-117.423"
+                }
+              },
+              "broadcasts": [
+                {
+                  "network": "TNT",
+                  "type": "TV",
+                  "locale": "National",
+                  "channel": "245"
+                }
+              ],
+              "home": {
+                "name": "San Diego State Aztecs",
+                "alias": "SDSU",
+                "id": "e6914f16-ca37-4d2e-ba26-a425910283e2",
+                "seed": 5
+              },
+              "away": {
+                "name": "UAB Blazers",
+                "alias": "UAB",
+                "id": "63a8fdcf-b51b-4de3-8a57-2a6e41d362ce",
+                "seed": 12
+              }
+            },
+            {
+              "id": "4d8025b9-cf62-4600-8a3f-c3cfd832b735",
+              "status": "closed",
+              "title": "East Regional - First Round - Game 4",
+              "coverage": "full",
+              "scheduled": "2024-03-22T20:33:00+00:00",
+              "home_points": 76,
+              "away_points": 78,
+              "neutral_site": true,
+              "conference_game": false,
+              "track_on_court": true,
+              "time_zones": {
+                "venue": "US/Pacific",
+                "home": "US/Central",
+                "away": "US/Eastern"
+              },
+              "venue": {
+                "id": "b665b238-e25c-4726-87ab-58f8c694376b",
+                "name": "Spokane Veterans Memorial Arena",
+                "capacity": 12210,
+                "address": "720 W. Mallon Avenue",
+                "city": "Spokane",
+                "state": "WA",
+                "zip": "99201",
+                "country": "USA",
+                "location": {
+                  "lat": "47.666",
+                  "lng": "-117.423"
+                }
+              },
+              "broadcasts": [
+                {
+                  "network": "TNT",
+                  "type": "TV",
+                  "locale": "National",
+                  "channel": "245"
+                }
+              ],
+              "home": {
+                "name": "Auburn Tigers",
+                "alias": "AUB",
+                "id": "0c0608b3-f349-4f5e-9a10-7e6a744dd0d2",
+                "seed": 4
+              },
+              "away": {
+                "name": "Yale Bulldogs",
+                "alias": "YALE",
+                "id": "ca478771-aa3d-4231-81e0-b70f519134fb",
+                "seed": 13
+              }
+            },
+            {
+              "id": "cd585692-c7d3-4614-b38f-0b905e4c13a9",
+              "status": "closed",
+              "title": "East Regional - First Round - Game 1",
+              "coverage": "full",
+              "scheduled": "2024-03-22T19:22:00+00:00",
+              "home_points": 91,
+              "away_points": 52,
+              "neutral_site": true,
+              "conference_game": false,
+              "track_on_court": true,
+              "time_zones": {
+                "venue": "US/Eastern",
+                "home": "US/Eastern",
+                "away": "US/Eastern"
+              },
+              "venue": {
+                "id": "7a330bcd-ac0f-50ca-bc29-2460e5c476b3",
+                "name": "Barclays Center",
+                "capacity": 17732,
+                "address": "620 Atlantic Avenue",
+                "city": "Brooklyn",
+                "state": "NY",
+                "zip": "11217",
+                "country": "USA",
+                "location": {
+                  "lat": "40.682957",
+                  "lng": "-73.975165"
+                }
+              },
+              "broadcasts": [
+                {
+                  "network": "CBS",
+                  "type": "TV",
+                  "locale": "National"
+                }
+              ],
+              "home": {
+                "name": "UConn Huskies",
+                "alias": "CONN",
+                "id": "efba5350-79bc-47aa-a189-db177b95b491",
+                "seed": 1
+              },
+              "away": {
+                "name": "Stetson Hatters",
+                "alias": "STET",
+                "id": "394d1b2b-7a19-4d43-b04a-5f366c24e5bf",
+                "seed": 16
+              }
+            },
+            {
+              "id": "75199dd2-3af3-4c2a-af6e-6be23ce6998c",
+              "status": "closed",
+              "title": "East Regional - First Round - Game 2",
+              "coverage": "full",
+              "scheduled": "2024-03-22T16:15:00+00:00",
+              "home_points": 65,
+              "away_points": 77,
+              "neutral_site": true,
+              "conference_game": false,
+              "track_on_court": true,
+              "time_zones": {
+                "venue": "US/Eastern",
+                "home": "US/Eastern",
+                "away": "US/Central"
+              },
+              "venue": {
+                "id": "7a330bcd-ac0f-50ca-bc29-2460e5c476b3",
+                "name": "Barclays Center",
+                "capacity": 17732,
+                "address": "620 Atlantic Avenue",
+                "city": "Brooklyn",
+                "state": "NY",
+                "zip": "11217",
+                "country": "USA",
+                "location": {
+                  "lat": "40.682957",
+                  "lng": "-73.975165"
+                }
+              },
+              "broadcasts": [
+                {
+                  "network": "CBS",
+                  "type": "TV",
+                  "locale": "National"
+                }
+              ],
+              "home": {
+                "name": "Florida Atlantic Owls",
+                "alias": "FAU",
+                "id": "c851131a-5ecd-4670-81bc-b40f4837dd65",
+                "seed": 8
+              },
+              "away": {
+                "name": "Northwestern Wildcats",
+                "alias": "NW",
+                "id": "4b7dedc0-7b48-49a4-aad6-8a94a33274d2",
+                "seed": 9
+              }
+            },
+            {
+              "id": "0a620548-643e-4ac5-bfc1-bb9583d144e7",
+              "status": "closed",
+              "title": "East Regional - First Round - Game 8",
+              "coverage": "full",
+              "scheduled": "2024-03-21T23:40:00+00:00",
+              "home_points": 82,
+              "away_points": 65,
+              "neutral_site": true,
+              "conference_game": false,
+              "track_on_court": true,
+              "time_zones": {
+                "venue": "US/Central",
+                "home": "US/Central",
+                "away": "US/Central"
+              },
+              "venue": {
+                "id": "41b29fbb-906a-4aca-b261-6a816ca96428",
+                "name": "CHI Health Center Omaha",
+                "capacity": 18320,
+                "address": "455 North 10th Street",
+                "city": "Omaha",
+                "state": "NE",
+                "zip": "68102",
+                "country": "USA",
+                "location": {
+                  "lat": "41.262667",
+                  "lng": "-95.928206"
+                }
+              },
+              "broadcasts": [
+                {
+                  "network": "truTV",
+                  "type": "TV",
+                  "locale": "National",
+                  "channel": "246"
+                }
+              ],
+              "home": {
+                "name": "Iowa State Cyclones",
+                "alias": "ISU",
+                "id": "0e4258fa-3154-4c16-b693-adecab184c6c",
+                "seed": 2
+              },
+              "away": {
+                "name": "South Dakota State Jackrabbits",
+                "alias": "SDST",
+                "id": "6ef40534-5fad-4755-84de-7dcbd645d1f0",
+                "seed": 15
+              }
+            },
+            {
+              "id": "57be8791-89bf-4fa9-b121-9e4b16373d92",
+              "status": "closed",
+              "title": "East Regional - First Round - Game 7",
+              "coverage": "full",
+              "scheduled": "2024-03-22T02:15:00+00:00",
+              "home_points": 66,
+              "away_points": 61,
+              "neutral_site": true,
+              "conference_game": false,
+              "track_on_court": true,
+              "time_zones": {
+                "venue": "US/Central",
+                "home": "US/Pacific",
+                "away": "US/Central"
+              },
+              "venue": {
+                "id": "41b29fbb-906a-4aca-b261-6a816ca96428",
+                "name": "CHI Health Center Omaha",
+                "capacity": 18320,
+                "address": "455 North 10th Street",
+                "city": "Omaha",
+                "state": "NE",
+                "zip": "68102",
+                "country": "USA",
+                "location": {
+                  "lat": "41.262667",
+                  "lng": "-95.928206"
+                }
+              },
+              "broadcasts": [
+                {
+                  "network": "truTV",
+                  "type": "TV",
+                  "locale": "National",
+                  "channel": "246"
+                }
+              ],
+              "home": {
+                "name": "Washington State Cougars",
+                "alias": "WSU",
+                "id": "2d4f0015-adb4-4877-8c15-4a6eed7eed03",
+                "seed": 7
+              },
+              "away": {
+                "name": "Drake Bulldogs",
+                "alias": "DRKE",
+                "id": "aed211c3-23a4-4188-ad70-22c6eba7d765",
+                "seed": 10
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "817a763b-4718-421d-803d-5eec9c822850",
+      "sequence": 3,
+      "name": "Second Round",
+      "games": [],
+      "bracketed": [
+        {
+          "bracket": {
+            "id": "5e34b1dc-a095-421b-8d55-b35ba14112cc",
+            "name": "West Regional",
+            "location": "Los Angeles, CA, USA",
+            "rank": 4
+          },
+          "games": [
+            {
+              "id": "ad0ff5e1-2844-4085-ac36-5134115bf304",
+              "status": "closed",
+              "title": "West Regional - Second Round - Game 4",
+              "coverage": "full",
+              "scheduled": "2024-03-23T16:45:00+00:00",
+              "home_points": 78,
+              "away_points": 68,
+              "neutral_site": true,
+              "conference_game": false,
+              "track_on_court": true,
+              "time_zones": {
+                "venue": "US/Mountain",
+                "home": "US/Mountain",
+                "away": "US/Eastern"
+              },
+              "venue": {
+                "id": "53bac75a-a667-52b5-a416-b80718ae4ed2",
+                "name": "Delta Center",
+                "capacity": 18206,
+                "address": "301 South Temple Street",
+                "city": "Salt Lake City",
+                "state": "UT",
+                "zip": "84101",
+                "country": "USA",
+                "location": {
+                  "lat": "40.768273",
+                  "lng": "-111.901141"
+                }
+              },
+              "broadcasts": [
+                {
+                  "network": "CBS",
+                  "type": "TV",
+                  "locale": "National"
+                }
+              ],
+              "home": {
+                "name": "Arizona Wildcats",
+                "alias": "ARIZ",
+                "id": "9b166a3f-e64b-4825-bb6b-92c6f0418263",
+                "seed": 2,
+                "source": {
+                  "id": "cfef90fb-ccfc-4f68-9ca1-b9152cde3c8b",
+                  "title": "West Regional - First Round - Game 8",
+                  "status": "closed",
+                  "coverage": "full",
+                  "home_team": "9b166a3f-e64b-4825-bb6b-92c6f0418263",
+                  "away_team": "11a617d5-af03-4cce-bc8a-51114d9e41fe",
+                  "scheduled": "2024-03-21T18:00:00+00:00",
+                  "outcome": "win"
+                }
+              },
+              "away": {
+                "name": "Dayton Flyers",
+                "alias": "DAY",
+                "id": "632616c5-2dbb-4017-a449-c9dfc303f026",
+                "seed": 7,
+                "source": {
+                  "id": "609a7f64-ddd9-4183-8ac6-caa89df9a23b",
+                  "title": "West Regional - First Round - Game 7",
+                  "status": "closed",
+                  "coverage": "full",
+                  "home_team": "632616c5-2dbb-4017-a449-c9dfc303f026",
+                  "away_team": "62a73b4a-e281-4483-a1f8-f1160a18e456",
+                  "scheduled": "2024-03-21T20:47:00+00:00",
+                  "outcome": "win"
+                }
+              }
+            },
+            {
+              "id": "44364661-f918-4e9f-b95b-bc9fa936bb77",
+              "status": "closed",
+              "title": "West Regional - Second Round - Game 3",
+              "coverage": "full",
+              "scheduled": "2024-03-24T22:10:00+00:00",
+              "home_points": 64,
+              "away_points": 72,
+              "neutral_site": true,
+              "conference_game": false,
+              "track_on_court": true,
+              "time_zones": {
+                "venue": "US/Central",
+                "home": "US/Central",
+                "away": "US/Eastern"
+              },
+              "venue": {
+                "id": "7657c204-a20b-527a-99cb-dc29218462aa",
+                "name": "FedExForum",
+                "capacity": 18119,
+                "address": "191 Beale Street",
+                "city": "Memphis",
+                "state": "TN",
+                "zip": "38103",
+                "country": "USA",
+                "location": {
+                  "lat": "35.138142",
+                  "lng": "-90.050427"
+                }
+              },
+              "broadcasts": [
+                {
+                  "network": "TNT",
+                  "type": "TV",
+                  "locale": "National",
+                  "channel": "245"
+                }
+              ],
+              "home": {
+                "name": "Baylor Bears",
+                "alias": "BAY",
+                "id": "db6e1cab-3fa3-4a93-a673-8b2a358ff4bf",
+                "seed": 3,
+                "source": {
+                  "id": "44215280-dd27-4daf-84b6-1e06c2f5b65a",
+                  "title": "West Regional - First Round - Game 6",
+                  "status": "closed",
+                  "coverage": "full",
+                  "home_team": "db6e1cab-3fa3-4a93-a673-8b2a358ff4bf",
+                  "away_team": "80a19b57-d6ab-4bee-934f-33a72c2e958a",
+                  "scheduled": "2024-03-22T16:40:00+00:00",
+                  "outcome": "win"
+                }
+              },
+              "away": {
+                "name": "Clemson Tigers",
+                "alias": "CLEM",
+                "id": "dcf5c2e7-c227-4c20-af26-715d5f859412",
+                "seed": 6,
+                "source": {
+                  "id": "38914159-1d1b-484f-ac17-36ed14a714fb",
+                  "title": "West Regional - First Round - Game 5",
+                  "status": "closed",
+                  "coverage": "full",
+                  "home_team": "dcf5c2e7-c227-4c20-af26-715d5f859412",
+                  "away_team": "1b1977ec-b32f-4ce3-95a4-d07bab4816cd",
+                  "scheduled": "2024-03-22T19:10:00+00:00",
+                  "outcome": "win"
+                }
+              }
+            },
+            {
+              "id": "8eaf4c85-85df-4a82-b800-8a24e75c1ac3",
+              "status": "closed",
+              "title": "West Regional - Second Round - Game 1",
+              "coverage": "full",
+              "scheduled": "2024-03-23T21:45:00+00:00",
+              "home_points": 85,
+              "away_points": 69,
+              "neutral_site": true,
+              "conference_game": false,
+              "track_on_court": true,
+              "time_zones": {
+                "venue": "US/Eastern",
+                "home": "US/Eastern",
+                "away": "US/Eastern"
+              },
+              "venue": {
+                "id": "a380f011-6e5d-5430-9f37-209e1e8a9b6f",
+                "name": "Spectrum Center",
+                "capacity": 19077,
+                "address": "330 E. Trade Street",
+                "city": "Charlotte",
+                "state": "NC",
+                "zip": "28202",
+                "country": "USA",
+                "location": {
+                  "lat": "35.225148",
+                  "lng": "-80.839249"
+                }
+              },
+              "broadcasts": [
+                {
+                  "network": "CBS",
+                  "type": "TV",
+                  "locale": "National"
+                }
+              ],
+              "home": {
+                "name": "North Carolina Tar Heels",
+                "alias": "UNC",
+                "id": "e9ca48b2-00ba-41c0-a02b-6885a2da1ff1",
+                "seed": 1,
+                "source": {
+                  "id": "3975ce17-6e54-497c-8dbb-350a180c87f4",
+                  "title": "West Regional - First Round - Game 1",
+                  "status": "closed",
+                  "coverage": "full",
+                  "home_team": "e9ca48b2-00ba-41c0-a02b-6885a2da1ff1",
+                  "away_team": "3b644902-cd06-4930-9a3e-6c78cfb1f464",
+                  "scheduled": "2024-03-21T18:47:00+00:00",
+                  "outcome": "win"
+                }
+              },
+              "away": {
+                "name": "Michigan State Spartans",
+                "alias": "MSU",
+                "id": "a41d5a05-4c11-4171-a57e-e7a1ea325a6d",
+                "seed": 9,
+                "source": {
+                  "id": "c13f603e-017f-46e5-b8b8-f71d39ac9855",
+                  "title": "West Regional - First Round - Game 2",
+                  "status": "closed",
+                  "coverage": "full",
+                  "home_team": "a1ba4b89-d97c-44e2-835f-79ad3ccaa5ae",
+                  "away_team": "a41d5a05-4c11-4171-a57e-e7a1ea325a6d",
+                  "scheduled": "2024-03-21T16:15:00+00:00",
+                  "outcome": "win"
+                }
+              }
+            },
+            {
+              "id": "91055f16-bc1e-4933-92c6-8f40ab5edcec",
+              "status": "closed",
+              "title": "West Regional - Second Round - Game 2",
+              "coverage": "full",
+              "scheduled": "2024-03-24T23:10:00+00:00",
+              "home_points": 72,
+              "away_points": 61,
+              "neutral_site": true,
+              "conference_game": false,
+              "track_on_court": true,
+              "time_zones": {
+                "venue": "US/Pacific",
+                "home": "US/Central",
+                "away": "US/Arizona"
+              },
+              "venue": {
+                "id": "b665b238-e25c-4726-87ab-58f8c694376b",
+                "name": "Spokane Veterans Memorial Arena",
+                "capacity": 12210,
+                "address": "720 W. Mallon Avenue",
+                "city": "Spokane",
+                "state": "WA",
+                "zip": "99201",
+                "country": "USA",
+                "location": {
+                  "lat": "47.666",
+                  "lng": "-117.423"
+                }
+              },
+              "broadcasts": [
+                {
+                  "network": "TBS",
+                  "type": "TV",
+                  "locale": "National",
+                  "channel": "247"
+                }
+              ],
+              "home": {
+                "name": "Alabama Crimson Tide",
+                "alias": "ALA",
+                "id": "c2104cdc-c83d-40d2-a3cd-df986e29f5d3",
+                "seed": 4,
+                "source": {
+                  "id": "5bf094d4-67a7-4bbf-80a1-d4983997f61d",
+                  "title": "West Regional - First Round - Game 4",
+                  "status": "closed",
+                  "coverage": "full",
+                  "home_team": "c2104cdc-c83d-40d2-a3cd-df986e29f5d3",
+                  "away_team": "8548dacb-3636-48a8-8c46-611ab0c15fc0",
+                  "scheduled": "2024-03-23T00:03:00+00:00",
+                  "outcome": "win"
+                }
+              },
+              "away": {
+                "name": "Grand Canyon Antelopes",
+                "alias": "GC",
+                "id": "f7e6acc3-0778-4de5-940a-d88e20df1159",
+                "seed": 12,
+                "source": {
+                  "id": "4e8abf66-2976-4416-841f-22a3487297a7",
+                  "title": "West Regional - First Round - Game 3",
+                  "status": "closed",
+                  "coverage": "full",
+                  "home_team": "b18f34af-a7f1-4659-a2e5-fc11a31cd316",
+                  "away_team": "f7e6acc3-0778-4de5-940a-d88e20df1159",
+                  "scheduled": "2024-03-23T02:57:00+00:00",
+                  "outcome": "win"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "bracket": {
+            "id": "c81cc6d3-8236-4a3f-b855-65b85e7b8601",
+            "name": "Midwest Regional",
+            "location": "Detroit, MI, USA",
+            "rank": 3
+          },
+          "games": [
+            {
+              "id": "da9ae914-d1f2-4c26-ab0c-8ec5f5ad4f0c",
+              "status": "closed",
+              "title": "Midwest Regional - Second Round - Game 1",
+              "coverage": "full",
+              "scheduled": "2024-03-24T18:47:00+00:00",
+              "home_points": 106,
+              "away_points": 67,
+              "neutral_site": true,
+              "conference_game": false,
+              "track_on_court": true,
+              "time_zones": {
+                "venue": "US/Eastern",
+                "home": "US/Eastern",
+                "away": "US/Mountain"
+              },
+              "venue": {
+                "id": "24bb478e-eb31-5f8a-8c8d-07f513169ec1",
+                "name": "Gainbridge Fieldhouse",
+                "capacity": 20000,
+                "address": "125 S. Pennsylvania Street",
+                "city": "Indianapolis",
+                "state": "IN",
+                "zip": "46204",
+                "country": "USA",
+                "location": {
+                  "lat": "39.763975",
+                  "lng": "-86.15542"
+                }
+              },
+              "broadcasts": [
+                {
+                  "network": "CBS",
+                  "type": "TV",
+                  "locale": "National"
+                }
+              ],
+              "home": {
+                "name": "Purdue Boilermakers",
+                "alias": "PUR",
+                "id": "12d7f888-675b-459f-9099-a38f771d8a95",
+                "seed": 1,
+                "source": {
+                  "id": "b94a0f8d-74f1-43de-aef0-963025a76bed",
+                  "title": "Midwest Regional - First Round - Game 1",
+                  "status": "closed",
+                  "coverage": "full",
+                  "home_team": "12d7f888-675b-459f-9099-a38f771d8a95",
+                  "away_team": "6776c7e6-f4c2-47bd-99e5-39fc179a3197",
+                  "scheduled": "2024-03-22T23:59:00+00:00",
+                  "outcome": "win"
+                }
+              },
+              "away": {
+                "name": "Utah State Aggies",
+                "alias": "USU",
+                "id": "7672ff16-8436-47e6-8546-0fb5494ec7ee",
+                "seed": 8,
+                "source": {
+                  "id": "954131fc-5cc9-4f6a-96a0-c94fa64e6e8f",
+                  "title": "Midwest Regional - First Round - Game 2",
+                  "status": "closed",
+                  "coverage": "full",
+                  "home_team": "7672ff16-8436-47e6-8546-0fb5494ec7ee",
+                  "away_team": "f7fcbb6e-4a55-41ea-ba21-f763ed914467",
+                  "scheduled": "2024-03-23T02:30:00+00:00",
+                  "outcome": "win"
+                }
+              }
+            },
+            {
+              "id": "4dff0dd1-3f1a-44ac-963f-b90e6b43e9a4",
+              "status": "closed",
+              "title": "Midwest Regional - Second Round - Game 2",
+              "coverage": "full",
+              "scheduled": "2024-03-23T19:33:00+00:00",
+              "home_points": 68,
+              "away_points": 89,
+              "neutral_site": true,
+              "conference_game": false,
+              "track_on_court": true,
+              "time_zones": {
+                "venue": "US/Mountain",
+                "home": "US/Central",
+                "away": "US/Pacific"
+              },
+              "venue": {
+                "id": "53bac75a-a667-52b5-a416-b80718ae4ed2",
+                "name": "Delta Center",
+                "capacity": 18206,
+                "address": "301 South Temple Street",
+                "city": "Salt Lake City",
+                "state": "UT",
+                "zip": "84101",
+                "country": "USA",
+                "location": {
+                  "lat": "40.768273",
+                  "lng": "-111.901141"
+                }
+              },
+              "broadcasts": [
+                {
+                  "network": "CBS",
+                  "type": "TV",
+                  "locale": "National"
+                }
+              ],
+              "home": {
+                "name": "Kansas Jayhawks",
+                "alias": "KU",
+                "id": "fae4855b-1b64-4b40-a632-9ed345e1e952",
+                "seed": 4,
+                "source": {
+                  "id": "2cf83cda-77c1-4174-a070-0073fc406669",
+                  "title": "Midwest Regional - First Round - Game 4",
+                  "status": "closed",
+                  "coverage": "full",
+                  "home_team": "fae4855b-1b64-4b40-a632-9ed345e1e952",
+                  "away_team": "c13f96ba-c79c-452f-9f63-3b45fae4e543",
+                  "scheduled": "2024-03-22T02:20:00+00:00",
+                  "outcome": "win"
+                }
+              },
+              "away": {
+                "name": "Gonzaga Bulldogs",
+                "alias": "GONZ",
+                "id": "2f4d21f8-6d5f-48a5-abca-52a30583871a",
+                "seed": 5,
+                "source": {
+                  "id": "a729a1d6-e878-4a6b-9796-0eece13566cc",
+                  "title": "Midwest Regional - First Round - Game 3",
+                  "status": "closed",
+                  "coverage": "full",
+                  "home_team": "2f4d21f8-6d5f-48a5-abca-52a30583871a",
+                  "away_team": "d2ef641c-70e4-48bb-b40d-ac654d179205",
+                  "scheduled": "2024-03-21T23:47:00+00:00",
+                  "outcome": "win"
+                }
+              }
+            },
+            {
+              "id": "06c5b447-739d-472a-82f2-1805da284778",
+              "status": "closed",
+              "title": "Midwest Regional - Second Round - Game 3",
+              "coverage": "full",
+              "scheduled": "2024-03-24T02:03:00+00:00",
+              "home_points": 86,
+              "away_points": 73,
+              "neutral_site": true,
+              "conference_game": false,
+              "track_on_court": true,
+              "time_zones": {
+                "venue": "US/Eastern",
+                "home": "US/Central",
+                "away": "US/Pacific"
+              },
+              "venue": {
+                "id": "1ae1aa64-71c1-43e0-b040-d02501071ba2",
+                "name": "PPG Paints Arena",
+                "capacity": 19758,
+                "address": "1001 Fifth Avenue",
+                "city": "Pittsburgh",
+                "state": "PA",
+                "zip": "15219",
+                "country": "USA",
+                "location": {
+                  "lat": "40.439444",
+                  "lng": "-79.989167"
+                }
+              },
+              "broadcasts": [
+                {
+                  "network": "TBS",
+                  "type": "TV",
+                  "locale": "National",
+                  "channel": "247"
+                }
+              ],
+              "home": {
+                "name": "Creighton Bluejays",
+                "alias": "CREI",
+                "id": "7d797407-623e-476d-b299-46de4275414d",
+                "seed": 3,
+                "source": {
+                  "id": "91e356f7-bed1-4e2b-8ea2-106fec724da3",
+                  "title": "Midwest Regional - First Round - Game 6",
+                  "status": "closed",
+                  "coverage": "full",
+                  "home_team": "7d797407-623e-476d-b299-46de4275414d",
+                  "away_team": "56fe0ab2-e4f0-47b9-8726-9ce23ebcde20",
+                  "scheduled": "2024-03-21T17:30:00+00:00",
+                  "outcome": "win"
+                }
+              },
+              "away": {
+                "name": "Oregon Ducks",
+                "alias": "ORE",
+                "id": "1da70895-f77f-44ef-b216-d63c02e696eb",
+                "seed": 11,
+                "source": {
+                  "id": "f2da7961-3e85-4ad5-817f-8da646340f30",
+                  "title": "Midwest Regional - First Round - Game 5",
+                  "status": "closed",
+                  "coverage": "full",
+                  "home_team": "1c7ec608-3b36-4cee-adac-9265e3792597",
+                  "away_team": "1da70895-f77f-44ef-b216-d63c02e696eb",
+                  "scheduled": "2024-03-21T20:09:00+00:00",
+                  "outcome": "win"
+                }
+              }
+            },
+            {
+              "id": "fd6cc2a6-8d48-40cd-b3e1-5eb55c6c19fe",
+              "status": "closed",
+              "title": "Midwest Regional - Second Round - Game 4",
+              "coverage": "full",
+              "scheduled": "2024-03-24T00:25:00+00:00",
+              "home_points": 62,
+              "away_points": 58,
+              "neutral_site": true,
+              "conference_game": false,
+              "track_on_court": true,
+              "time_zones": {
+                "venue": "US/Eastern",
+                "home": "US/Eastern",
+                "away": "US/Central"
+              },
+              "venue": {
+                "id": "a380f011-6e5d-5430-9f37-209e1e8a9b6f",
+                "name": "Spectrum Center",
+                "capacity": 19077,
+                "address": "330 E. Trade Street",
+                "city": "Charlotte",
+                "state": "NC",
+                "zip": "28202",
+                "country": "USA",
+                "location": {
+                  "lat": "35.225148",
+                  "lng": "-80.839249"
+                }
+              },
+              "broadcasts": [
+                {
+                  "network": "CBS",
+                  "type": "TV",
+                  "locale": "National"
+                }
+              ],
+              "home": {
+                "name": "Tennessee Volunteers",
+                "alias": "TENN",
+                "id": "b827dbdf-230f-4916-9703-3bb9004e26eb",
+                "seed": 2,
+                "source": {
+                  "id": "249a0f39-2203-4cfc-8985-89e9fd821991",
+                  "title": "Midwest Regional - First Round - Game 8",
+                  "status": "closed",
+                  "coverage": "full",
+                  "home_team": "b827dbdf-230f-4916-9703-3bb9004e26eb",
+                  "away_team": "e66d7ed2-9b4c-48c8-adaa-a276793b057d",
+                  "scheduled": "2024-03-22T01:25:00+00:00",
+                  "outcome": "win"
+                }
+              },
+              "away": {
+                "name": "Texas Longhorns",
+                "alias": "TEX",
+                "id": "6ed15092-2670-450a-99c2-61d861e87644",
+                "seed": 7,
+                "source": {
+                  "id": "636ebe3e-f6c1-4ba6-8cd3-3bc2ff0da9c6",
+                  "title": "Midwest Regional - First Round - Game 7",
+                  "status": "closed",
+                  "coverage": "full",
+                  "home_team": "6ed15092-2670-450a-99c2-61d861e87644",
+                  "away_team": "1a470730-f328-4fb1-8bbf-36a069e4d6b2",
+                  "scheduled": "2024-03-21T22:50:00+00:00",
+                  "outcome": "win"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "bracket": {
+            "id": "9d2a7eb7-844a-4942-9e8c-cbb9c065f4a7",
+            "name": "East Regional",
+            "location": "Boston, MA, USA",
+            "rank": 1
+          },
+          "games": [
+            {
+              "id": "70ccd17c-717d-4026-90b0-7fd31d0f8b6d",
+              "status": "closed",
+              "title": "East Regional - Second Round - Game 1",
+              "coverage": "full",
+              "scheduled": "2024-03-24T23:55:00+00:00",
+              "home_points": 75,
+              "away_points": 58,
+              "neutral_site": true,
+              "conference_game": false,
+              "track_on_court": true,
+              "time_zones": {
+                "venue": "US/Eastern",
+                "home": "US/Eastern",
+                "away": "US/Central"
+              },
+              "venue": {
+                "id": "7a330bcd-ac0f-50ca-bc29-2460e5c476b3",
+                "name": "Barclays Center",
+                "capacity": 17732,
+                "address": "620 Atlantic Avenue",
+                "city": "Brooklyn",
+                "state": "NY",
+                "zip": "11217",
+                "country": "USA",
+                "location": {
+                  "lat": "40.682957",
+                  "lng": "-73.975165"
+                }
+              },
+              "broadcasts": [
+                {
+                  "network": "truTV",
+                  "type": "TV",
+                  "locale": "National",
+                  "channel": "246"
+                }
+              ],
+              "home": {
+                "name": "UConn Huskies",
+                "alias": "CONN",
+                "id": "efba5350-79bc-47aa-a189-db177b95b491",
+                "seed": 1,
+                "source": {
+                  "id": "cd585692-c7d3-4614-b38f-0b905e4c13a9",
+                  "title": "East Regional - First Round - Game 1",
+                  "status": "closed",
+                  "coverage": "full",
+                  "home_team": "efba5350-79bc-47aa-a189-db177b95b491",
+                  "away_team": "394d1b2b-7a19-4d43-b04a-5f366c24e5bf",
+                  "scheduled": "2024-03-22T19:22:00+00:00",
+                  "outcome": "win"
+                }
+              },
+              "away": {
+                "name": "Northwestern Wildcats",
+                "alias": "NW",
+                "id": "4b7dedc0-7b48-49a4-aad6-8a94a33274d2",
+                "seed": 9,
+                "source": {
+                  "id": "75199dd2-3af3-4c2a-af6e-6be23ce6998c",
+                  "title": "East Regional - First Round - Game 2",
+                  "status": "closed",
+                  "coverage": "full",
+                  "home_team": "c851131a-5ecd-4670-81bc-b40f4837dd65",
+                  "away_team": "4b7dedc0-7b48-49a4-aad6-8a94a33274d2",
+                  "scheduled": "2024-03-22T16:15:00+00:00",
+                  "outcome": "win"
+                }
+              }
+            },
+            {
+              "id": "9ae7b82b-ce0e-4b23-9a5a-4808f8e5c90a",
+              "status": "closed",
+              "title": "East Regional - Second Round - Game 4",
+              "coverage": "full",
+              "scheduled": "2024-03-23T22:15:00+00:00",
+              "home_points": 67,
+              "away_points": 56,
+              "neutral_site": true,
+              "conference_game": false,
+              "track_on_court": true,
+              "time_zones": {
+                "venue": "US/Central",
+                "home": "US/Central",
+                "away": "US/Pacific"
+              },
+              "venue": {
+                "id": "41b29fbb-906a-4aca-b261-6a816ca96428",
+                "name": "CHI Health Center Omaha",
+                "capacity": 18320,
+                "address": "455 North 10th Street",
+                "city": "Omaha",
+                "state": "NE",
+                "zip": "68102",
+                "country": "USA",
+                "location": {
+                  "lat": "41.262667",
+                  "lng": "-95.928206"
+                }
+              },
+              "broadcasts": [
+                {
+                  "network": "TNT",
+                  "type": "TV",
+                  "locale": "National",
+                  "channel": "245"
+                }
+              ],
+              "home": {
+                "name": "Iowa State Cyclones",
+                "alias": "ISU",
+                "id": "0e4258fa-3154-4c16-b693-adecab184c6c",
+                "seed": 2,
+                "source": {
+                  "id": "0a620548-643e-4ac5-bfc1-bb9583d144e7",
+                  "title": "East Regional - First Round - Game 8",
+                  "status": "closed",
+                  "coverage": "full",
+                  "home_team": "0e4258fa-3154-4c16-b693-adecab184c6c",
+                  "away_team": "6ef40534-5fad-4755-84de-7dcbd645d1f0",
+                  "scheduled": "2024-03-21T23:40:00+00:00",
+                  "outcome": "win"
+                }
+              },
+              "away": {
+                "name": "Washington State Cougars",
+                "alias": "WSU",
+                "id": "2d4f0015-adb4-4877-8c15-4a6eed7eed03",
+                "seed": 7,
+                "source": {
+                  "id": "57be8791-89bf-4fa9-b121-9e4b16373d92",
+                  "title": "East Regional - First Round - Game 7",
+                  "status": "closed",
+                  "coverage": "full",
+                  "home_team": "2d4f0015-adb4-4877-8c15-4a6eed7eed03",
+                  "away_team": "aed211c3-23a4-4188-ad70-22c6eba7d765",
+                  "scheduled": "2024-03-22T02:15:00+00:00",
+                  "outcome": "win"
+                }
+              }
+            },
+            {
+              "id": "1c8f7c51-f1fe-4ade-b310-b0a274ce37ad",
+              "status": "closed",
+              "title": "East Regional - Second Round - Game 3",
+              "coverage": "full",
+              "scheduled": "2024-03-24T00:49:00+00:00",
+              "home_points": 89,
+              "away_points": 63,
+              "neutral_site": true,
+              "conference_game": false,
+              "track_on_court": true,
+              "time_zones": {
+                "venue": "US/Central",
+                "home": "US/Central",
+                "away": "US/Eastern"
+              },
+              "venue": {
+                "id": "41b29fbb-906a-4aca-b261-6a816ca96428",
+                "name": "CHI Health Center Omaha",
+                "capacity": 18320,
+                "address": "455 North 10th Street",
+                "city": "Omaha",
+                "state": "NE",
+                "zip": "68102",
+                "country": "USA",
+                "location": {
+                  "lat": "41.262667",
+                  "lng": "-95.928206"
+                }
+              },
+              "broadcasts": [
+                {
+                  "network": "TNT",
+                  "type": "TV",
+                  "locale": "National",
+                  "channel": "245"
+                }
+              ],
+              "home": {
+                "name": "Illinois Fighting Illini",
+                "alias": "ILL",
+                "id": "150148c2-ca8f-414f-8f41-d94a55d4a122",
+                "seed": 3,
+                "source": {
+                  "id": "8aba71db-f155-459a-bf04-c2b140e9fa3a",
+                  "title": "East Regional - First Round - Game 6",
+                  "status": "closed",
+                  "coverage": "full",
+                  "home_team": "150148c2-ca8f-414f-8f41-d94a55d4a122",
+                  "away_team": "b7747a03-c85b-4de6-94bf-1b5b68553248",
+                  "scheduled": "2024-03-21T19:34:00+00:00",
+                  "outcome": "win"
+                }
+              },
+              "away": {
+                "name": "Duquesne Dukes",
+                "alias": "DUQ",
+                "id": "fea46ac5-6dad-43cd-a770-75554dbcc118",
+                "seed": 11,
+                "source": {
+                  "id": "639fcc82-558b-495a-946f-33ed4e9b69a6",
+                  "title": "East Regional - First Round - Game 5",
+                  "status": "closed",
+                  "coverage": "full",
+                  "home_team": "c31455b2-8a45-4248-aa8f-ce7eab1c6b02",
+                  "away_team": "fea46ac5-6dad-43cd-a770-75554dbcc118",
+                  "scheduled": "2024-03-21T16:40:00+00:00",
+                  "outcome": "win"
+                }
+              }
+            },
+            {
+              "id": "af94e6c0-e0c1-405c-a0bd-05148d447fe0",
+              "status": "closed",
+              "title": "East Regional - Second Round - Game 2",
+              "coverage": "full",
+              "scheduled": "2024-03-25T02:12:00+00:00",
+              "home_points": 85,
+              "away_points": 57,
+              "neutral_site": true,
+              "conference_game": false,
+              "track_on_court": true,
+              "time_zones": {
+                "venue": "US/Pacific",
+                "home": "US/Pacific",
+                "away": "US/Eastern"
+              },
+              "venue": {
+                "id": "b665b238-e25c-4726-87ab-58f8c694376b",
+                "name": "Spokane Veterans Memorial Arena",
+                "capacity": 12210,
+                "address": "720 W. Mallon Avenue",
+                "city": "Spokane",
+                "state": "WA",
+                "zip": "99201",
+                "country": "USA",
+                "location": {
+                  "lat": "47.666",
+                  "lng": "-117.423"
+                }
+              },
+              "broadcasts": [
+                {
+                  "network": "TBS",
+                  "type": "TV",
+                  "locale": "National",
+                  "channel": "247"
+                }
+              ],
+              "home": {
+                "name": "San Diego State Aztecs",
+                "alias": "SDSU",
+                "id": "e6914f16-ca37-4d2e-ba26-a425910283e2",
+                "seed": 5,
+                "source": {
+                  "id": "7a1170ef-0901-4fe9-a7a5-90e5afcf1c9e",
+                  "title": "East Regional - First Round - Game 3",
+                  "status": "closed",
+                  "coverage": "full",
+                  "home_team": "e6914f16-ca37-4d2e-ba26-a425910283e2",
+                  "away_team": "63a8fdcf-b51b-4de3-8a57-2a6e41d362ce",
+                  "scheduled": "2024-03-22T17:45:00+00:00",
+                  "outcome": "win"
+                }
+              },
+              "away": {
+                "name": "Yale Bulldogs",
+                "alias": "YALE",
+                "id": "ca478771-aa3d-4231-81e0-b70f519134fb",
+                "seed": 13,
+                "source": {
+                  "id": "4d8025b9-cf62-4600-8a3f-c3cfd832b735",
+                  "title": "East Regional - First Round - Game 4",
+                  "status": "closed",
+                  "coverage": "full",
+                  "home_team": "0c0608b3-f349-4f5e-9a10-7e6a744dd0d2",
+                  "away_team": "ca478771-aa3d-4231-81e0-b70f519134fb",
+                  "scheduled": "2024-03-22T20:33:00+00:00",
+                  "outcome": "win"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "bracket": {
+            "id": "46b3e80e-ba24-4baf-82e1-e6973c21a0af",
+            "name": "South Regional",
+            "location": "Dallas, TX, USA",
+            "rank": 2
+          },
+          "games": [
+            {
+              "id": "f9cf5d3e-30b5-43bb-a5b4-df3ad4104a92",
+              "status": "closed",
+              "title": "South Regional - Second Round - Game 1",
+              "coverage": "full",
+              "scheduled": "2024-03-25T00:55:00+00:00",
+              "home_points": 100,
+              "away_points": 95,
+              "neutral_site": true,
+              "conference_game": false,
+              "track_on_court": true,
+              "time_zones": {
+                "venue": "US/Central",
+                "home": "US/Central",
+                "away": "US/Central"
+              },
+              "venue": {
+                "id": "7657c204-a20b-527a-99cb-dc29218462aa",
+                "name": "FedExForum",
+                "capacity": 18119,
+                "address": "191 Beale Street",
+                "city": "Memphis",
+                "state": "TN",
+                "zip": "38103",
+                "country": "USA",
+                "location": {
+                  "lat": "35.138142",
+                  "lng": "-90.050427"
+                }
+              },
+              "broadcasts": [
+                {
+                  "network": "TNT",
+                  "type": "TV",
+                  "locale": "National",
+                  "channel": "245"
+                }
+              ],
+              "home": {
+                "name": "Houston Cougars",
+                "alias": "HOU",
+                "id": "1f99a164-d593-4d81-85d5-0d7889d6f486",
+                "seed": 1,
+                "source": {
+                  "id": "c7a23524-9fe5-4b58-bcee-473ecbe19968",
+                  "title": "South Regional - First Round - Game 1",
+                  "status": "closed",
+                  "coverage": "full",
+                  "home_team": "1f99a164-d593-4d81-85d5-0d7889d6f486",
+                  "away_team": "600aad0e-85e7-4db8-be0b-94ba02a08e55",
+                  "scheduled": "2024-03-23T01:49:00+00:00",
+                  "outcome": "win"
+                }
+              },
+              "away": {
+                "name": "Texas A&M Aggies",
+                "alias": "TXAM",
+                "id": "ef184799-d79b-49d9-a662-991eaf4044cd",
+                "seed": 9,
+                "source": {
+                  "id": "d0202cda-a675-4688-b847-888218408735",
+                  "title": "South Regional - First Round - Game 2",
+                  "status": "closed",
+                  "coverage": "full",
+                  "home_team": "f8b1bf00-5b73-4ac4-98c0-ec554027ae32",
+                  "away_team": "ef184799-d79b-49d9-a662-991eaf4044cd",
+                  "scheduled": "2024-03-22T23:00:00+00:00",
+                  "outcome": "win"
+                }
+              }
+            },
+            {
+              "id": "2a880170-25d1-4dfa-94e9-aa3ad348cdfa",
+              "status": "closed",
+              "title": "South Regional - Second Round - Game 4",
+              "coverage": "full",
+              "scheduled": "2024-03-24T16:10:00+00:00",
+              "home_points": 81,
+              "away_points": 77,
+              "neutral_site": true,
+              "conference_game": false,
+              "track_on_court": true,
+              "time_zones": {
+                "venue": "US/Eastern",
+                "home": "US/Central",
+                "away": "US/Mountain"
+              },
+              "venue": {
+                "id": "24bb478e-eb31-5f8a-8c8d-07f513169ec1",
+                "name": "Gainbridge Fieldhouse",
+                "capacity": 20000,
+                "address": "125 S. Pennsylvania Street",
+                "city": "Indianapolis",
+                "state": "IN",
+                "zip": "46204",
+                "country": "USA",
+                "location": {
+                  "lat": "39.763975",
+                  "lng": "-86.15542"
+                }
+              },
+              "broadcasts": [
+                {
+                  "network": "CBS",
+                  "type": "TV",
+                  "locale": "National"
+                }
+              ],
+              "home": {
+                "name": "Marquette Golden Eagles",
+                "alias": "MARQ",
+                "id": "06f7c904-0ac7-4125-b0f4-f4871bb69057",
+                "seed": 2,
+                "source": {
+                  "id": "ce9a7119-ea3e-4704-b703-c3e7068341b5",
+                  "title": "South Regional - First Round - Game 8",
+                  "status": "closed",
+                  "coverage": "full",
+                  "home_team": "06f7c904-0ac7-4125-b0f4-f4871bb69057",
+                  "away_team": "881380da-861c-4ab6-a7d2-20699d8ea883",
+                  "scheduled": "2024-03-22T18:00:00+00:00",
+                  "outcome": "win"
+                }
+              },
+              "away": {
+                "name": "Colorado Buffaloes",
+                "alias": "COLO",
+                "id": "9fccbf28-2858-4263-821c-fdefb3c7efa3",
+                "seed": 10,
+                "source": {
+                  "id": "d10e49ba-08f0-4494-a504-2b9248e8b8a9",
+                  "title": "South Regional - First Round - Game 7",
+                  "status": "closed",
+                  "coverage": "full",
+                  "home_team": "912f8837-1d81-4ef9-a576-a21f271d4c64",
+                  "away_team": "9fccbf28-2858-4263-821c-fdefb3c7efa3",
+                  "scheduled": "2024-03-22T20:38:00+00:00",
+                  "outcome": "win"
+                }
+              }
+            },
+            {
+              "id": "8abfd393-106b-4fd5-86b9-54ace2528c03",
+              "status": "closed",
+              "title": "South Regional - Second Round - Game 3",
+              "coverage": "full",
+              "scheduled": "2024-03-23T23:10:00+00:00",
+              "home_points": 79,
+              "away_points": 73,
+              "neutral_site": true,
+              "conference_game": false,
+              "track_on_court": true,
+              "time_zones": {
+                "venue": "US/Eastern",
+                "home": "US/Eastern",
+                "away": "US/Eastern"
+              },
+              "venue": {
+                "id": "1ae1aa64-71c1-43e0-b040-d02501071ba2",
+                "name": "PPG Paints Arena",
+                "capacity": 19758,
+                "address": "1001 Fifth Avenue",
+                "city": "Pittsburgh",
+                "state": "PA",
+                "zip": "15219",
+                "country": "USA",
+                "location": {
+                  "lat": "40.439444",
+                  "lng": "-79.989167"
+                }
+              },
+              "broadcasts": [
+                {
+                  "network": "TBS",
+                  "type": "TV",
+                  "locale": "National",
+                  "channel": "247"
+                }
+              ],
+              "home": {
+                "name": "North Carolina State Wolfpack",
+                "alias": "NCST",
+                "id": "52df1e19-b142-4a76-a439-ad68455d0581",
+                "seed": 11,
+                "source": {
+                  "id": "3af9bd2b-e2d0-4ceb-9855-b48b89b53191",
+                  "title": "South Regional - First Round - Game 5",
+                  "status": "closed",
+                  "coverage": "full",
+                  "home_team": "f8c705b7-87d3-411a-9c8b-5124daab0469",
+                  "away_team": "52df1e19-b142-4a76-a439-ad68455d0581",
+                  "scheduled": "2024-03-22T02:12:00+00:00",
+                  "outcome": "win"
+                }
+              },
+              "away": {
+                "name": "Oakland Golden Grizzlies",
+                "alias": "OAK",
+                "id": "aeaaef0d-5238-414e-ac04-c55a22cba208",
+                "seed": 14,
+                "source": {
+                  "id": "b2f56c7e-7525-49c5-ac54-b16a67435807",
+                  "title": "South Regional - First Round - Game 6",
+                  "status": "closed",
+                  "coverage": "full",
+                  "home_team": "2267a1f4-68f6-418b-aaf6-2aa0c4b291f1",
+                  "away_team": "aeaaef0d-5238-414e-ac04-c55a22cba208",
+                  "scheduled": "2024-03-21T23:24:00+00:00",
+                  "outcome": "win"
+                }
+              }
+            },
+            {
+              "id": "f3f72f62-c6de-4203-b736-754eaaaead9c",
+              "status": "closed",
+              "title": "South Regional - Second Round - Game 2",
+              "coverage": "full",
+              "scheduled": "2024-03-24T21:15:00+00:00",
+              "home_points": 93,
+              "away_points": 55,
+              "neutral_site": true,
+              "conference_game": false,
+              "track_on_court": true,
+              "time_zones": {
+                "venue": "US/Eastern",
+                "home": "US/Eastern",
+                "away": "US/Eastern"
+              },
+              "venue": {
+                "id": "7a330bcd-ac0f-50ca-bc29-2460e5c476b3",
+                "name": "Barclays Center",
+                "capacity": 17732,
+                "address": "620 Atlantic Avenue",
+                "city": "Brooklyn",
+                "state": "NY",
+                "zip": "11217",
+                "country": "USA",
+                "location": {
+                  "lat": "40.682957",
+                  "lng": "-73.975165"
+                }
+              },
+              "broadcasts": [
+                {
+                  "network": "CBS",
+                  "type": "TV",
+                  "locale": "National"
+                }
+              ],
+              "home": {
+                "name": "Duke Blue Devils",
+                "alias": "DUKE",
+                "id": "faeb1160-5d15-4f26-99fc-c441cf21fc7f",
+                "seed": 4,
+                "source": {
+                  "id": "882f2156-b990-4f50-ab07-1a77fb0c1f86",
+                  "title": "South Regional - First Round - Game 4",
+                  "status": "closed",
+                  "coverage": "full",
+                  "home_team": "faeb1160-5d15-4f26-99fc-c441cf21fc7f",
+                  "away_team": "18e89867-9201-41ce-ba19-fadddf92fa17",
+                  "scheduled": "2024-03-22T23:10:00+00:00",
+                  "outcome": "win"
+                }
+              },
+              "away": {
+                "name": "James Madison Dukes",
+                "alias": "JMU",
+                "id": "524e3eec-7dde-45c7-b3cc-6308cec73350",
+                "seed": 12,
+                "source": {
+                  "id": "9f69ba32-c042-43c9-8f50-a0ea832906a6",
+                  "title": "South Regional - First Round - Game 3",
+                  "status": "closed",
+                  "coverage": "full",
+                  "home_team": "c7569eae-5b93-4197-b204-6f3a62146b25",
+                  "away_team": "524e3eec-7dde-45c7-b3cc-6308cec73350",
+                  "scheduled": "2024-03-23T01:50:00+00:00",
+                  "outcome": "win"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cb1519c4-986f-49bb-97cb-8b4782d65a91",
+      "sequence": 4,
+      "name": "Sweet 16",
+      "games": [],
+      "bracketed": [
+        {
+          "bracket": {
+            "id": "9d2a7eb7-844a-4942-9e8c-cbb9c065f4a7",
+            "name": "East Regional",
+            "location": "Boston, MA, USA",
+            "rank": 1
+          },
+          "games": [
+            {
+              "id": "0d2ddc68-9f3a-4f11-acb1-b51ec7ce8a61",
+              "status": "closed",
+              "title": "East Regional - Sweet 16 - Game 2",
+              "coverage": "full",
+              "scheduled": "2024-03-29T02:14:00+00:00",
+              "home_points": 69,
+              "away_points": 72,
+              "neutral_site": true,
+              "conference_game": false,
+              "track_on_court": true,
+              "time_zones": {
+                "venue": "US/Eastern",
+                "home": "US/Central",
+                "away": "US/Central"
+              },
+              "venue": {
+                "id": "7d69b080-91ca-53c9-9302-45c1a72c5549",
+                "name": "TD Garden",
+                "capacity": 18624,
+                "address": "100 Legends Way",
+                "city": "Boston",
+                "state": "MA",
+                "zip": "02114",
+                "country": "USA",
+                "location": {
+                  "lat": "42.366303",
+                  "lng": "-71.062228"
+                }
+              },
+              "broadcasts": [
+                {
+                  "network": "TBS",
+                  "type": "TV",
+                  "locale": "National",
+                  "channel": "247"
+                },
+                {
+                  "network": "truTV",
+                  "type": "TV",
+                  "locale": "National",
+                  "channel": "246"
+                }
+              ],
+              "home": {
+                "name": "Iowa State Cyclones",
+                "alias": "ISU",
+                "id": "0e4258fa-3154-4c16-b693-adecab184c6c",
+                "seed": 2,
+                "source": {
+                  "id": "9ae7b82b-ce0e-4b23-9a5a-4808f8e5c90a",
+                  "title": "East Regional - Second Round - Game 4",
+                  "status": "closed",
+                  "coverage": "full",
+                  "home_team": "0e4258fa-3154-4c16-b693-adecab184c6c",
+                  "away_team": "2d4f0015-adb4-4877-8c15-4a6eed7eed03",
+                  "scheduled": "2024-03-23T22:15:00+00:00",
+                  "outcome": "win"
+                }
+              },
+              "away": {
+                "name": "Illinois Fighting Illini",
+                "alias": "ILL",
+                "id": "150148c2-ca8f-414f-8f41-d94a55d4a122",
+                "seed": 3,
+                "source": {
+                  "id": "1c8f7c51-f1fe-4ade-b310-b0a274ce37ad",
+                  "title": "East Regional - Second Round - Game 3",
+                  "status": "closed",
+                  "coverage": "full",
+                  "home_team": "150148c2-ca8f-414f-8f41-d94a55d4a122",
+                  "away_team": "fea46ac5-6dad-43cd-a770-75554dbcc118",
+                  "scheduled": "2024-03-24T00:49:00+00:00",
+                  "outcome": "win"
+                }
+              }
+            },
+            {
+              "id": "9e45c095-231a-4a4c-980a-aae6a62614d8",
+              "status": "closed",
+              "title": "East Regional - Sweet 16 - Game 1",
+              "coverage": "full",
+              "scheduled": "2024-03-28T23:39:00+00:00",
+              "home_points": 82,
+              "away_points": 52,
+              "neutral_site": true,
+              "conference_game": false,
+              "track_on_court": true,
+              "time_zones": {
+                "venue": "US/Eastern",
+                "home": "US/Eastern",
+                "away": "US/Pacific"
+              },
+              "venue": {
+                "id": "7d69b080-91ca-53c9-9302-45c1a72c5549",
+                "name": "TD Garden",
+                "capacity": 18624,
+                "address": "100 Legends Way",
+                "city": "Boston",
+                "state": "MA",
+                "zip": "02114",
+                "country": "USA",
+                "location": {
+                  "lat": "42.366303",
+                  "lng": "-71.062228"
+                }
+              },
+              "broadcasts": [
+                {
+                  "network": "TBS",
+                  "type": "TV",
+                  "locale": "National",
+                  "channel": "247"
+                },
+                {
+                  "network": "truTV",
+                  "type": "TV",
+                  "locale": "National",
+                  "channel": "246"
+                }
+              ],
+              "home": {
+                "name": "UConn Huskies",
+                "alias": "CONN",
+                "id": "efba5350-79bc-47aa-a189-db177b95b491",
+                "seed": 1,
+                "source": {
+                  "id": "70ccd17c-717d-4026-90b0-7fd31d0f8b6d",
+                  "title": "East Regional - Second Round - Game 1",
+                  "status": "closed",
+                  "coverage": "full",
+                  "home_team": "efba5350-79bc-47aa-a189-db177b95b491",
+                  "away_team": "4b7dedc0-7b48-49a4-aad6-8a94a33274d2",
+                  "scheduled": "2024-03-24T23:55:00+00:00",
+                  "outcome": "win"
+                }
+              },
+              "away": {
+                "name": "San Diego State Aztecs",
+                "alias": "SDSU",
+                "id": "e6914f16-ca37-4d2e-ba26-a425910283e2",
+                "seed": 5,
+                "source": {
+                  "id": "af94e6c0-e0c1-405c-a0bd-05148d447fe0",
+                  "title": "East Regional - Second Round - Game 2",
+                  "status": "closed",
+                  "coverage": "full",
+                  "home_team": "e6914f16-ca37-4d2e-ba26-a425910283e2",
+                  "away_team": "ca478771-aa3d-4231-81e0-b70f519134fb",
+                  "scheduled": "2024-03-25T02:12:00+00:00",
+                  "outcome": "win"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "bracket": {
+            "id": "46b3e80e-ba24-4baf-82e1-e6973c21a0af",
+            "name": "South Regional",
+            "location": "Dallas, TX, USA",
+            "rank": 2
+          },
+          "games": [
+            {
+              "id": "0fb72edb-28bf-4c33-99d3-f7dc18fbb323",
+              "status": "closed",
+              "title": "South Regional - Sweet 16 - Game 1",
+              "coverage": "full",
+              "scheduled": "2024-03-30T01:59:00+00:00",
+              "home_points": 51,
+              "away_points": 54,
+              "neutral_site": true,
+              "conference_game": false,
+              "track_on_court": true,
+              "time_zones": {
+                "venue": "US/Central",
+                "home": "US/Central",
+                "away": "US/Eastern"
+              },
+              "venue": {
+                "id": "401ba62f-19b5-5bfc-84d6-021772943311",
+                "name": "American Airlines Center",
+                "capacity": 19200,
+                "address": "2500 Victory Avenue",
+                "city": "Dallas",
+                "state": "TX",
+                "zip": "75219",
+                "country": "USA",
+                "location": {
+                  "lat": "32.79087",
+                  "lng": "-96.810338"
+                }
+              },
+              "broadcasts": [
+                {
+                  "network": "CBS",
+                  "type": "TV",
+                  "locale": "National"
+                }
+              ],
+              "home": {
+                "name": "Houston Cougars",
+                "alias": "HOU",
+                "id": "1f99a164-d593-4d81-85d5-0d7889d6f486",
+                "seed": 1,
+                "source": {
+                  "id": "f9cf5d3e-30b5-43bb-a5b4-df3ad4104a92",
+                  "title": "South Regional - Second Round - Game 1",
+                  "status": "closed",
+                  "coverage": "full",
+                  "home_team": "1f99a164-d593-4d81-85d5-0d7889d6f486",
+                  "away_team": "ef184799-d79b-49d9-a662-991eaf4044cd",
+                  "scheduled": "2024-03-25T00:55:00+00:00",
+                  "outcome": "win"
+                }
+              },
+              "away": {
+                "name": "Duke Blue Devils",
+                "alias": "DUKE",
+                "id": "faeb1160-5d15-4f26-99fc-c441cf21fc7f",
+                "seed": 4,
+                "source": {
+                  "id": "f3f72f62-c6de-4203-b736-754eaaaead9c",
+                  "title": "South Regional - Second Round - Game 2",
+                  "status": "closed",
+                  "coverage": "full",
+                  "home_team": "faeb1160-5d15-4f26-99fc-c441cf21fc7f",
+                  "away_team": "524e3eec-7dde-45c7-b3cc-6308cec73350",
+                  "scheduled": "2024-03-24T21:15:00+00:00",
+                  "outcome": "win"
+                }
+              }
+            },
+            {
+              "id": "b3c09a74-06a2-427c-859f-479ff5a2b4b5",
+              "status": "closed",
+              "title": "South Regional - Sweet 16 - Game 2",
+              "coverage": "full",
+              "scheduled": "2024-03-29T23:09:00+00:00",
+              "home_points": 58,
+              "away_points": 67,
+              "neutral_site": true,
+              "conference_game": false,
+              "track_on_court": true,
+              "time_zones": {
+                "venue": "US/Central",
+                "home": "US/Central",
+                "away": "US/Eastern"
+              },
+              "venue": {
+                "id": "401ba62f-19b5-5bfc-84d6-021772943311",
+                "name": "American Airlines Center",
+                "capacity": 19200,
+                "address": "2500 Victory Avenue",
+                "city": "Dallas",
+                "state": "TX",
+                "zip": "75219",
+                "country": "USA",
+                "location": {
+                  "lat": "32.79087",
+                  "lng": "-96.810338"
+                }
+              },
+              "broadcasts": [
+                {
+                  "network": "CBS",
+                  "type": "TV",
+                  "locale": "National"
+                }
+              ],
+              "home": {
+                "name": "Marquette Golden Eagles",
+                "alias": "MARQ",
+                "id": "06f7c904-0ac7-4125-b0f4-f4871bb69057",
+                "seed": 2,
+                "source": {
+                  "id": "2a880170-25d1-4dfa-94e9-aa3ad348cdfa",
+                  "title": "South Regional - Second Round - Game 4",
+                  "status": "closed",
+                  "coverage": "full",
+                  "home_team": "06f7c904-0ac7-4125-b0f4-f4871bb69057",
+                  "away_team": "9fccbf28-2858-4263-821c-fdefb3c7efa3",
+                  "scheduled": "2024-03-24T16:10:00+00:00",
+                  "outcome": "win"
+                }
+              },
+              "away": {
+                "name": "North Carolina State Wolfpack",
+                "alias": "NCST",
+                "id": "52df1e19-b142-4a76-a439-ad68455d0581",
+                "seed": 11,
+                "source": {
+                  "id": "8abfd393-106b-4fd5-86b9-54ace2528c03",
+                  "title": "South Regional - Second Round - Game 3",
+                  "status": "closed",
+                  "coverage": "full",
+                  "home_team": "52df1e19-b142-4a76-a439-ad68455d0581",
+                  "away_team": "aeaaef0d-5238-414e-ac04-c55a22cba208",
+                  "scheduled": "2024-03-23T23:10:00+00:00",
+                  "outcome": "win"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "bracket": {
+            "id": "c81cc6d3-8236-4a3f-b855-65b85e7b8601",
+            "name": "Midwest Regional",
+            "location": "Detroit, MI, USA",
+            "rank": 3
+          },
+          "games": [
+            {
+              "id": "de205d14-9b9d-4ded-8ac9-a71a103196fb",
+              "status": "closed",
+              "title": "Midwest Regional - Sweet 16 - Game 1",
+              "coverage": "full",
+              "scheduled": "2024-03-29T23:39:00+00:00",
+              "home_points": 80,
+              "away_points": 68,
+              "neutral_site": true,
+              "conference_game": false,
+              "track_on_court": true,
+              "time_zones": {
+                "venue": "US/Eastern",
+                "home": "US/Eastern",
+                "away": "US/Pacific"
+              },
+              "venue": {
+                "id": "5a9ddefc-2267-4fd1-8d6e-0f82163ce8bd",
+                "name": "Little Caesars Arena",
+                "capacity": 20491,
+                "address": "2645 Woodward Avenue",
+                "city": "Detroit",
+                "state": "MI",
+                "zip": "48201",
+                "country": "USA",
+                "location": {
+                  "lat": "42.341172",
+                  "lng": "-83.054911"
+                }
+              },
+              "broadcasts": [
+                {
+                  "network": "TBS",
+                  "type": "TV",
+                  "locale": "National",
+                  "channel": "247"
+                },
+                {
+                  "network": "truTV",
+                  "type": "TV",
+                  "locale": "National",
+                  "channel": "246"
+                }
+              ],
+              "home": {
+                "name": "Purdue Boilermakers",
+                "alias": "PUR",
+                "id": "12d7f888-675b-459f-9099-a38f771d8a95",
+                "seed": 1,
+                "source": {
+                  "id": "da9ae914-d1f2-4c26-ab0c-8ec5f5ad4f0c",
+                  "title": "Midwest Regional - Second Round - Game 1",
+                  "status": "closed",
+                  "coverage": "full",
+                  "home_team": "12d7f888-675b-459f-9099-a38f771d8a95",
+                  "away_team": "7672ff16-8436-47e6-8546-0fb5494ec7ee",
+                  "scheduled": "2024-03-24T18:47:00+00:00",
+                  "outcome": "win"
+                }
+              },
+              "away": {
+                "name": "Gonzaga Bulldogs",
+                "alias": "GONZ",
+                "id": "2f4d21f8-6d5f-48a5-abca-52a30583871a",
+                "seed": 5,
+                "source": {
+                  "id": "4dff0dd1-3f1a-44ac-963f-b90e6b43e9a4",
+                  "title": "Midwest Regional - Second Round - Game 2",
+                  "status": "closed",
+                  "coverage": "full",
+                  "home_team": "fae4855b-1b64-4b40-a632-9ed345e1e952",
+                  "away_team": "2f4d21f8-6d5f-48a5-abca-52a30583871a",
+                  "scheduled": "2024-03-23T19:33:00+00:00",
+                  "outcome": "win"
+                }
+              }
+            },
+            {
+              "id": "68690a95-9be9-49ad-b922-6f6016026a85",
+              "status": "closed",
+              "title": "Midwest Regional - Sweet 16 - Game 2",
+              "coverage": "full",
+              "scheduled": "2024-03-30T02:10:00+00:00",
+              "home_points": 82,
+              "away_points": 75,
+              "neutral_site": true,
+              "conference_game": false,
+              "track_on_court": true,
+              "time_zones": {
+                "venue": "US/Eastern",
+                "home": "US/Eastern",
+                "away": "US/Central"
+              },
+              "venue": {
+                "id": "5a9ddefc-2267-4fd1-8d6e-0f82163ce8bd",
+                "name": "Little Caesars Arena",
+                "capacity": 20491,
+                "address": "2645 Woodward Avenue",
+                "city": "Detroit",
+                "state": "MI",
+                "zip": "48201",
+                "country": "USA",
+                "location": {
+                  "lat": "42.341172",
+                  "lng": "-83.054911"
+                }
+              },
+              "broadcasts": [
+                {
+                  "network": "TBS",
+                  "type": "TV",
+                  "locale": "National",
+                  "channel": "247"
+                },
+                {
+                  "network": "truTV",
+                  "type": "TV",
+                  "locale": "National",
+                  "channel": "246"
+                }
+              ],
+              "home": {
+                "name": "Tennessee Volunteers",
+                "alias": "TENN",
+                "id": "b827dbdf-230f-4916-9703-3bb9004e26eb",
+                "seed": 2,
+                "source": {
+                  "id": "fd6cc2a6-8d48-40cd-b3e1-5eb55c6c19fe",
+                  "title": "Midwest Regional - Second Round - Game 4",
+                  "status": "closed",
+                  "coverage": "full",
+                  "home_team": "b827dbdf-230f-4916-9703-3bb9004e26eb",
+                  "away_team": "6ed15092-2670-450a-99c2-61d861e87644",
+                  "scheduled": "2024-03-24T00:25:00+00:00",
+                  "outcome": "win"
+                }
+              },
+              "away": {
+                "name": "Creighton Bluejays",
+                "alias": "CREI",
+                "id": "7d797407-623e-476d-b299-46de4275414d",
+                "seed": 3,
+                "source": {
+                  "id": "06c5b447-739d-472a-82f2-1805da284778",
+                  "title": "Midwest Regional - Second Round - Game 3",
+                  "status": "closed",
+                  "coverage": "full",
+                  "home_team": "7d797407-623e-476d-b299-46de4275414d",
+                  "away_team": "1da70895-f77f-44ef-b216-d63c02e696eb",
+                  "scheduled": "2024-03-24T02:03:00+00:00",
+                  "outcome": "win"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "bracket": {
+            "id": "5e34b1dc-a095-421b-8d55-b35ba14112cc",
+            "name": "West Regional",
+            "location": "Los Angeles, CA, USA",
+            "rank": 4
+          },
+          "games": [
+            {
+              "id": "cbd9165f-73d7-41d4-b2a3-2e30183b4a1b",
+              "status": "closed",
+              "title": "West Regional - Sweet 16 - Game 1",
+              "coverage": "full",
+              "scheduled": "2024-03-29T01:54:00+00:00",
+              "home_points": 87,
+              "away_points": 89,
+              "neutral_site": true,
+              "conference_game": false,
+              "track_on_court": true,
+              "time_zones": {
+                "venue": "US/Pacific",
+                "home": "US/Eastern",
+                "away": "US/Central"
+              },
+              "venue": {
+                "id": "792ec100-691e-5e16-8ef8-79b2b6ee38ba",
+                "name": "Crypto.com Arena",
+                "capacity": 18997,
+                "address": "1111 S. Figueroa Street",
+                "city": "Los Angeles",
+                "state": "CA",
+                "zip": "90015",
+                "country": "USA",
+                "location": {
+                  "lat": "34.043059",
+                  "lng": "-118.267223"
+                }
+              },
+              "broadcasts": [
+                {
+                  "network": "CBS",
+                  "type": "TV",
+                  "locale": "National"
+                }
+              ],
+              "home": {
+                "name": "North Carolina Tar Heels",
+                "alias": "UNC",
+                "id": "e9ca48b2-00ba-41c0-a02b-6885a2da1ff1",
+                "seed": 1,
+                "source": {
+                  "id": "8eaf4c85-85df-4a82-b800-8a24e75c1ac3",
+                  "title": "West Regional - Second Round - Game 1",
+                  "status": "closed",
+                  "coverage": "full",
+                  "home_team": "e9ca48b2-00ba-41c0-a02b-6885a2da1ff1",
+                  "away_team": "a41d5a05-4c11-4171-a57e-e7a1ea325a6d",
+                  "scheduled": "2024-03-23T21:45:00+00:00",
+                  "outcome": "win"
+                }
+              },
+              "away": {
+                "name": "Alabama Crimson Tide",
+                "alias": "ALA",
+                "id": "c2104cdc-c83d-40d2-a3cd-df986e29f5d3",
+                "seed": 4,
+                "source": {
+                  "id": "91055f16-bc1e-4933-92c6-8f40ab5edcec",
+                  "title": "West Regional - Second Round - Game 2",
+                  "status": "closed",
+                  "coverage": "full",
+                  "home_team": "c2104cdc-c83d-40d2-a3cd-df986e29f5d3",
+                  "away_team": "f7e6acc3-0778-4de5-940a-d88e20df1159",
+                  "scheduled": "2024-03-24T23:10:00+00:00",
+                  "outcome": "win"
+                }
+              }
+            },
+            {
+              "id": "455fe508-d16f-433e-8a38-dd175895d9b9",
+              "status": "closed",
+              "title": "West Regional - Sweet 16 - Game 2",
+              "coverage": "full",
+              "scheduled": "2024-03-28T23:09:00+00:00",
+              "home_points": 72,
+              "away_points": 77,
+              "neutral_site": true,
+              "conference_game": false,
+              "track_on_court": true,
+              "time_zones": {
+                "venue": "US/Pacific",
+                "home": "US/Mountain",
+                "away": "US/Eastern"
+              },
+              "venue": {
+                "id": "792ec100-691e-5e16-8ef8-79b2b6ee38ba",
+                "name": "Crypto.com Arena",
+                "capacity": 18997,
+                "address": "1111 S. Figueroa Street",
+                "city": "Los Angeles",
+                "state": "CA",
+                "zip": "90015",
+                "country": "USA",
+                "location": {
+                  "lat": "34.043059",
+                  "lng": "-118.267223"
+                }
+              },
+              "broadcasts": [
+                {
+                  "network": "CBS",
+                  "type": "TV",
+                  "locale": "National"
+                }
+              ],
+              "home": {
+                "name": "Arizona Wildcats",
+                "alias": "ARIZ",
+                "id": "9b166a3f-e64b-4825-bb6b-92c6f0418263",
+                "seed": 2,
+                "source": {
+                  "id": "ad0ff5e1-2844-4085-ac36-5134115bf304",
+                  "title": "West Regional - Second Round - Game 4",
+                  "status": "closed",
+                  "coverage": "full",
+                  "home_team": "9b166a3f-e64b-4825-bb6b-92c6f0418263",
+                  "away_team": "632616c5-2dbb-4017-a449-c9dfc303f026",
+                  "scheduled": "2024-03-23T16:45:00+00:00",
+                  "outcome": "win"
+                }
+              },
+              "away": {
+                "name": "Clemson Tigers",
+                "alias": "CLEM",
+                "id": "dcf5c2e7-c227-4c20-af26-715d5f859412",
+                "seed": 6,
+                "source": {
+                  "id": "44364661-f918-4e9f-b95b-bc9fa936bb77",
+                  "title": "West Regional - Second Round - Game 3",
+                  "status": "closed",
+                  "coverage": "full",
+                  "home_team": "db6e1cab-3fa3-4a93-a673-8b2a358ff4bf",
+                  "away_team": "dcf5c2e7-c227-4c20-af26-715d5f859412",
+                  "scheduled": "2024-03-24T22:10:00+00:00",
+                  "outcome": "win"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "8435b24c-2a19-497f-b346-db7043fffd34",
+      "sequence": 5,
+      "name": "Elite Eight",
+      "games": [],
+      "bracketed": [
+        {
+          "bracket": {
+            "id": "c81cc6d3-8236-4a3f-b855-65b85e7b8601",
+            "name": "Midwest Regional",
+            "location": "Detroit, MI, USA",
+            "rank": 3
+          },
+          "games": [
+            {
+              "id": "44de2809-05e0-454e-83bd-8ae00f55748a",
+              "status": "closed",
+              "title": "Midwest Regional - Elite Eight - Game 1",
+              "coverage": "full",
+              "scheduled": "2024-03-31T18:20:00+00:00",
+              "home_points": 72,
+              "away_points": 66,
+              "neutral_site": true,
+              "conference_game": false,
+              "track_on_court": true,
+              "time_zones": {
+                "venue": "US/Eastern",
+                "home": "US/Eastern",
+                "away": "US/Eastern"
+              },
+              "venue": {
+                "id": "5a9ddefc-2267-4fd1-8d6e-0f82163ce8bd",
+                "name": "Little Caesars Arena",
+                "capacity": 20491,
+                "address": "2645 Woodward Avenue",
+                "city": "Detroit",
+                "state": "MI",
+                "zip": "48201",
+                "country": "USA",
+                "location": {
+                  "lat": "42.341172",
+                  "lng": "-83.054911"
+                }
+              },
+              "broadcasts": [
+                {
+                  "network": "CBS",
+                  "type": "TV",
+                  "locale": "National"
+                }
+              ],
+              "home": {
+                "name": "Purdue Boilermakers",
+                "alias": "PUR",
+                "id": "12d7f888-675b-459f-9099-a38f771d8a95",
+                "seed": 1,
+                "source": {
+                  "id": "de205d14-9b9d-4ded-8ac9-a71a103196fb",
+                  "title": "Midwest Regional - Sweet 16 - Game 1",
+                  "status": "closed",
+                  "coverage": "full",
+                  "home_team": "12d7f888-675b-459f-9099-a38f771d8a95",
+                  "away_team": "2f4d21f8-6d5f-48a5-abca-52a30583871a",
+                  "scheduled": "2024-03-29T23:39:00+00:00",
+                  "outcome": "win"
+                }
+              },
+              "away": {
+                "name": "Tennessee Volunteers",
+                "alias": "TENN",
+                "id": "b827dbdf-230f-4916-9703-3bb9004e26eb",
+                "seed": 2,
+                "source": {
+                  "id": "68690a95-9be9-49ad-b922-6f6016026a85",
+                  "title": "Midwest Regional - Sweet 16 - Game 2",
+                  "status": "closed",
+                  "coverage": "full",
+                  "home_team": "b827dbdf-230f-4916-9703-3bb9004e26eb",
+                  "away_team": "7d797407-623e-476d-b299-46de4275414d",
+                  "scheduled": "2024-03-30T02:10:00+00:00",
+                  "outcome": "win"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "bracket": {
+            "id": "46b3e80e-ba24-4baf-82e1-e6973c21a0af",
+            "name": "South Regional",
+            "location": "Dallas, TX, USA",
+            "rank": 2
+          },
+          "games": [
+            {
+              "id": "ce31aeb0-959b-465e-9f67-0fac33e63b28",
+              "status": "closed",
+              "title": "South Regional - Elite Eight - Game 1",
+              "coverage": "full",
+              "scheduled": "2024-03-31T21:10:00+00:00",
+              "home_points": 64,
+              "away_points": 76,
+              "neutral_site": true,
+              "conference_game": false,
+              "track_on_court": true,
+              "time_zones": {
+                "venue": "US/Central",
+                "home": "US/Eastern",
+                "away": "US/Eastern"
+              },
+              "venue": {
+                "id": "401ba62f-19b5-5bfc-84d6-021772943311",
+                "name": "American Airlines Center",
+                "capacity": 19200,
+                "address": "2500 Victory Avenue",
+                "city": "Dallas",
+                "state": "TX",
+                "zip": "75219",
+                "country": "USA",
+                "location": {
+                  "lat": "32.79087",
+                  "lng": "-96.810338"
+                }
+              },
+              "broadcasts": [
+                {
+                  "network": "CBS",
+                  "type": "TV",
+                  "locale": "National"
+                }
+              ],
+              "home": {
+                "name": "Duke Blue Devils",
+                "alias": "DUKE",
+                "id": "faeb1160-5d15-4f26-99fc-c441cf21fc7f",
+                "seed": 4,
+                "source": {
+                  "id": "0fb72edb-28bf-4c33-99d3-f7dc18fbb323",
+                  "title": "South Regional - Sweet 16 - Game 1",
+                  "status": "closed",
+                  "coverage": "full",
+                  "home_team": "1f99a164-d593-4d81-85d5-0d7889d6f486",
+                  "away_team": "faeb1160-5d15-4f26-99fc-c441cf21fc7f",
+                  "scheduled": "2024-03-30T01:59:00+00:00",
+                  "outcome": "win"
+                }
+              },
+              "away": {
+                "name": "North Carolina State Wolfpack",
+                "alias": "NCST",
+                "id": "52df1e19-b142-4a76-a439-ad68455d0581",
+                "seed": 11,
+                "source": {
+                  "id": "b3c09a74-06a2-427c-859f-479ff5a2b4b5",
+                  "title": "South Regional - Sweet 16 - Game 2",
+                  "status": "closed",
+                  "coverage": "full",
+                  "home_team": "06f7c904-0ac7-4125-b0f4-f4871bb69057",
+                  "away_team": "52df1e19-b142-4a76-a439-ad68455d0581",
+                  "scheduled": "2024-03-29T23:09:00+00:00",
+                  "outcome": "win"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "bracket": {
+            "id": "9d2a7eb7-844a-4942-9e8c-cbb9c065f4a7",
+            "name": "East Regional",
+            "location": "Boston, MA, USA",
+            "rank": 1
+          },
+          "games": [
+            {
+              "id": "7cbafb0a-7633-473e-a5a9-72c50df87d68",
+              "status": "closed",
+              "title": "East Regional - Elite Eight - Game 1",
+              "coverage": "full",
+              "scheduled": "2024-03-30T22:09:00+00:00",
+              "home_points": 77,
+              "away_points": 52,
+              "neutral_site": true,
+              "conference_game": false,
+              "track_on_court": true,
+              "time_zones": {
+                "venue": "US/Eastern",
+                "home": "US/Eastern",
+                "away": "US/Central"
+              },
+              "venue": {
+                "id": "7d69b080-91ca-53c9-9302-45c1a72c5549",
+                "name": "TD Garden",
+                "capacity": 18624,
+                "address": "100 Legends Way",
+                "city": "Boston",
+                "state": "MA",
+                "zip": "02114",
+                "country": "USA",
+                "location": {
+                  "lat": "42.366303",
+                  "lng": "-71.062228"
+                }
+              },
+              "broadcasts": [
+                {
+                  "network": "TBS",
+                  "type": "TV",
+                  "locale": "National",
+                  "channel": "247"
+                }
+              ],
+              "home": {
+                "name": "UConn Huskies",
+                "alias": "CONN",
+                "id": "efba5350-79bc-47aa-a189-db177b95b491",
+                "seed": 1,
+                "source": {
+                  "id": "9e45c095-231a-4a4c-980a-aae6a62614d8",
+                  "title": "East Regional - Sweet 16 - Game 1",
+                  "status": "closed",
+                  "coverage": "full",
+                  "home_team": "efba5350-79bc-47aa-a189-db177b95b491",
+                  "away_team": "e6914f16-ca37-4d2e-ba26-a425910283e2",
+                  "scheduled": "2024-03-28T23:39:00+00:00",
+                  "outcome": "win"
+                }
+              },
+              "away": {
+                "name": "Illinois Fighting Illini",
+                "alias": "ILL",
+                "id": "150148c2-ca8f-414f-8f41-d94a55d4a122",
+                "seed": 3,
+                "source": {
+                  "id": "0d2ddc68-9f3a-4f11-acb1-b51ec7ce8a61",
+                  "title": "East Regional - Sweet 16 - Game 2",
+                  "status": "closed",
+                  "coverage": "full",
+                  "home_team": "0e4258fa-3154-4c16-b693-adecab184c6c",
+                  "away_team": "150148c2-ca8f-414f-8f41-d94a55d4a122",
+                  "scheduled": "2024-03-29T02:14:00+00:00",
+                  "outcome": "win"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "bracket": {
+            "id": "5e34b1dc-a095-421b-8d55-b35ba14112cc",
+            "name": "West Regional",
+            "location": "Los Angeles, CA, USA",
+            "rank": 4
+          },
+          "games": [
+            {
+              "id": "533752a6-1af3-47b2-88f9-2e35c1cfae4e",
+              "status": "closed",
+              "title": "West Regional - Elite Eight - Game 1",
+              "coverage": "full",
+              "scheduled": "2024-03-31T00:54:00+00:00",
+              "home_points": 89,
+              "away_points": 82,
+              "neutral_site": true,
+              "conference_game": false,
+              "track_on_court": true,
+              "time_zones": {
+                "venue": "US/Pacific",
+                "home": "US/Central",
+                "away": "US/Eastern"
+              },
+              "venue": {
+                "id": "792ec100-691e-5e16-8ef8-79b2b6ee38ba",
+                "name": "Crypto.com Arena",
+                "capacity": 18997,
+                "address": "1111 S. Figueroa Street",
+                "city": "Los Angeles",
+                "state": "CA",
+                "zip": "90015",
+                "country": "USA",
+                "location": {
+                  "lat": "34.043059",
+                  "lng": "-118.267223"
+                }
+              },
+              "broadcasts": [
+                {
+                  "network": "TBS",
+                  "type": "TV",
+                  "locale": "National",
+                  "channel": "247"
+                }
+              ],
+              "home": {
+                "name": "Alabama Crimson Tide",
+                "alias": "ALA",
+                "id": "c2104cdc-c83d-40d2-a3cd-df986e29f5d3",
+                "seed": 4,
+                "source": {
+                  "id": "cbd9165f-73d7-41d4-b2a3-2e30183b4a1b",
+                  "title": "West Regional - Sweet 16 - Game 1",
+                  "status": "closed",
+                  "coverage": "full",
+                  "home_team": "e9ca48b2-00ba-41c0-a02b-6885a2da1ff1",
+                  "away_team": "c2104cdc-c83d-40d2-a3cd-df986e29f5d3",
+                  "scheduled": "2024-03-29T01:54:00+00:00",
+                  "outcome": "win"
+                }
+              },
+              "away": {
+                "name": "Clemson Tigers",
+                "alias": "CLEM",
+                "id": "dcf5c2e7-c227-4c20-af26-715d5f859412",
+                "seed": 6,
+                "source": {
+                  "id": "455fe508-d16f-433e-8a38-dd175895d9b9",
+                  "title": "West Regional - Sweet 16 - Game 2",
+                  "status": "closed",
+                  "coverage": "full",
+                  "home_team": "9b166a3f-e64b-4825-bb6b-92c6f0418263",
+                  "away_team": "dcf5c2e7-c227-4c20-af26-715d5f859412",
+                  "scheduled": "2024-03-28T23:09:00+00:00",
+                  "outcome": "win"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "e15ea2ba-b112-443b-99d7-583718243ddb",
+      "sequence": 6,
+      "name": "Final Four",
+      "games": [
+        {
+          "id": "de06e52c-30bb-417c-881e-14c1b089b46e",
+          "status": "closed",
+          "title": "Final Four - Semifinals - Game 2",
+          "coverage": "full",
+          "scheduled": "2024-04-06T22:09:00+00:00",
+          "home_points": 63,
+          "away_points": 50,
+          "neutral_site": true,
+          "conference_game": false,
+          "track_on_court": true,
+          "time_zones": {
+            "venue": "US/Arizona",
+            "home": "US/Eastern",
+            "away": "US/Eastern"
+          },
+          "venue": {
+            "id": "b7b7b06b-2f6e-44ab-ab6f-563145cfedca",
+            "name": "State Farm Stadium",
+            "capacity": 72220,
+            "address": "1 Cardinals Drive",
+            "city": "Glendale",
+            "state": "AZ",
+            "zip": "85305",
+            "country": "USA",
+            "location": {
+              "lat": "33.527830387176984",
+              "lng": "-112.26253784524413"
+            }
+          },
+          "broadcasts": [
+            {
+              "network": "TBS",
+              "type": "TV",
+              "locale": "National",
+              "channel": "247"
+            }
+          ],
+          "home": {
+            "name": "Purdue Boilermakers",
+            "alias": "PUR",
+            "id": "12d7f888-675b-459f-9099-a38f771d8a95",
+            "seed": 1,
+            "source": {
+              "id": "44de2809-05e0-454e-83bd-8ae00f55748a",
+              "title": "Midwest Regional - Elite Eight - Game 1",
+              "status": "closed",
+              "coverage": "full",
+              "home_team": "12d7f888-675b-459f-9099-a38f771d8a95",
+              "away_team": "b827dbdf-230f-4916-9703-3bb9004e26eb",
+              "scheduled": "2024-03-31T18:20:00+00:00",
+              "outcome": "win"
+            }
+          },
+          "away": {
+            "name": "North Carolina State Wolfpack",
+            "alias": "NCST",
+            "id": "52df1e19-b142-4a76-a439-ad68455d0581",
+            "seed": 11,
+            "source": {
+              "id": "ce31aeb0-959b-465e-9f67-0fac33e63b28",
+              "title": "South Regional - Elite Eight - Game 1",
+              "status": "closed",
+              "coverage": "full",
+              "home_team": "faeb1160-5d15-4f26-99fc-c441cf21fc7f",
+              "away_team": "52df1e19-b142-4a76-a439-ad68455d0581",
+              "scheduled": "2024-03-31T21:10:00+00:00",
+              "outcome": "win"
+            }
+          }
+        },
+        {
+          "id": "0ba0c65d-aae5-4af2-b0f8-b8352cc63912",
+          "status": "closed",
+          "title": "Final Four - Semifinals - Game 1",
+          "coverage": "full",
+          "scheduled": "2024-04-07T00:49:00+00:00",
+          "home_points": 86,
+          "away_points": 72,
+          "neutral_site": true,
+          "conference_game": false,
+          "track_on_court": true,
+          "time_zones": {
+            "venue": "US/Arizona",
+            "home": "US/Eastern",
+            "away": "US/Central"
+          },
+          "venue": {
+            "id": "b7b7b06b-2f6e-44ab-ab6f-563145cfedca",
+            "name": "State Farm Stadium",
+            "capacity": 72220,
+            "address": "1 Cardinals Drive",
+            "city": "Glendale",
+            "state": "AZ",
+            "zip": "85305",
+            "country": "USA",
+            "location": {
+              "lat": "33.527830387176984",
+              "lng": "-112.26253784524413"
+            }
+          },
+          "broadcasts": [
+            {
+              "network": "TBS",
+              "type": "TV",
+              "locale": "National",
+              "channel": "247"
+            }
+          ],
+          "home": {
+            "name": "UConn Huskies",
+            "alias": "CONN",
+            "id": "efba5350-79bc-47aa-a189-db177b95b491",
+            "seed": 1,
+            "source": {
+              "id": "7cbafb0a-7633-473e-a5a9-72c50df87d68",
+              "title": "East Regional - Elite Eight - Game 1",
+              "status": "closed",
+              "coverage": "full",
+              "home_team": "efba5350-79bc-47aa-a189-db177b95b491",
+              "away_team": "150148c2-ca8f-414f-8f41-d94a55d4a122",
+              "scheduled": "2024-03-30T22:09:00+00:00",
+              "outcome": "win"
+            }
+          },
+          "away": {
+            "name": "Alabama Crimson Tide",
+            "alias": "ALA",
+            "id": "c2104cdc-c83d-40d2-a3cd-df986e29f5d3",
+            "seed": 4,
+            "source": {
+              "id": "533752a6-1af3-47b2-88f9-2e35c1cfae4e",
+              "title": "West Regional - Elite Eight - Game 1",
+              "status": "closed",
+              "coverage": "full",
+              "home_team": "c2104cdc-c83d-40d2-a3cd-df986e29f5d3",
+              "away_team": "dcf5c2e7-c227-4c20-af26-715d5f859412",
+              "scheduled": "2024-03-31T00:54:00+00:00",
+              "outcome": "win"
+            }
+          }
+        }
+      ],
+      "bracketed": []
+    },
+    {
+      "id": "ff156193-748a-4596-92e4-351114953a59",
+      "sequence": 7,
+      "name": "National Championship",
+      "games": [
+        {
+          "id": "b9783724-45e8-48da-9fdb-7cfe83465ccf",
+          "status": "closed",
+          "title": "National Championship",
+          "coverage": "full",
+          "scheduled": "2024-04-09T01:20:00+00:00",
+          "home_points": 75,
+          "away_points": 60,
+          "neutral_site": true,
+          "conference_game": false,
+          "track_on_court": true,
+          "time_zones": {
+            "venue": "US/Arizona",
+            "home": "US/Eastern",
+            "away": "US/Eastern"
+          },
+          "venue": {
+            "id": "b7b7b06b-2f6e-44ab-ab6f-563145cfedca",
+            "name": "State Farm Stadium",
+            "capacity": 72220,
+            "address": "1 Cardinals Drive",
+            "city": "Glendale",
+            "state": "AZ",
+            "zip": "85305",
+            "country": "USA",
+            "location": {
+              "lat": "33.527830387176984",
+              "lng": "-112.26253784524413"
+            }
+          },
+          "broadcasts": [
+            {
+              "network": "TBS",
+              "type": "TV",
+              "locale": "National",
+              "channel": "247"
+            }
+          ],
+          "home": {
+            "name": "UConn Huskies",
+            "alias": "CONN",
+            "id": "efba5350-79bc-47aa-a189-db177b95b491",
+            "seed": 1,
+            "source": {
+              "id": "0ba0c65d-aae5-4af2-b0f8-b8352cc63912",
+              "title": "Final Four - Semifinals - Game 1",
+              "status": "closed",
+              "coverage": "full",
+              "home_team": "efba5350-79bc-47aa-a189-db177b95b491",
+              "away_team": "c2104cdc-c83d-40d2-a3cd-df986e29f5d3",
+              "scheduled": "2024-04-07T00:49:00+00:00",
+              "outcome": "win"
+            }
+          },
+          "away": {
+            "name": "Purdue Boilermakers",
+            "alias": "PUR",
+            "id": "12d7f888-675b-459f-9099-a38f771d8a95",
+            "seed": 1,
+            "source": {
+              "id": "de06e52c-30bb-417c-881e-14c1b089b46e",
+              "title": "Final Four - Semifinals - Game 2",
+              "status": "closed",
+              "coverage": "full",
+              "home_team": "12d7f888-675b-459f-9099-a38f771d8a95",
+              "away_team": "52df1e19-b142-4a76-a439-ad68455d0581",
+              "scheduled": "2024-04-06T22:09:00+00:00",
+              "outcome": "win"
+            }
+          }
+        }
+      ],
+      "bracketed": []
+    }
+  ]
+}

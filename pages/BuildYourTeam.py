@@ -1,6 +1,8 @@
 import streamlit as st
 import pandas as pd
-from data_loader import load_top16_player_data
+import datetime
+import pytz
+from data_loader import load_regular_season_data
 from firebase_util import save_submission
 from navigation import render_navigation
 
@@ -19,6 +21,15 @@ if "submissions" not in st.session_state:
 
 def main():
     st.title("🏀 March Madness Team Builder")
+    ct = pytz.timezone("America/Chicago")
+    now_ct = datetime.datetime.now(ct)
+    naive_deadline = datetime.datetime(2025, 3, 20, 11, 0)
+    deadline = ct.localize(naive_deadline)
+
+    if now_ct > deadline:
+        st.title("⛔ Submissions Closed")
+        st.write("Submissions have locked as the tournament has started. Good luck!")
+        st.stop()
     tab_names = [
         "Rules", "Seed 1-4", "Seed 5-8", "Seed 9-12",
         "Seed 13-16", "Review Team", "Submit Team"
@@ -45,19 +56,32 @@ def rules_tab():
     ### How to Build Your Team:
     1. **Select Players**:
        - Choose your team, which will comprise of 12 players.
-       - 3 players must come from each seeding segment.
-       - Each player's points will contribute to your team’s total score.
-       - No substitutions if a play-in player loses.
-       - Prizes for the top four teams.
+       - 3 players must come from each seeding segment
+        - 3 players on teams seeded 1-4
+        - 3 players on teams seeded 5-8
+        - 3 players on teams seeded 9-12
+        - 3 players on teams seeded 13-16
+       - Each player’s individual points throughout the tournament (will not include play-in games) will be added to your team’s total
+       - After each round, updated standings will be posted on the leaderboard
+       - If you choose a player who participates within a “Play-in Game,” their point totals will begin to accumulate in their First-Round matchup. If you choose them and they lose their play-in game, there won’t be an opportunity to substitute players.
+       - Prizes will be paid out to the top four teams (“Final 4”) at the conclusion of the tournament.
+       - In lieu of a tie (each team having the same players), payouts will be adjusted accordingly
     2. **Review Your Team**:
        - Review your team’s selected players and stats.
     3. **Submit Your Team**:
        - Enter your team name, submit, and good luck!
+    4. **Key Dates**:
+        - Selection Sunday: 3/16
+        - First Four/Play-in Games: 3/18 - 3/19
+        - 1st and 2nd rounds: 3/20 – 3/23
+        - Sweet 16 and Elite 8: 3/27-3/30
+        - Final Four: 4/5
+        - National Championship: 4/7
     """)
 
 def seed_selection_tab(seed_range):
     st.header(f"🌱 Seed {seed_range}")
-    df = load_top16_player_data()
+    df = load_regular_season_data()
     if isinstance(df, list):
         df = pd.DataFrame(df)
     if df.empty:
@@ -70,12 +94,16 @@ def seed_selection_tab(seed_range):
     seed_df = df[df["Seed"].between(start, end)]
     players = seed_df["Player"].unique().tolist()
     ppg_mapping = {}
+    team_mapping = {}
     for player in players:
         try:
             ppg_value = seed_df.loc[seed_df["Player"] == player, "PPG"].iloc[0]
+            team_value = seed_df.loc[seed_df["Player"] == player, "Team"].iloc[0]
         except IndexError:
             ppg_value = 0
+            team_value = "Unknown"
         ppg_mapping[player] = ppg_value
+        team_mapping[player] = team_value
 
     for i in range(3):
         # Create a set of already selected player names (for this seed group)
@@ -94,7 +122,7 @@ def seed_selection_tab(seed_range):
             key=f"{seed_range}_player_{i}",
             index=default_index,
             format_func=lambda option: option if option == "Select a player"
-                else f"{option} (PPG: {ppg_mapping.get(option, 0):.1f})"
+                else f"{option} / {team_mapping.get(option, 'Unknown')} (PPG: {ppg_mapping.get(option, 0):.1f})"
         )
         if selection != "Select a player":
             # Lookup the player's row in seed_df and store an object with details.
@@ -117,7 +145,7 @@ def review_team_tab():
         return
     selected_df = pd.DataFrame(all_selected)
     st.write(f"**Total Players Selected**: {len(selected_df)}")
-    df = load_top16_player_data()
+    df = load_regular_season_data()
     if isinstance(df, list):
         df = pd.DataFrame(df)
     selected_names = selected_df["name"].tolist()
@@ -144,8 +172,10 @@ def submit_team_tab():
         st.subheader("👤 Participant Information")
         first_name = st.text_input("First Name", placeholder="Enter your first name")
         last_name = st.text_input("Last Name", placeholder="Enter your last name")
+        email = st.text_input("Email Address", placeholder="Enter your email address")
         st.subheader("💳 Payment Information")
         payment_type = st.selectbox("Payment Type", ["Venmo"])
+        venmo_name = st.text_input("Venmo Username", placeholder="Enter your Venmo username (with @)")
         submitted = st.form_submit_button("Submit Team")
         if submitted:
             if not team_name:
@@ -154,10 +184,14 @@ def submit_team_tab():
                 st.error("Please enter your first name.")
             elif not last_name:
                 st.error("Please enter your last name.")
+            elif not email:
+                st.error("Please enter your email.")
             elif not payment_type:
                 st.error("Please select a payment type.")
+            elif not venmo_name:
+                st.error("Please enter Venmo username")
             else:
-                df = load_top16_player_data()
+                df = load_regular_season_data()
                 if isinstance(df, list):
                     df = pd.DataFrame(df)
                 selected_names = [p["name"] for p in all_selected]
@@ -165,9 +199,11 @@ def submit_team_tab():
                 submission = {
                     "team_name": team_name,
                     "participant": f"{first_name} {last_name}",
+                    "email_address": email,
                     "payment_type": payment_type,
+                    "venmo_username": venmo_name,
                     "players": all_selected,  # Detailed player objects with native types
-                    "total_points": total_points
+                    "total_points": int()
                 }
                 # Upload the detailed submission data to Firestore
                 save_submission(submission)

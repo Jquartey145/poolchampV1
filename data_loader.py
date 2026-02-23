@@ -4,6 +4,8 @@ import pandas as pd
 import time
 import random
 import datetime
+import firebase_admin
+from firebase_admin import credentials, firestore
 from firebase_util import (
     tournament_data_exists,
     get_tournament_data_from_firestore,
@@ -11,14 +13,26 @@ from firebase_util import (
     get_net_rankings,
     save_net_rankings,
     get_top16_player_data,
-    save_top16_player_data
+    save_top16_player_data,
+    get_regular_season_data,
+    save_regular_season_data,
+    update_submission_totals, db
 )
+from google.cloud.firestore_v1 import WriteBatch
 
-API_KEY = "ON3UvFxCKhEVsiZorA4AJ01jhpKKI25ZcRm1TYzq"
+API_KEY = "YAaIIkAKN1yNW6cr3SC2F89fU1s1aqJd7A3XNrJe"
 ACCESS_LEVEL = "trial"
 LANGUAGE_CODE = "en"
 BASE_URL = f"https://api.sportradar.com/ncaamb/{ACCESS_LEVEL}/v8/{LANGUAGE_CODE}"
 TOURNAMENT_YEAR = 2024
+ROUND_NAME_MAPPING = {
+    "Regional - First Round": "Round 1",  # Match "Regional - First Round"
+    "Regional - Second Round": "Round 2",  # Match "Regional - Second Round"
+    "Sweet 16": "Sweet 16",
+    "Elite Eight": "Elite 8",
+    "Final Four": "Final 4",
+    "National Championship": "Championship"
+}
 
 def safe_get(data, keys, default=None):
     for key in keys:
@@ -44,25 +58,26 @@ def fetch_with_retry(url, params, max_retries=5, base_delay=1.5):
 
 @st.cache_data(ttl=3600)
 def get_tournament_teams_and_seeds(tournament_id):
-    url = f"{BASE_URL}/tournaments/{tournament_id}/schedule.json"
+    url = f"{BASE_URL}/tournaments/{tournament_id}/summary.json"
     data = fetch_with_retry(url, {"api_key": API_KEY})
     if not data:
-        return [], {}
+        return [], {}, {}
     team_ids = set()
     team_seeds = {}
-    for round_data in safe_get(data, ['rounds'], []):
-        for game in safe_get(round_data, ['games'], []):
-            for side in ['home', 'away']:
-                if team := safe_get(game, [side, 'id']):
-                    team_ids.add(team)
-                    team_seeds[team] = safe_get(game, [side, 'seed'], "N/A")
-        for bracket in safe_get(data, ['bracketed'], []):
-            for game in safe_get(bracket, ['games'], []):
-                for side in ['home', 'away']:
-                    if team := safe_get(game, [side, 'id']):
-                        team_ids.add(team)
-                        team_seeds[team] = safe_get(game, [side, 'seed'], "N/A")
-    return list(team_ids), team_seeds
+    team_regions = {}
+    # Iterate over each bracket in the summary data
+    for bracket in safe_get(data, ["brackets"], []):
+        # Extract the region name from the bracket's name and trim "Regional" if present.
+        region = bracket.get("name", "")
+        if region.endswith("Regional"):
+            region = region[:-len("Regional")].strip()
+        for participant in safe_get(bracket, ["participants"], []):
+            team_id = participant.get("id")
+            if team_id:
+                team_ids.add(team_id)
+                team_seeds[team_id] = participant.get("seed", "N/A")
+                team_regions[team_id] = region
+    return list(team_ids), team_seeds, team_regions
 
 @st.cache_data(ttl=3600)
 def load_tournament_data():
@@ -97,7 +112,7 @@ def load_tournament_data():
     if not ncaa_tournament_id:
         return pd.DataFrame()
 
-    team_ids, team_seeds = get_tournament_teams_and_seeds(ncaa_tournament_id)
+    team_ids, team_seeds, team_regions = get_tournament_teams_and_seeds(ncaa_tournament_id)
     all_players = pd.DataFrame()
     for team_id in team_ids:
         url = f"{BASE_URL}/tournaments/{ncaa_tournament_id}/teams/{team_id}/statistics.json"
@@ -107,16 +122,28 @@ def load_tournament_data():
         team_players = []
         for player in safe_get(stats_data, ['players'], []):
             team_players.append({
+                "Player_ID": safe_get(player, ['id'], 'Unknown'),
                 "Player": safe_get(player, ['full_name'], 'Unknown'),
                 "Team": safe_get(stats_data, ['team', 'market'], 'Unknown'),
                 "Team_ID": team_id,  # Save team id for filtering later.
                 "Seed": team_seeds.get(team_id, "N/A"),
+                "Region": team_regions.get(team_id, "N/A"),  # Include region from team_regions
                 "Position": safe_get(player, ['position'], ''),
                 "Games": safe_get(player, ['total', 'games_played'], 0),
                 "Points": safe_get(player, ['total', 'points'], 0),
                 "PPG": safe_get(player, ['average', 'points'], 0.0),
                 "FG%": round(safe_get(player, ['total', 'field_goals_pct'], 0.0) * 100, 1),
-                "3P%": round(safe_get(player, ['total', 'three_points_pct'], 0.0) * 100, 1)
+                "3P%": round(safe_get(player, ['total', 'three_points_pct'], 0.0) * 100, 1),
+                "round_points": {  # Track points in each round
+                    "First Four": 0,
+                    "Round 1": 0,
+                    "Round 2": 0,
+                    "Sweet 16": 0,
+                    "Elite 8": 0,
+                    "Final 4": 0,
+                    "Championship": 0
+                },
+                "total_points": 0  # Track total points in the tournament
             })
         all_players = pd.concat([all_players, pd.DataFrame(team_players)], ignore_index=True)
     df = all_players.sort_values('Points', ascending=False)
@@ -209,6 +236,7 @@ def load_top16_player_data():
                 "Team": safe_get(stats_data, ['market'], 'Unknown'),
                 "Team_ID": team_id,
                 "Seed": team_seed,  # Store the rank from NET rankings but call it "Seed"
+                "Region": "N/A",  # Default region for top 16 players (not available in NET rankings)
                 "Position": safe_get(player, ['position'], ''),
                 "Games": safe_get(player, ['total', 'games_played'], 0),
                 "Points": safe_get(player, ['total', 'points'], 0),
@@ -228,3 +256,242 @@ def load_top16_player_data():
         save_top16_player_data(year_str, player_list)
 
     return df
+
+# In data_loader.py
+
+@st.cache_data(ttl=3600)
+def fetch_daily_change_log(date: str):
+    """Fetch game IDs for a specific date from daily change log"""
+    year, month, day = date.split("-")
+    url = f"{BASE_URL}/league/{year}/{month}/{day}/changes.json"
+    params = {"api_key": API_KEY}
+    data = fetch_with_retry(url, params)
+    return [game["id"] for game in safe_get(data, ["results"], []) if safe_get(game, ["id"])]
+
+def fetch_game_details(game_id: str):
+    """Fetch game summary and extract round name + player points"""
+    url = f"{BASE_URL}/games/{game_id}/summary.json"
+    data = fetch_with_retry(url, {"api_key": API_KEY})
+    if not data:
+        return None, []
+
+    # Extract round name from game title
+    game_title = safe_get(data, ["title"], "")
+    st.write(f"🔍 Processing game ID: {game_title}")
+    round_name = "Unknown Round"  # Default value
+
+    # Match game title to known round names using the mapping
+    for key, value in ROUND_NAME_MAPPING.items():
+        if key in game_title:
+            round_name = value
+            break
+    if round_name == "Unknown Round":
+            st.warning(f"⚠️ No round found for game ID: {game_id}")
+            return None, []
+    st.write(f"🔍 Processing round: {round_name}")
+    # Extract player points from both teams
+    player_data = []
+    for team_type in ["home", "away"]:
+        team = data.get(team_type, {})
+        team_id = safe_get(team, ["id"], "")
+
+        for player in safe_get(team, ["players"], []):
+            player_data.append({
+                "player_id": safe_get(player, ["id"], ""),
+                "team_id": team_id,
+                "player_name": safe_get(player, ["full_name"], "Unknown"),
+                "points": safe_get(player, ["statistics", "points"], 0),
+                "round": round_name,
+                "game_id": game_id,
+                "game_title": game_title
+            })
+
+    return round_name, player_data
+
+def update_daily_player_points(date: str):
+    """Process daily games with batched writes, audit timestamps, and error handling"""
+    st.write(f"🚀 Starting daily player points update for date: {date}")
+
+    game_ids = fetch_daily_change_log(date)
+    if not game_ids:
+        st.warning(f"⚠️ No games found for {date}")
+        return
+
+    # Get Firestore references
+    year_str = str(TOURNAMENT_YEAR)
+    tournament_ref = db.collection("tournament_data").document(year_str)
+    players_ref = tournament_ref.collection("players")
+
+    batch = db.batch()
+    batch_count = 0
+    MAX_BATCH_SIZE = 500  # Firestore batch limit
+
+    # Track the last processed round name
+    last_round_name = None
+
+    # Process each game
+    for game_id in game_ids:
+        st.write(f"🔍 Processing game ID: {game_id}")
+        round_name, game_players = fetch_game_details(game_id)
+        if not game_players:
+            st.warning(f"⚠️ No player data found for game ID: {game_id}")
+            continue
+
+        # Update the last processed round name
+        last_round_name = round_name
+
+        for gp in game_players:
+            st.write(f"👤 Processing player: {gp['player_name']} (Team ID: {gp['team_id']})")
+
+            # Query for existing player
+            query = players_ref.where("Player_ID", "==", gp["player_id"]).limit(1)
+            docs = list(query.stream())
+
+            if docs:
+                # Existing document - update operation
+                doc_ref = docs[0].reference
+                doc_data = docs[0].to_dict()
+
+                round_points = doc_data.get("round_points", {})
+                # Update the round_points for the specific round
+                round_points[round_name] = gp["points"]
+
+                # Compute the total points as the sum of all rounds
+                total_points = sum(round_points.values())
+
+                update_data = {
+                    "total_points": total_points,
+                    "round_points": round_points,
+                    "updated_at": firestore.SERVER_TIMESTAMP
+                }
+
+
+                # Only add game history if points are greater than 0
+                if gp["points"] > 0:
+                    game_update = {
+                        "game_id": game_id,
+                        "date": date,
+                        "round": round_name,
+                        "points": gp["points"],
+                        "game_title": gp["game_title"]
+                    }
+                    update_data["games"] = firestore.ArrayUnion([game_update])
+
+                # Add the update to the batch
+                batch.update(doc_ref, update_data)
+                st.write(f"📝 Updated existing player: {gp['player_name']} (Team ID: {gp['team_id']})")
+            else:
+                # Create a new document for the player
+                new_player_data = {
+                    "Player_ID": gp["player_id"],
+                    "Player": gp["player_name"],
+                    "Team_ID": gp["team_id"],
+                    # Depending on your schema, you might want to add additional fields like "Team", "Seed", "Region", etc.
+                    "total_points": gp["points"],
+                    "round_points": { round_name: gp["points"] },
+                    "games": [{
+                        "game_id": game_id,
+                        "date": date,
+                        "round": round_name,
+                        "points": gp["points"],
+                        "game_title": gp["game_title"]
+                    }],
+                    "created_at": firestore.SERVER_TIMESTAMP,
+                    "updated_at": firestore.SERVER_TIMESTAMP
+                }
+                # Create a new document with an auto-generated ID
+                doc_ref = players_ref.document()
+                batch.set(doc_ref, new_player_data)
+                st.write(f"📝 Created new player: {gp['player_name']} (Team ID: {gp['team_id']})")
+
+
+            # Commit batch when reaching limit
+            batch_count += 1
+            if batch_count >= MAX_BATCH_SIZE:
+                st.write("🔄 Committing batch of updates...")
+                safe_batch_commit(batch)
+                batch = db.batch()
+                batch_count = 0
+
+    # Commit remaining operations
+    if batch_count > 0:
+        st.write("🔄 Committing final batch of updates...")
+        safe_batch_commit(batch)
+
+    # Update submission totals using the last processed round name
+    if last_round_name:
+        st.write("✅ Updating submission totals...")
+        update_submission_totals(str(TOURNAMENT_YEAR))
+        st.success(f"🎉 Updated {len(game_ids)} games and refreshed submission totals for {date}")
+    else:
+        st.warning("⚠️ No rounds were processed. Skipping submission totals update.")
+
+
+
+
+def get_ncaa_tournament_id():
+    """Fetch the NCAA tournament ID for the current year, regardless of status."""
+    url = f"{BASE_URL}/tournaments/{TOURNAMENT_YEAR}/PST/schedule.json"
+    tournaments_data = fetch_with_retry(url, {"api_key": API_KEY})
+    if not tournaments_data:
+        return None
+    for tournament in safe_get(tournaments_data, ['tournaments'], []):
+        tournament_name = safe_get(tournament, ['name'], '')
+        if "NCAA Men's Division I Basketball Tournament" in tournament_name:
+            return safe_get(tournament, ['id'])
+    return None
+
+@st.cache_data(ttl=3600)
+def load_regular_season_data():
+    """Load regular season stats for teams in the NCAA tournament."""
+    year_str = str(TOURNAMENT_YEAR)
+
+    # Check Firestore for existing data
+    players = get_regular_season_data(year_str)
+    if players:
+        return pd.DataFrame(players)
+    tournament_id = get_ncaa_tournament_id()
+    if not tournament_id:
+        return pd.DataFrame()
+    team_ids, team_seeds, team_regions = get_tournament_teams_and_seeds(tournament_id)
+    if not team_ids:
+        return pd.DataFrame()
+
+    # Fetch regular season stats for each team
+    all_players = []
+    for team_id in team_ids:
+        url = f"{BASE_URL}/seasons/{TOURNAMENT_YEAR}/REG/teams/{team_id}/statistics.json"
+        stats_data = fetch_with_retry(url, {"api_key": API_KEY})
+        if not stats_data:
+            continue
+        for player in safe_get(stats_data, ['players'], []):
+            all_players.append({
+                "Player_ID": safe_get(player, ['id'], 'Unknown'),
+                "Player": safe_get(player, ['full_name'], 'Unknown'),
+                "Team": safe_get(stats_data, ['market'], 'Unknown'),
+                "Team_ID": team_id,
+                "Seed": team_seeds.get(team_id, "N/A"),
+                "Region": team_regions.get(team_id, "N/A"),
+                "Position": safe_get(player, ['position'], ''),
+                "Games": safe_get(player, ['total', 'games_played'], 0),
+                "Points": safe_get(player, ['total', 'points'], 0),
+                "PPG": safe_get(player, ['average', 'points'], 0.0),
+                "FG%": round(safe_get(player, ['total', 'field_goals_pct'], 0.0) * 100, 1),
+                "3P%": round(safe_get(player, ['total', 'three_points_pct'], 0.0) * 100, 1)
+            })
+
+    df = pd.DataFrame(all_players).sort_values('Points', ascending=False)
+    save_regular_season_data(year_str, df.to_dict(orient='records'))
+    return df
+
+def safe_batch_commit(batch, max_retries=3):
+    """Helper function to safely commit Firestore batches with retries"""
+    for attempt in range(max_retries):
+        try:
+            batch.commit()
+            return
+        except Exception as e:
+            if attempt == max_retries - 1:
+                st.error(f"Failed to commit batch after {max_retries} attempts: {str(e)}")
+                raise
+            time.sleep(2 ** attempt)  # Exponential backoff

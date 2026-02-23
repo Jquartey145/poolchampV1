@@ -1,0 +1,529 @@
+{
+  "id": "56befd3f-4024-47c4-900f-892883cc1b6b",
+  "name": "NCAA Men's Division I Basketball Tournament",
+  "location": "San Antonio, TX, USA",
+  "status": "scheduled",
+  "start_date": "2025-03-18",
+  "end_date": "2025-04-07",
+  "parent_id": "e958cc4f-582b-4703-af7e-94b1416d1f28",
+  "league": {
+    "id": "cd4268ee-07aa-4c4d-a435-ec44ad2c76cb",
+    "name": "NCAA MEN",
+    "alias": "NCAAM"
+  },
+  "season": {
+    "id": "b2e4c0e0-5571-47c3-ab8b-1db65d74234e",
+    "year": 2024,
+    "type": "PST"
+  },
+  "brackets": [
+    {
+      "id": "22ab41ff-9e5a-4d83-94e6-d298846529c5",
+      "name": "East Regional",
+      "location": "Newark, NJ, USA",
+      "rank": 2,
+      "participants": [
+        {
+          "id": "b18f34af-a7f1-4659-a2e5-fc11a31cd316",
+          "name": "Saint Mary's Gaels",
+          "market": "Saint Mary's",
+          "type": "team",
+          "seed": 7
+        },
+        {
+          "id": "c7569eae-5b93-4197-b204-6f3a62146b25",
+          "name": "Wisconsin Badgers",
+          "market": "Wisconsin",
+          "type": "team",
+          "seed": 3
+        },
+        {
+          "id": "2f513e67-f019-4eec-9096-fbc5911858b6",
+          "name": "American Eagles",
+          "market": "American",
+          "type": "team",
+          "seed": 16
+        },
+        {
+          "id": "72971b77-1d35-40b3-bb63-4c5b29f3d22b",
+          "name": "Vanderbilt Commodores",
+          "market": "Vanderbilt",
+          "type": "team",
+          "seed": 10
+        },
+        {
+          "id": "faeb1160-5d15-4f26-99fc-c441cf21fc7f",
+          "name": "Duke Blue Devils",
+          "market": "Duke",
+          "type": "team",
+          "seed": 1
+        },
+        {
+          "id": "c31455b2-8a45-4248-aa8f-ce7eab1c6b02",
+          "name": "BYU Cougars",
+          "market": "BYU",
+          "type": "team",
+          "seed": 6
+        },
+        {
+          "id": "5fe4a398-1699-4442-a364-305b2f0ac01e",
+          "name": "Mount St. Mary's Mountaineers",
+          "market": "Mount St. Mary's",
+          "type": "team",
+          "seed": 16
+        },
+        {
+          "id": "c1c1e6df-a383-4fbd-ba7b-32d4f9ef9518",
+          "name": "VCU Rams",
+          "market": "VCU",
+          "type": "team",
+          "seed": 11
+        },
+        {
+          "id": "9b166a3f-e64b-4825-bb6b-92c6f0418263",
+          "name": "Arizona Wildcats",
+          "market": "Arizona",
+          "type": "team",
+          "seed": 4
+        },
+        {
+          "id": "db6e1cab-3fa3-4a93-a673-8b2a358ff4bf",
+          "name": "Baylor Bears",
+          "market": "Baylor",
+          "type": "team",
+          "seed": 9
+        },
+        {
+          "id": "e3848467-66c0-41e5-8283-02e3586d8601",
+          "name": "Montana Grizzlies",
+          "market": "Montana",
+          "type": "team",
+          "seed": 14
+        },
+        {
+          "id": "1da70895-f77f-44ef-b216-d63c02e696eb",
+          "name": "Oregon Ducks",
+          "market": "Oregon",
+          "type": "team",
+          "seed": 5
+        },
+        {
+          "id": "56fe0ab2-e4f0-47b9-8726-9ce23ebcde20",
+          "name": "Akron Zips",
+          "market": "Akron",
+          "type": "team",
+          "seed": 13
+        },
+        {
+          "id": "6906e22d-92fa-40cb-8c05-ec8391ac1979",
+          "name": "Robert Morris Colonials",
+          "market": "Robert Morris",
+          "type": "team",
+          "seed": 15
+        },
+        {
+          "id": "a1ba4b89-d97c-44e2-835f-79ad3ccaa5ae",
+          "name": "Mississippi State Bulldogs",
+          "market": "Mississippi State",
+          "type": "team",
+          "seed": 8
+        },
+        {
+          "id": "559db90c-741f-40d1-aa81-3fdd1d4889f3",
+          "name": "Liberty Flames",
+          "market": "Liberty",
+          "type": "team",
+          "seed": 12
+        },
+        {
+          "id": "c2104cdc-c83d-40d2-a3cd-df986e29f5d3",
+          "name": "Alabama Crimson Tide",
+          "market": "Alabama",
+          "type": "team",
+          "seed": 2
+        }
+      ]
+    },
+    {
+      "id": "3fa65b24-e124-4fd5-820a-86c6cc68feac",
+      "name": "West Regional",
+      "location": "San Francisco, CA, USA",
+      "rank": 4,
+      "participants": [
+        {
+          "id": "1551b3a0-6d10-4ffa-8dfa-73b56f004553",
+          "name": "Memphis Tigers",
+          "market": "Memphis",
+          "type": "team",
+          "seed": 5
+        },
+        {
+          "id": "1a470730-f328-4fb1-8bbf-36a069e4d6b2",
+          "name": "Colorado State Rams",
+          "market": "Colorado State",
+          "type": "team",
+          "seed": 12
+        },
+        {
+          "id": "c70c23c4-ab09-4797-a1af-792c848ab17f",
+          "name": "Arkansas Razorbacks",
+          "market": "Arkansas",
+          "type": "team",
+          "seed": 10
+        },
+        {
+          "id": "f8c705b7-87d3-411a-9c8b-5124daab0469",
+          "name": "Texas Tech Red Raiders",
+          "market": "Texas Tech",
+          "type": "team",
+          "seed": 3
+        },
+        {
+          "id": "c1f4aae1-aa16-4095-aeab-10e5c2a1236a",
+          "name": "St. John's Red Storm",
+          "market": "St. John's",
+          "type": "team",
+          "seed": 2
+        },
+        {
+          "id": "b2fda957-e15c-4fb2-8a13-6e58496f561e",
+          "name": "Oklahoma Sooners",
+          "market": "Oklahoma",
+          "type": "team",
+          "seed": 9
+        },
+        {
+          "id": "68d2aa5b-714f-4652-96f3-b71e1752413f",
+          "name": "Omaha Mavericks",
+          "market": "Omaha",
+          "type": "team",
+          "seed": 15
+        },
+        {
+          "id": "fae4855b-1b64-4b40-a632-9ed345e1e952",
+          "name": "Kansas Jayhawks",
+          "market": "Kansas",
+          "type": "team",
+          "seed": 7
+        },
+        {
+          "id": "2778d005-cc14-4e58-9bf2-3fc37bffb62f",
+          "name": "Maryland Terrapins",
+          "market": "Maryland",
+          "type": "team",
+          "seed": 4
+        },
+        {
+          "id": "a8f75c12-c4db-401f-99e3-b48209d85274",
+          "name": "Norfolk State Spartans",
+          "market": "Norfolk State",
+          "type": "team",
+          "seed": 16
+        },
+        {
+          "id": "aed211c3-23a4-4188-ad70-22c6eba7d765",
+          "name": "Drake Bulldogs",
+          "market": "Drake",
+          "type": "team",
+          "seed": 11
+        },
+        {
+          "id": "912f8837-1d81-4ef9-a576-a21f271d4c64",
+          "name": "Florida Gators",
+          "market": "Florida",
+          "type": "team",
+          "seed": 1
+        },
+        {
+          "id": "efba5350-79bc-47aa-a189-db177b95b491",
+          "name": "UConn Huskies",
+          "market": "UConn",
+          "type": "team",
+          "seed": 8
+        },
+        {
+          "id": "f7e6acc3-0778-4de5-940a-d88e20df1159",
+          "name": "Grand Canyon Antelopes",
+          "market": "Grand Canyon",
+          "type": "team",
+          "seed": 13
+        },
+        {
+          "id": "c54279f9-3028-4663-893a-7d22482f8098",
+          "name": "UNC Wilmington Seahawks",
+          "market": "UNC Wilmington",
+          "type": "team",
+          "seed": 14
+        },
+        {
+          "id": "77ca152a-cb2f-48a5-97b2-492351250d94",
+          "name": "Missouri Tigers",
+          "market": "Missouri",
+          "type": "team",
+          "seed": 6
+        }
+      ]
+    },
+    {
+      "id": "97a35d85-85f3-4d8e-a528-be091a17a707",
+      "name": "South Regional",
+      "location": "Atlanta, GA, USA",
+      "rank": 1,
+      "participants": [
+        {
+          "id": "0c0608b3-f349-4f5e-9a10-7e6a744dd0d2",
+          "name": "Auburn Tigers",
+          "market": "Auburn",
+          "type": "team",
+          "seed": 1
+        },
+        {
+          "id": "e9ca48b2-00ba-41c0-a02b-6885a2da1ff1",
+          "name": "North Carolina Tar Heels",
+          "market": "North Carolina",
+          "type": "team",
+          "seed": 11
+        },
+        {
+          "id": "b795ddbc-baab-4499-8803-52e8608520ab",
+          "name": "Louisville Cardinals",
+          "market": "Louisville",
+          "type": "team",
+          "seed": 8
+        },
+        {
+          "id": "a41d5a05-4c11-4171-a57e-e7a1ea325a6d",
+          "name": "Michigan State Spartans",
+          "market": "Michigan State",
+          "type": "team",
+          "seed": 2
+        },
+        {
+          "id": "ef184799-d79b-49d9-a662-991eaf4044cd",
+          "name": "Texas A&M Aggies",
+          "market": "Texas A&M",
+          "type": "team",
+          "seed": 4
+        },
+        {
+          "id": "e6914f16-ca37-4d2e-ba26-a425910283e2",
+          "name": "San Diego State Aztecs",
+          "market": "San Diego State",
+          "type": "team",
+          "seed": 11
+        },
+        {
+          "id": "0e4258fa-3154-4c16-b693-adecab184c6c",
+          "name": "Iowa State Cyclones",
+          "market": "Iowa State",
+          "type": "team",
+          "seed": 3
+        },
+        {
+          "id": "bdc2561d-f603-4fab-a262-f1d2af462277",
+          "name": "Michigan Wolverines",
+          "market": "Michigan",
+          "type": "team",
+          "seed": 5
+        },
+        {
+          "id": "267d417a-8f85-4c87-a15a-068c089a74c6",
+          "name": "Alabama State Hornets",
+          "market": "Alabama State",
+          "type": "team",
+          "seed": 16
+        },
+        {
+          "id": "55a2e70d-efe3-4aa6-b625-daab2faa4991",
+          "name": "UC San Diego Tritons",
+          "market": "UC San Diego",
+          "type": "team",
+          "seed": 12
+        },
+        {
+          "id": "a2b8223d-40b3-4076-b5df-55655c2f8591",
+          "name": "Lipscomb Bisons",
+          "market": "Lipscomb",
+          "type": "team",
+          "seed": 14
+        },
+        {
+          "id": "1b1977ec-b32f-4ce3-95a4-d07bab4816cd",
+          "name": "New Mexico Lobos",
+          "market": "New Mexico",
+          "type": "team",
+          "seed": 10
+        },
+        {
+          "id": "61dadefa-76bf-4db4-8067-f88df540b9cd",
+          "name": "Bryant Bulldogs",
+          "market": "Bryant",
+          "type": "team",
+          "seed": 15
+        },
+        {
+          "id": "6637ac5f-59c2-4888-af34-a86d138ccfb3",
+          "name": "St. Francis (PA) Red Flash",
+          "market": "St. Francis (PA)",
+          "type": "team",
+          "seed": 16
+        },
+        {
+          "id": "06f7c904-0ac7-4125-b0f4-f4871bb69057",
+          "name": "Marquette Golden Eagles",
+          "market": "Marquette",
+          "type": "team",
+          "seed": 7
+        },
+        {
+          "id": "d7d668ec-edaa-4d6b-be25-2ebba4128643",
+          "name": "Ole Miss Rebels",
+          "market": "Ole Miss",
+          "type": "team",
+          "seed": 6
+        },
+        {
+          "id": "ca478771-aa3d-4231-81e0-b70f519134fb",
+          "name": "Yale Bulldogs",
+          "market": "Yale",
+          "type": "team",
+          "seed": 13
+        },
+        {
+          "id": "7d797407-623e-476d-b299-46de4275414d",
+          "name": "Creighton Bluejays",
+          "market": "Creighton",
+          "type": "team",
+          "seed": 9
+        }
+      ]
+    },
+    {
+      "id": "c8c11549-326b-458f-856d-68d632ccb9dc",
+      "name": "Midwest Regional",
+      "location": "Indianapolis, IN, USA",
+      "rank": 3,
+      "participants": [
+        {
+          "id": "4f4b0771-994c-4126-822d-7525aaa00f65",
+          "name": "Georgia Bulldogs",
+          "market": "Georgia",
+          "type": "team",
+          "seed": 9
+        },
+        {
+          "id": "d2ef641c-70e4-48bb-b40d-ac654d179205",
+          "name": "McNeese Cowboys",
+          "market": "McNeese",
+          "type": "team",
+          "seed": 12
+        },
+        {
+          "id": "7672ff16-8436-47e6-8546-0fb5494ec7ee",
+          "name": "Utah State Aggies",
+          "market": "Utah State",
+          "type": "team",
+          "seed": 10
+        },
+        {
+          "id": "0d8a328f-20ce-410b-bed1-15fc01308aaf",
+          "name": "Xavier Musketeers",
+          "market": "Xavier",
+          "type": "team",
+          "seed": 11
+        },
+        {
+          "id": "c206712f-2298-4279-b76c-834ac42809b9",
+          "name": "SIU Edwardsville Cougars",
+          "market": "SIU Edwardsville",
+          "type": "team",
+          "seed": 16
+        },
+        {
+          "id": "6373b18c-62f6-49bc-bd4c-8959a2466516",
+          "name": "Troy Trojans",
+          "market": "Troy",
+          "type": "team",
+          "seed": 14
+        },
+        {
+          "id": "150148c2-ca8f-414f-8f41-d94a55d4a122",
+          "name": "Illinois Fighting Illini",
+          "market": "Illinois",
+          "type": "team",
+          "seed": 6
+        },
+        {
+          "id": "dcf5c2e7-c227-4c20-af26-715d5f859412",
+          "name": "Clemson Tigers",
+          "market": "Clemson",
+          "type": "team",
+          "seed": 5
+        },
+        {
+          "id": "2f4d21f8-6d5f-48a5-abca-52a30583871a",
+          "name": "Gonzaga Bulldogs",
+          "market": "Gonzaga",
+          "type": "team",
+          "seed": 8
+        },
+        {
+          "id": "ec0d6b67-4b16-4b50-92b2-1a651dae6b0f",
+          "name": "UCLA Bruins",
+          "market": "UCLA",
+          "type": "team",
+          "seed": 7
+        },
+        {
+          "id": "b827dbdf-230f-4916-9703-3bb9004e26eb",
+          "name": "Tennessee Volunteers",
+          "market": "Tennessee",
+          "type": "team",
+          "seed": 2
+        },
+        {
+          "id": "9916713f-b243-452b-93ae-a2c3ccabf68b",
+          "name": "Wofford Terriers",
+          "market": "Wofford",
+          "type": "team",
+          "seed": 15
+        },
+        {
+          "id": "2267a1f4-68f6-418b-aaf6-2aa0c4b291f1",
+          "name": "Kentucky Wildcats",
+          "market": "Kentucky",
+          "type": "team",
+          "seed": 3
+        },
+        {
+          "id": "6ed15092-2670-450a-99c2-61d861e87644",
+          "name": "Texas Longhorns",
+          "market": "Texas",
+          "type": "team",
+          "seed": 11
+        },
+        {
+          "id": "1f99a164-d593-4d81-85d5-0d7889d6f486",
+          "name": "Houston Cougars",
+          "market": "Houston",
+          "type": "team",
+          "seed": 1
+        },
+        {
+          "id": "a311188e-1259-4fda-b0ea-c47cb52694b1",
+          "name": "High Point Panthers",
+          "market": "High Point",
+          "type": "team",
+          "seed": 13
+        },
+        {
+          "id": "12d7f888-675b-459f-9099-a38f771d8a95",
+          "name": "Purdue Boilermakers",
+          "market": "Purdue",
+          "type": "team",
+          "seed": 4
+        }
+      ]
+    }
+  ]
+}
