@@ -2,18 +2,11 @@ import streamlit as st
 import pandas as pd
 import datetime
 import pytz
-import stripe
-import json
 from data_loader import load_regular_season_data
 from firebase_util import save_submission
 from navigation import render_navigation
 
 render_navigation()
-
-# ── Stripe config ────────────────────────────────────────────────────────────
-stripe.api_key = st.secrets.get("STRIPE_SECRET_KEY", "")
-STRIPE_PUBLISHABLE_KEY = st.secrets.get("STRIPE_PUBLISHABLE_KEY", "")
-ENTRY_FEE_CENTS = 2500  # $25.00
 
 # ── Session state ─────────────────────────────────────────────────────────────
 if "selected_players" not in st.session_state:
@@ -25,53 +18,10 @@ if "selected_players" not in st.session_state:
     }
 if "submissions" not in st.session_state:
     st.session_state.submissions = []
-if "payment_verified" not in st.session_state:
-    st.session_state.payment_verified = False
-if "stripe_session_id" not in st.session_state:
-    st.session_state.stripe_session_id = None
 if "pending_submission" not in st.session_state:
     st.session_state.pending_submission = None
 if "submission_saved" not in st.session_state:
     st.session_state.submission_saved = False
-
-
-# ── Stripe helpers ────────────────────────────────────────────────────────────
-
-def create_checkout_session(team_info: dict, success_url: str, cancel_url: str):
-    """Create a Stripe Checkout Session and return the URL."""
-    session = stripe.checkout.Session.create(
-        payment_method_types=["card"],
-        line_items=[{
-            "price_data": {
-                "currency": "usd",
-                "product_data": {
-                    "name": "March Madness Entry Fee",
-                    "description": f"Team: {team_info['team_name']} — {team_info['participant']}",
-                },
-                "unit_amount": ENTRY_FEE_CENTS,
-            },
-            "quantity": 1,
-        }],
-        mode="payment",
-        customer_email=team_info.get("email_address"),
-        metadata={
-            "team_name": team_info["team_name"],
-            "participant": team_info["participant"],
-        },
-        success_url=success_url + "?payment=success&session_id={CHECKOUT_SESSION_ID}",
-        cancel_url=cancel_url + "?payment=cancelled",
-    )
-    return session
-
-
-def verify_stripe_session(session_id: str):
-    """Retrieve the Stripe session and confirm payment succeeded."""
-    try:
-        session = stripe.checkout.Session.retrieve(session_id)
-        return session.payment_status == "paid", session
-    except stripe.error.StripeError as e:
-        st.error(f"Stripe error: {e.user_message}")
-        return False, None
 
 
 # ── Tab helpers ───────────────────────────────────────────────────────────────
@@ -195,61 +145,13 @@ def submit_team_tab():
         st.error("You must select exactly 12 players (3 from each seed bracket).")
         return
 
-    # ── Check for returning Stripe redirect ──────────────────────────────────
-    params = st.query_params
-    payment_status = params.get("payment", None)
-    session_id_param = params.get("session_id", None)
-
-    if payment_status == "success" and session_id_param and not st.session_state.submission_saved:
-        with st.spinner("Verifying payment with Stripe..."):
-            paid, stripe_session = verify_stripe_session(session_id_param)
-
-        if paid:
-            st.session_state.payment_verified = True
-            st.session_state.stripe_session_id = session_id_param
-
-            # Retrieve the pending submission stored before redirect
-            pending = st.session_state.get("pending_submission")
-            if pending:
-                pending["payment_type"] = "Stripe"
-                pending["stripe_session_id"] = session_id_param
-                pending["payment_status"] = "paid"
-
-                df = load_regular_season_data()
-                if isinstance(df, list):
-                    df = pd.DataFrame(df)
-                selected_names = [p["name"] for p in pending["players"]]
-                pending["total_points"] = int(df[df["Player"].isin(selected_names)]["Points"].sum())
-
-                save_submission(pending)
-                st.session_state.submission_saved = True
-                st.session_state.pending_submission = None
-
-                # Clear query params so a refresh doesn't re-submit
-                st.query_params.clear()
-
-                st.success(f"🎉 Payment confirmed! Team **'{pending['team_name']}'** submitted successfully!")
-                st.balloons()
-                return
-            else:
-                st.warning("Payment verified but team info was lost. Please re-submit your team details below.")
-                st.query_params.clear()
-
-        else:
-            st.error("⚠️ Payment could not be verified. Please try again.")
-            st.query_params.clear()
-
-    elif payment_status == "cancelled":
-        st.warning("Payment was cancelled. Please complete payment to submit your team.")
-        st.query_params.clear()
-
-    # ── If already saved this session, show success ───────────────────────────
+    # ── Already submitted this session ───────────────────────────────────────
     if st.session_state.submission_saved:
         st.success("✅ Your team has already been submitted and payment confirmed!")
         return
 
     # ── Team submission form ──────────────────────────────────────────────────
-    st.info("💳 A **$25 entry fee** is required to submit your team. You'll be redirected to Stripe to complete payment.")
+    st.info("💳 A **$25 entry fee** is required to submit your team. You'll be redirected to Stripe's secure checkout to complete payment.")
 
     with st.form("team_submission"):
         st.subheader("🏀 Team Information")
@@ -261,7 +163,7 @@ def submit_team_tab():
         email = st.text_input("Email Address", placeholder="Enter your email address")
 
         st.subheader("💳 Payment")
-        st.write("You will be redirected to Stripe's secure checkout to pay the **$25 entry fee**. Your team will only be submitted after successful payment.")
+        st.write("After clicking below, you'll be taken to Stripe to pay the **$25 entry fee**. Your team will only be saved after successful payment.")
 
         submitted = st.form_submit_button("Proceed to Payment →")
 
@@ -275,43 +177,15 @@ def submit_team_tab():
             elif not email:
                 st.error("Please enter your email address.")
             else:
-                # Store team data in session before redirecting to Stripe
-                submission_data = {
+                # Save team data to session state, then navigate to Checkout page
+                st.session_state.pending_submission = {
                     "team_name": team_name,
                     "participant": f"{first_name} {last_name}",
                     "email_address": email,
                     "players": all_selected,
-                    "total_points": 0,  # will be computed after payment
+                    "total_points": 0,
                 }
-                st.session_state.pending_submission = submission_data
-
-                # Build success/cancel URLs pointing back to this page
-                try:
-                    app_url = st.secrets.get("APP_URL", "http://localhost:8501/BuildYourTeam")
-                    checkout_session = create_checkout_session(
-                        team_info=submission_data,
-                        success_url=app_url,
-                        cancel_url=app_url,
-                    )
-                    checkout_url = checkout_session.url
-                    # Use JS redirect + prominent fallback button
-                    st.markdown(
-                        f"""
-                        <script>window.location.href = "{checkout_url}";</script>
-                        <div style="text-align:center; margin-top: 2rem;">
-                            <p style="font-size:1.1rem;">Redirecting you to Stripe secure checkout...</p>
-                            <a href="{checkout_url}" target="_self"
-                               style="display:inline-block; background-color:#635BFF; color:white;
-                                      padding:14px 32px; border-radius:6px; font-size:1.1rem;
-                                      font-weight:600; text-decoration:none; margin-top:1rem;">
-                                💳 Click here to pay $25.00
-                            </a>
-                        </div>
-                        """,
-                        unsafe_allow_html=True
-                    )
-                except Exception as e:
-                    st.error(f"Failed to create payment session: {str(e)}")
+                st.switch_page("pages/Checkout.py")
 
 
 # ── Main ──────────────────────────────────────────────────────────────────────
