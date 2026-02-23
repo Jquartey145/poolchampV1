@@ -320,7 +320,7 @@ def main():
     st.title("🏀 March Madness Team Builder")
     ct = pytz.timezone("America/Chicago")
     now_ct = datetime.datetime.now(ct)
-    naive_deadline = datetime.datetime(2025, 3, 20, 11, 0)
+    naive_deadline = datetime.datetime(2026, 3, 20, 11, 0)
     deadline = ct.localize(naive_deadline)
 
     if now_ct > deadline:
