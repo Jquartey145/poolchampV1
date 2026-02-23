@@ -65,12 +65,12 @@ else:
         use_container_width=True
     )
 
-#     st.sidebar.header("Developer Tools")
-#     test_date = st.sidebar.text_input("Enter date to process (YYYY-MM-DD)")
-#     if st.sidebar.button("Process Daily Updates"):
-#         if test_date:
-#             with st.spinner(f"Processing updates for {test_date}..."):
-#                 update_daily_player_points(test_date)
-#             st.success(f"Daily updates processed for {test_date}")
-#         else:
-#             st.error("Please enter a valid date")
+    st.sidebar.header("Developer Tools")
+    test_date = st.sidebar.text_input("Enter date to process (YYYY-MM-DD)")
+    if st.sidebar.button("Process Daily Updates"):
+        if test_date:
+            with st.spinner(f"Processing updates for {test_date}..."):
+                update_daily_player_points(test_date)
+            st.success(f"Daily updates processed for {test_date}")
+        else:
+            st.error("Please enter a valid date")

@@ -37,16 +37,22 @@ def get_submissions():
     docs = db.collection("submissions").order_by("total_points", direction=firestore.Query.DESCENDING).stream()
     return [{"doc_id": doc.id, **doc.to_dict()} for doc in docs]
 
-def save_submission(submission):
+def save_submission(submission, doc_id=None):
     """
     Save a team submission to Firestore.
+    If doc_id is provided (e.g. uuid), use it so the same person can have multiple teams.
     The submission dictionary may include:
       - "team_name"
       - "participant"
+      - "email_address"
       - "payment_type"
+      - "stripe_session_id" (when paid via Stripe)
       - "players": a list of detailed player objects
       - "total_points"
     """
+    if doc_id:
+        db.collection("submissions").document(doc_id).set(submission)
+        return
     participant = submission.get("participant", "").strip()
     team_name = submission.get("team_name", "").strip()
     if participant and team_name:
@@ -57,6 +63,25 @@ def save_submission(submission):
         db.collection("submissions").document(doc_id).set(submission)
     else:
         db.collection("submissions").add(submission)
+
+
+def save_pending_submission(pending_id: str, data: dict):
+    """Save a pending submission (e.g. before Stripe checkout). Used to complete submission after payment."""
+    data["created_at"] = datetime.datetime.utcnow().isoformat()
+    db.collection("pending_submissions").document(pending_id).set(data)
+
+
+def get_pending_submission(pending_id: str):
+    """Retrieve a pending submission by id."""
+    doc = db.collection("pending_submissions").document(pending_id).get()
+    if doc.exists:
+        return doc.to_dict()
+    return None
+
+
+def delete_pending_submission(pending_id: str):
+    """Remove a pending submission after it has been converted to a full submission."""
+    db.collection("pending_submissions").document(pending_id).delete()
 
 def get_net_rankings(year: str):
     """Retrieve the NET rankings document for a given year."""

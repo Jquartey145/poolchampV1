@@ -1,7 +1,7 @@
 import streamlit as st
 
 def render_navigation():
-    col1, col2, col3, col4, col5 = st.columns([1, 1, 1, 1, 1])
+    col1, col2, col3, col4, col5, col6 = st.columns([1, 1, 1, 1, 1, 1])
 
     with col1:
         st.page_link("home.py", label="Home", icon="🏠")
@@ -11,5 +11,7 @@ def render_navigation():
         st.page_link("pages/Leaderboard.py", label="Leaderboard", icon="🏆")
     with col4:
         st.page_link("pages/TeamDashboard.py", label="Team Dashboard", icon="🔍")
-    with col5:
+    with col6:
         st.page_link("pages/WhyWeDoThis.py", label="Our Story", icon="💜")
+    with col5:
+        st.page_link("pages/SurvivorPool.py", label="Survivor Pool", icon="🛟")
