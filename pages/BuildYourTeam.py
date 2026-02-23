@@ -293,13 +293,21 @@ def submit_team_tab():
                         success_url=app_url,
                         cancel_url=app_url,
                     )
-                    # Redirect user to Stripe Checkout
+                    checkout_url = checkout_session.url
+                    # Use JS redirect + prominent fallback button
                     st.markdown(
-                        f'<meta http-equiv="refresh" content="0; url={checkout_session.url}">',
-                        unsafe_allow_html=True
-                    )
-                    st.markdown(
-                        f"**Redirecting to Stripe...** [Click here if not redirected automatically]({checkout_session.url})",
+                        f"""
+                        <script>window.location.href = "{checkout_url}";</script>
+                        <div style="text-align:center; margin-top: 2rem;">
+                            <p style="font-size:1.1rem;">Redirecting you to Stripe secure checkout...</p>
+                            <a href="{checkout_url}" target="_self"
+                               style="display:inline-block; background-color:#635BFF; color:white;
+                                      padding:14px 32px; border-radius:6px; font-size:1.1rem;
+                                      font-weight:600; text-decoration:none; margin-top:1rem;">
+                                💳 Click here to pay $25.00
+                            </a>
+                        </div>
+                        """,
                         unsafe_allow_html=True
                     )
                 except Exception as e:
@@ -312,7 +320,7 @@ def main():
     st.title("🏀 March Madness Team Builder")
     ct = pytz.timezone("America/Chicago")
     now_ct = datetime.datetime.now(ct)
-    naive_deadline = datetime.datetime(2026, 3, 20, 11, 0)
+    naive_deadline = datetime.datetime(2025, 3, 20, 11, 0)
     deadline = ct.localize(naive_deadline)
 
     if now_ct > deadline:
