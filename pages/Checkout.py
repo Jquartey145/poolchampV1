@@ -1,16 +1,15 @@
 import streamlit as st
-import stripe
 import pandas as pd
+import braintree
+import streamlit.components.v1 as components
 from data_loader import load_regular_season_data
-from firebase_util import save_submission, db
+from firebase_util import save_submission
 from navigation import render_navigation
 
 st.set_page_config(page_title="Checkout", page_icon="💳")
 render_navigation()
 
-# ── Stripe config ─────────────────────────────────────────────────────────────
-stripe.api_key = st.secrets.get("STRIPE_SECRET_KEY", "")
-ENTRY_FEE_CENTS = 2500  # $25.00
+ENTRY_FEE_DOLLARS = "25.00"
 
 # ── Session state defaults ────────────────────────────────────────────────────
 if "submission_saved" not in st.session_state:
@@ -19,178 +18,219 @@ if "pending_submission" not in st.session_state:
     st.session_state.pending_submission = None
 
 
-# ── Firestore helpers for pending submissions ─────────────────────────────────
-
-def save_pending_to_firestore(stripe_session_id: str, team_data: dict):
-    """Save team data to Firestore under pending_submissions/{stripe_session_id}."""
-    db.collection("pending_submissions").document(stripe_session_id).set(team_data)
-
-
-def get_pending_from_firestore(stripe_session_id: str):
-    """Retrieve pending team data from Firestore by Stripe session ID."""
-    doc = db.collection("pending_submissions").document(stripe_session_id).get()
-    if doc.exists:
-        return doc.to_dict()
-    return None
-
-
-def delete_pending_from_firestore(stripe_session_id: str):
-    """Clean up the pending submission after it's been finalized."""
-    db.collection("pending_submissions").document(stripe_session_id).delete()
-
-
-# ── Core functions ────────────────────────────────────────────────────────────
-
-def get_checkout_page_url():
-    app_url = st.secrets.get("APP_URL", "http://localhost:8501/BuildYourTeam")
-    return app_url.replace("/BuildYourTeam", "/Checkout")
-
-
-def create_stripe_session(team_info: dict):
-    """Create a Stripe Checkout Session."""
-    checkout_page_url = get_checkout_page_url()
-    session = stripe.checkout.Session.create(
-        payment_method_types=["card"],
-        line_items=[{
-            "price_data": {
-                "currency": "usd",
-                "product_data": {
-                    "name": "March Madness Entry Fee",
-                    "description": f"Team: {team_info['team_name']} — {team_info['participant']}",
-                },
-                "unit_amount": ENTRY_FEE_CENTS,
-            },
-            "quantity": 1,
-        }],
-        mode="payment",
-        customer_email=team_info.get("email_address"),
-        metadata={
-            "team_name": team_info["team_name"],
-            "participant": team_info["participant"],
-        },
-        success_url=checkout_page_url + "?payment=success&session_id={CHECKOUT_SESSION_ID}",
-        cancel_url=checkout_page_url + "?payment=cancelled",
+# ── Braintree gateway ─────────────────────────────────────────────────────────
+@st.cache_resource
+def get_gateway():
+    return braintree.BraintreeGateway(
+        braintree.Configuration(
+            environment=braintree.Environment.Sandbox,  # swap to Sandbox for testing
+            merchant_id=st.secrets["BRAINTREE_MERCHANT_ID"],
+            public_key=st.secrets["BRAINTREE_PUBLIC_KEY"],
+            private_key=st.secrets["BRAINTREE_PRIVATE_KEY"],
+        )
     )
-    return session
 
 
-def verify_and_save(session_id: str):
+def generate_client_token() -> str:
+    gateway = get_gateway()
+    return gateway.client_token.generate({})
+
+
+def charge_nonce(nonce: str, amount: str) -> tuple[bool, str]:
+    """Submit payment nonce to Braintree. Returns (success, transaction_id_or_error)."""
+    gateway = get_gateway()
+    result = gateway.transaction.sale({
+        "amount": amount,
+        "payment_method_nonce": nonce,
+        "options": {"submit_for_settlement": True},
+    })
+    if result.is_success:
+        return True, result.transaction.id
+    else:
+        msg = "; ".join(e.message for e in result.errors.deep_errors)
+        return False, msg
+
+
+# ── Finalize submission ───────────────────────────────────────────────────────
+def finalize_submission(pending: dict, transaction_id: str) -> str:
+    df = load_regular_season_data()
+    if isinstance(df, list):
+        df = pd.DataFrame(df)
+
+    selected_names = [p["name"] for p in pending.get("players", [])]
+    pending["total_points"] = int(df[df["Player"].isin(selected_names)]["Points"].sum())
+    pending["payment_type"] = "Venmo"
+    pending["payment_status"] = "paid"
+    pending["transaction_id"] = transaction_id
+
+    import uuid
+    doc_id = str(uuid.uuid4())
+    save_submission(pending, doc_id=doc_id)
+
+    st.session_state.submission_saved = True
+    st.session_state.pending_submission = None
+    return pending["team_name"]
+
+
+# ── Drop-in UI HTML ───────────────────────────────────────────────────────────
+def dropin_html(client_token: str) -> str:
     """
-    Verify payment with Stripe, retrieve team data from Firestore,
-    finalize the submission, and clean up the pending record.
+    Renders the Braintree Drop-in UI with Venmo prioritised.
+    On submit, the nonce is bridged back to Streamlit via a query param
+    (postMessage → parent URL update → Streamlit rerun).
     """
-    try:
-        session = stripe.checkout.Session.retrieve(session_id)
-        if session.payment_status != "paid":
-            return False, None
+    return f"""
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <script src="https://js.braintreegateway.com/web/dropin/1.43.0/js/dropin.min.js"></script>
+      <style>
+        body {{
+          font-family: sans-serif;
+          margin: 0;
+          padding: 12px;
+          background: transparent;
+        }}
+        #submit-btn {{
+          margin-top: 16px;
+          width: 100%;
+          padding: 14px;
+          background: #008CFF;
+          color: white;
+          font-size: 16px;
+          font-weight: 600;
+          border: none;
+          border-radius: 8px;
+          cursor: pointer;
+        }}
+        #submit-btn:disabled {{
+          opacity: 0.5;
+          cursor: not-allowed;
+        }}
+        #status {{
+          margin-top: 12px;
+          font-size: 14px;
+          color: #444;
+          text-align: center;
+        }}
+      </style>
+    </head>
+    <body>
+      <div id="dropin-container"></div>
+      <button id="submit-btn" disabled>Pay $25.00 with Venmo</button>
+      <div id="status"></div>
 
-        # Retrieve team data from Firestore (survives the Stripe redirect)
-        pending = get_pending_from_firestore(session_id)
-        if not pending:
-            st.error("Team data not found. Please contact support with your Stripe session ID: " + session_id)
-            return False, None
+      <script>
+        braintree.dropin.create({{
+          authorization: "{client_token}",
+          container: "#dropin-container",
+          venmo: {{
+            allowNewBrowserTab: false
+          }},
+          paymentOptionPriority: ["venmo", "card"]
+        }}, function(err, instance) {{
+          if (err) {{
+            document.getElementById("status").innerText = "Error loading payment form: " + err.message;
+            return;
+          }}
 
-        # Compute total points
-        df = load_regular_season_data()
-        if isinstance(df, list):
-            df = pd.DataFrame(df)
-        selected_names = [p["name"] for p in pending.get("players", [])]
-        pending["total_points"] = int(df[df["Player"].isin(selected_names)]["Points"].sum())
+          var btn = document.getElementById("submit-btn");
+          btn.disabled = false;
 
-        # Finalize fields
-        pending["payment_type"] = "Stripe"
-        pending["stripe_session_id"] = session_id
-        pending["payment_status"] = "paid"
+          btn.addEventListener("click", function() {{
+            btn.disabled = true;
+            document.getElementById("status").innerText = "Processing...";
 
-        # Save as official submission
-        save_submission(pending)
+            instance.requestPaymentMethod(function(err, payload) {{
+              if (err) {{
+                document.getElementById("status").innerText = "Payment error: " + err.message;
+                btn.disabled = false;
+                return;
+              }}
 
-        # Clean up pending record
-        delete_pending_from_firestore(session_id)
-
-        st.session_state.submission_saved = True
-        st.session_state.pending_submission = None
-        return True, pending["team_name"]
-
-    except stripe.error.StripeError as e:
-        st.error(f"Stripe error: {e.user_message}")
-        return False, None
+              // Bridge nonce to Streamlit via query param
+              var url = new URL(window.parent.location.href);
+              url.searchParams.set("nonce", payload.nonce);
+              window.parent.location.href = url.toString();
+            }});
+          }});
+        }});
+      </script>
+    </body>
+    </html>
+    """
 
 
 # ── Page routing ──────────────────────────────────────────────────────────────
 
-params = st.query_params
-payment_status = params.get("payment", None)
-session_id_param = params.get("session_id", None)
+if st.session_state.submission_saved:
+    st.title("🎉 You're all set!")
+    st.success("Your team has been submitted and payment confirmed!")
+    st.page_link("pages/BuildYourTeam.py", label="← Back to Team Builder")
+    st.stop()
 
-# ── Returning from Stripe: success ───────────────────────────────────────────
-if payment_status == "success" and session_id_param:
-    st.query_params.clear()
-
-    if st.session_state.submission_saved:
-        st.title("🎉 You're all set!")
-        st.success("Your team has already been submitted and payment confirmed!")
-        st.page_link("pages/BuildYourTeam.py", label="← Back to Team Builder")
-
-    else:
-        with st.spinner("Verifying payment with Stripe..."):
-            success, team_name = verify_and_save(session_id_param)
-
-        if success:
-            st.title("🎉 Payment Confirmed!")
-            st.success(f"Team **'{team_name}'** has been submitted successfully!")
-            st.balloons()
-            st.page_link("pages/BuildYourTeam.py", label="← Back to Team Builder")
-        else:
-            st.title("⚠️ Payment Verification Failed")
-            st.error("We couldn't verify your payment. Please contact support.")
-            st.caption(f"Reference ID: `{session_id_param}`")
-            st.page_link("pages/BuildYourTeam.py", label="← Back to Team Builder")
-
-# ── Returning from Stripe: cancelled ─────────────────────────────────────────
-elif payment_status == "cancelled":
-    st.query_params.clear()
-    st.title("❌ Payment Cancelled")
-    st.warning("Your payment was cancelled. Your team has not been submitted.")
-    st.page_link("pages/BuildYourTeam.py", label="← Go back and try again")
-
-# ── No pending submission (navigated here directly) ───────────────────────────
-elif not st.session_state.pending_submission:
+if not st.session_state.pending_submission:
     st.title("💳 Checkout")
     st.warning("No team data found. Please go back and fill out your team details first.")
     st.page_link("pages/BuildYourTeam.py", label="← Back to Team Builder")
+    st.stop()
 
-# ── Normal flow: create Stripe session, save to Firestore, show pay button ────
-else:
+# ── Check for nonce returned via query param (post Drop-in redirect) ──────────
+params = st.query_params
+nonce = params.get("nonce", None)
+
+if nonce:
+    st.query_params.clear()
     pending = st.session_state.pending_submission
-    st.title("💳 Complete Your Entry")
-
-    st.markdown("### Order Summary")
-    st.markdown(f"**Team:** {pending['team_name']}")
-    st.markdown(f"**Participant:** {pending['participant']}")
-    st.markdown(f"**Email:** {pending['email_address']}")
-    st.markdown(f"**Players selected:** {len(pending['players'])}")
-    st.divider()
-    st.markdown("### Entry Fee: $25.00")
-    st.caption("Secure payment powered by Stripe.")
-
-    try:
-        # Create Stripe session
-        checkout_session = create_stripe_session(pending)
-
-        # Save team data to Firestore keyed by Stripe session ID
-        # This ensures data survives the external Stripe redirect
-        save_pending_to_firestore(checkout_session.id, pending)
-
-        st.link_button(
-            "💳 Pay $25.00 with Stripe",
-            checkout_session.url,
-            use_container_width=True,
-            type="primary"
-        )
-        st.markdown("")
-        st.page_link("pages/BuildYourTeam.py", label="← Cancel and go back")
-
-    except Exception as e:
-        st.error(f"Failed to create payment session: {str(e)}")
+    with st.spinner("Verifying payment with Braintree..."):
+        success, result = charge_nonce(nonce, ENTRY_FEE_DOLLARS)
+    if success:
+        team_name = finalize_submission(pending, result)
+        st.title("🎉 Payment Confirmed!")
+        st.success(f"Team **'{team_name}'** has been submitted successfully!")
+        st.balloons()
+        st.rerun()
+    else:
+        st.title("⚠️ Payment Failed")
+        st.error(f"Braintree error: {result}")
+        st.caption("Please try again or contact support.")
         st.page_link("pages/BuildYourTeam.py", label="← Back to Team Builder")
+    st.stop()
+
+# ── Normal flow: show order summary + Drop-in UI ──────────────────────────────
+pending = st.session_state.pending_submission
+
+st.title("💳 Complete Your Entry")
+st.markdown("### Order Summary")
+st.markdown(f"**Team:** {pending['team_name']}")
+st.markdown(f"**Participant:** {pending['participant']}")
+st.markdown(f"**Email:** {pending['email_address']}")
+st.markdown(f"**Players selected:** {len(pending['players'])}")
+st.divider()
+st.markdown("### Entry Fee: $25.00")
+st.caption("Pay securely via Venmo (powered by Braintree).")
+
+# Generate client token once per session
+if "braintree_client_token" not in st.session_state:
+    with st.spinner("Loading payment form..."):
+        try:
+            st.session_state.braintree_client_token = generate_client_token()
+        except KeyError as e:
+            st.error(f"Missing secret key: {e} — check your secrets.toml")
+            st.stop()
+        except braintree.exceptions.authentication_error.AuthenticationError:
+            st.error("Braintree authentication failed — check your BRAINTREE_MERCHANT_ID, BRAINTREE_PUBLIC_KEY, and BRAINTREE_PRIVATE_KEY in secrets.toml")
+            st.stop()
+        except Exception as e:
+            st.error(f"Failed to load payment form: {type(e).__name__}: {e}")
+            st.stop()
+
+# Render the Braintree Drop-in UI
+components.html(
+    dropin_html(st.session_state.braintree_client_token),
+    height=460,
+    scrolling=False,
+)
+
+st.markdown("")
+st.page_link("pages/BuildYourTeam.py", label="← Cancel and go back")
