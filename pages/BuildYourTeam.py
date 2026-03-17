@@ -18,10 +18,7 @@ if "selected_players" not in st.session_state:
     }
 if "submissions" not in st.session_state:
     st.session_state.submissions = []
-if "pending_submission" not in st.session_state:
-    st.session_state.pending_submission = None
-if "submission_saved" not in st.session_state:
-    st.session_state.submission_saved = False
+
 
 
 # ── Tab helpers ───────────────────────────────────────────────────────────────
@@ -45,7 +42,7 @@ def rules_tab():
     2. **Review Your Team**:
        - Review your team's selected players and stats.
     3. **Submit Your Team**:
-       - Enter your team name and info, pay the $25 entry fee via Stripe, and good luck!
+       - Enter your team name, submit, and send $30 via Venmo. Good luck!
     4. **Key Dates**:
         - Selection Sunday: 3/15
         - First Four: 3/17 - 3/18
@@ -151,12 +148,6 @@ def submit_team_tab():
         st.error("You must select exactly 12 players (3 from each seed bracket).")
         return
 
-    if st.session_state.submission_saved:
-        st.success("✅ Your team has already been submitted and payment confirmed!")
-        return
-
-    st.info("💳 A **$25 entry fee** is required to submit your team. You'll be redirected to Stripe's secure checkout to complete payment.")
-
     with st.form("team_submission"):
         st.subheader("🏀 Team Information")
         team_name = st.text_input("Team Name", placeholder="Enter your team name")
@@ -166,10 +157,11 @@ def submit_team_tab():
         last_name  = st.text_input("Last Name",  placeholder="Enter your last name")
         email      = st.text_input("Email Address", placeholder="Enter your email address")
 
-        st.subheader("💳 Payment")
-        st.write("After clicking below, you'll be taken to Stripe to pay the **$25 entry fee**. Your team will only be saved after successful payment.")
+        st.subheader("💳 Payment Information")
+        payment_type = st.selectbox("Payment Type", ["Venmo"])
+        venmo_name   = st.text_input("Venmo Username (if applicable)", placeholder="@username")
 
-        submitted = st.form_submit_button("Proceed to Payment →")
+        submitted = st.form_submit_button("Submit Team")
 
         if submitted:
             if not team_name:
@@ -181,14 +173,24 @@ def submit_team_tab():
             elif not email:
                 st.error("Please enter your email address.")
             else:
-                st.session_state.pending_submission = {
-                    "team_name":     team_name,
-                    "participant":   f"{first_name} {last_name}",
-                    "email_address": email,
-                    "players":       all_selected,
-                    "total_points":  0,
+                df = load_regular_season_data()
+                if isinstance(df, list):
+                    df = pd.DataFrame(df)
+                selected_names = [p["name"] for p in all_selected]
+                total_points   = int(df[df["Player"].isin(selected_names)]["Points"].sum())
+
+                submission = {
+                    "team_name":      team_name,
+                    "participant":    f"{first_name} {last_name}",
+                    "email_address":  email,
+                    "payment_type":   payment_type,
+                    "venmo_username": venmo_name,
+                    "players":        all_selected,
+                    "total_points":   total_points,
                 }
-                st.switch_page("pages/Checkout.py")
+                save_submission(submission)
+                st.success(f"Team '{team_name}' submitted successfully! Please send $25 via {payment_type}.")
+                st.balloons()
 
 
 # ── Main ──────────────────────────────────────────────────────────────────────
