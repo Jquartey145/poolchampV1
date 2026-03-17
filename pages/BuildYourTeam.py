@@ -189,7 +189,7 @@ def submit_team_tab():
                     "total_points":   total_points,
                 }
                 save_submission(submission)
-                st.success(f"Team '{team_name}' submitted successfully! Please send $25 via {payment_type}.")
+                st.success(f"Team '{team_name}' submitted successfully! Please send $30 via {payment_type}.")
                 st.balloons()
 
 
