@@ -201,7 +201,7 @@ def main():
     now_ct = datetime.datetime.now(ct)
 
     # Submissions lock when Round 1 tips off — March 19 2026 at 11:00 AM CT
-    naive_deadline = datetime.datetime(2026, 3, 19, 11, 30)
+    naive_deadline = datetime.datetime(2026, 3, 19, 17, 30)
     deadline = ct.localize(naive_deadline)
 
     if now_ct > deadline:
