@@ -3,6 +3,7 @@ import pandas as pd
 import requests
 import datetime
 from data_loader import save_tournament_teams, build_regular_season_data, TOURNAMENT_YEAR
+from data_loader import update_daily_player_points
 from firebase_util import db, save_regular_season_data
 
 st.set_page_config(page_title="Admin - Tournament Setup", page_icon="⚙️")
@@ -521,3 +522,33 @@ with st.expander("🛠 Admin Tools"):
 
         st.success("Cleared tournament teams and player data cache.")
         st.rerun()
+
+with st.expander("📊 Update Daily Player Points"):
+    update_date = st.text_input("Date (YYYY-MM-DD)", value=str(datetime.date.today()))
+    if st.button("Run Update", type="primary"):
+        update_daily_player_points(update_date)
+
+with st.expander("🔍 Debug — Raw ESPN summary for a game"):
+    debug_game_id = st.text_input("Game ID", value="401856491")
+    if st.button("Fetch raw summary"):
+        import requests
+        url = f"https://site.web.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/summary?event={debug_game_id}"
+        resp = requests.get(url, timeout=10)
+        data = resp.json()
+        
+        # Write full JSON to a file and offer download
+        import json
+        raw_json = json.dumps(data, indent=2)
+        st.download_button(
+            label="⬇️ Download full JSON response",
+            data=raw_json,
+            file_name=f"espn_summary_{debug_game_id}.json",
+            mime="application/json"
+        )
+        
+        # Also show just the header section inline
+        st.write("**header keys:**", list(data.get("header", {}).keys()))
+        header_comps = data.get("header", {}).get("competitions", [{}])
+        if header_comps:
+            st.write("**competitions[0] keys:**", list(header_comps[0].keys()))
+            st.write("**competitions[0] data:**", header_comps[0])

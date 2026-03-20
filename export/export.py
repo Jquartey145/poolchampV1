@@ -11,7 +11,7 @@ db = firestore.client()
 
 # Retrieve all documents from the 'submissions' collection
 docs = db.collection("submissions").stream()
-submissions = [doc.to_dict() for doc in docs]
+submissions = [doc.to_dict() for doc in docs if doc.id != "2025"]
 
 # Create a list to hold flattened data
 flattened_data = []
@@ -44,6 +44,6 @@ for submission in submissions:
 df = pd.DataFrame(flattened_data)
 
 # Export the DataFrame to CSV
-df.to_csv("submissions_export.csv", index=False)
+df.to_csv("submissions_export1.csv", index=False)
 
 print("Export complete! Data saved to submissions_export.csv")

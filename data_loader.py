@@ -29,7 +29,9 @@ ESPN_SUMMARY = (
 
 ROUND_KEYWORDS = {
     "First Four":            "First Four",
+    "1st Round":             "Round 1",      # ← gameNote format
     "First Round":           "Round 1",
+    "2nd Round":             "Round 2",      # ← gameNote format
     "Second Round":          "Round 2",
     "Sweet 16":              "Sweet 16",
     "Sweet Sixteen":         "Sweet 16",
@@ -403,20 +405,23 @@ def fetch_tournament_game_ids(date_str: str) -> list:
 
 
 def fetch_live_player_boxscore(game_id: str) -> tuple:
-    """
-    Fetch player boxscore for a single game via ESPN summary endpoint.
-    Returns (player_df, notes_headline).
-    """
     url  = ESPN_SUMMARY.format(game_id=game_id)
     data = _espn_get(url)
 
     headline = ""
     try:
-        comps = data.get("header", {}).get("competitions", [{}])
-        if comps:
-            notes = comps[0].get("notes", [{}])
+        header = data.get("header", {})
+        comps  = header.get("competitions", [{}])
+
+        # Primary: gameNote (most reliable — e.g. "NCAA ... - South Region - 1st Round")
+        headline = header.get("gameNote", "")
+
+        if not headline and comps:
+            comp  = comps[0]
+            notes = comp.get("notes", [{}])
             if notes:
                 headline = notes[0].get("headline", "")
+
     except Exception:
         pass
 

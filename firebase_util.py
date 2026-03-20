@@ -35,7 +35,7 @@ def get_tournament_data_from_firestore(year: str):
 
 def get_submissions():
     docs = db.collection("submissions").order_by("total_points", direction=firestore.Query.DESCENDING).stream()
-    return [{"doc_id": doc.id, **doc.to_dict()} for doc in docs]
+    return [{"doc_id": doc.id, **doc.to_dict()} for doc in docs if doc.id != "2025"]
 
 def save_submission(submission, doc_id=None):
     """

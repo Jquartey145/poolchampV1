@@ -352,7 +352,6 @@ def test_fetch_live_boxscore(game_id: str):
         return True
 
     player_df, headline = fetch_live_player_boxscore(game_id)
-
     if player_df is None or player_df.empty:
         fail(f"No player data for game {game_id}")
         return False
@@ -504,20 +503,20 @@ if __name__ == "__main__":
     # Round 1:    March 19-20
     # Round 2:    March 21-22
     TEST_DATE    = "2026-03-19"   # Round 1 Day 1 — update as tournament progresses
-    TEST_GAME_ID = "0"            # Replace with a real game ID from test_fetch_tournament_game_ids
+    TEST_GAME_ID = "401856491"            # Replace with a real game ID from test_fetch_tournament_game_ids
 
     results = {}
-    results["detect_round"]            = test_detect_round()
-    results["tournament_dates"]        = test_tournament_dates()
-    results["espn_scoreboard_raw"]     = test_espn_scoreboard_raw()
-    results["espn_team_ids"]           = test_espn_team_ids()
-    results["regular_season_game_ids"] = test_regular_season_game_ids()
-    results["regular_season_stats"]    = test_regular_season_stats_espn()
-    results["tournament_game_ids"]     = test_fetch_tournament_game_ids(TEST_DATE)
-    results["player_stats_for_game"]   = test_player_stats_for_game(TEST_GAME_ID)
+    # results["detect_round"]            = test_detect_round()
+    # results["tournament_dates"]        = test_tournament_dates()
+    # results["espn_scoreboard_raw"]     = test_espn_scoreboard_raw()
+    # results["espn_team_ids"]           = test_espn_team_ids()
+    # results["regular_season_game_ids"] = test_regular_season_game_ids()
+    # results["regular_season_stats"]    = test_regular_season_stats_espn()
+    # results["tournament_game_ids"]     = test_fetch_tournament_game_ids(TEST_DATE)
+    # results["player_stats_for_game"]   = test_player_stats_for_game(TEST_GAME_ID)
     results["live_boxscore"]           = test_fetch_live_boxscore(TEST_GAME_ID)
-    results["firestore_teams"]         = test_get_tournament_teams()
-    results["firestore_tournament"]    = test_load_tournament_data()
+    # results["firestore_teams"]         = test_get_tournament_teams()
+    # results["firestore_tournament"]    = test_load_tournament_data()
 
     print(f"\n{SEPARATOR}")
     print("  SUMMARY")
