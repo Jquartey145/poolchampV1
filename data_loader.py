@@ -441,6 +441,11 @@ def update_daily_player_points(date_str: str):
     st.write(f"🚀 Starting live player points update for {date_str}")
     year_str = str(TOURNAMENT_YEAR)
 
+    # Ensure parent doc exists as a string-keyed document
+    db.collection("tournament_data").document(year_str).set(
+        {"year": year_str}, merge=True
+    )
+
     with st.spinner("Fetching today's tournament games from ESPN..."):
         game_ids = fetch_tournament_game_ids(date_str)
 
